@@ -18,6 +18,7 @@ model Resume {
   fileName  String
   keywords  String[]
   fullText  String   @db.Text
+  analysis  Json?    // Store the full analysis result
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
