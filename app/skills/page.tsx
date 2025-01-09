@@ -13,27 +13,24 @@ export default async function SkillsPage() {
   ]);
 
   return (
-    <div className="container mx-auto py-12 px-4">
-      <div className="max-w-6xl mx-auto">
-        <h1 className="text-5xl font-bold mb-8 text-center bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+    <div className="container mx-auto py-8">
+        <h1 className="text-4xl font-bold mb-8">
           スキル一覧
         </h1>
         
-        {aiMessage && (
-          <Card className="mb-12 border-2 border-blue-200 shadow-lg hover:shadow-xl transition-all duration-300">
-            <CardHeader className="bg-gradient-to-r from-blue-50 to-purple-50">
-              <CardTitle className="text-2xl">AIからのアドバイス</CardTitle>
-              <CardDescription className="text-sm opacity-75">
-                {new Date(aiMessage.createdAt).toLocaleString('ja-JP')}
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="p-6">
-              <div className="prose prose-sm max-w-none">
-                <ReactMarkdown>{aiMessage.content}</ReactMarkdown>
-              </div>
-            </CardContent>
-          </Card>
-        )}
+      {aiMessage && (
+        <Card className="mb-8 border-2 border-blue-200">
+          <CardHeader>
+            <CardTitle>AIからのアドバイス</CardTitle>
+            <CardDescription>{new Date(aiMessage.createdAt).toLocaleString('ja-JP')}</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="prose prose-sm max-w-none">
+              <ReactMarkdown>{aiMessage.content}</ReactMarkdown>
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
         <h2 className="text-2xl font-bold mb-6">あなたにおすすめのスキル</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -78,6 +75,5 @@ export default async function SkillsPage() {
           ))}
         </div>
       </div>
-    </div>
   )
 } 
