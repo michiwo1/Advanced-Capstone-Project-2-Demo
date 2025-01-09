@@ -37,13 +37,16 @@ export default async function SkillsPage() {
 
         <h2 className="text-2xl font-bold mb-6">あなたにおすすめのスキル</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {skills.map((skill, index) => (
+          {Object.entries(skills).map(([skill, description]) => (
             <Card 
-              key={index} 
+              key={skill} 
               className="hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border-2 border-gray-100"
             >
               <CardHeader className="bg-gradient-to-r from-gray-50 to-blue-50">
                 <CardTitle className="text-xl font-bold text-gray-800">{skill}</CardTitle>
+                <CardDescription className="text-sm mt-2 text-gray-600">
+                  {description}
+                </CardDescription>
               </CardHeader>
               <CardContent className="p-6">
                 <div className="flex flex-col gap-4">
