@@ -1,37 +1,25 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
-const genAI = new GoogleGenerativeAI(process.env.GOOGLE_AI_API_KEY!);
+const genAI = new GoogleGenerativeAI(process.env.GOOGLE_GEMINI_API_KEY!);
 
-export interface KeywordConfig {
-  category: string;
-  patterns: string[];
-}
-
-export async function analyzeTextWithGemini(resumeText: string, configs: KeywordConfig[]) {
+export async function analyzeTextWithGemini(text: string, prompt: string) {
   const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
   
-  const prompt = `
-Please analyze the following resume text and extract relevant information based on these categories:
-${configs.map(config => `${config.category}: Look for ${config.patterns.join(', ')}`).join('\n')}
+  const fullPrompt = `
+以下のテキストに対して、与えられた指示に従って分析してください：
 
-Resume text:
-${resumeText}
+テキスト:
+${text}
 
-Please respond in the following JSON format:
-{
-  "keywords": {
-    "categoryName": ["found", "keywords"],
-  }
-}`;
+指示:
+${prompt}`;
 
-  const result = await model.generateContent(prompt);
-  const response = await result.response;
-  const responseText = response.text();
-  
   try {
-    return JSON.parse(responseText);
+    const result = await model.generateContent(fullPrompt);
+    const response = await result.response;
+    return response.text();
   } catch (error) {
-    console.error('Failed to parse Gemini response:', error);
-    return { keywords: {} };
+    console.error('Failed to get Gemini response:', error);
+    throw error;
   }
 } 

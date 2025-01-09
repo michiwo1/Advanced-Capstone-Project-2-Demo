@@ -1,57 +1,39 @@
 'use server'
 
-import { prisma } from '@/lib/prisma'
-import { revalidatePath } from 'next/cache'
-import { analyzeTextWithGemini, KeywordConfig } from '@/lib/gemini'
-
-export const defaultKeywordConfigs: KeywordConfig[] = [
-  {
-    category: 'Programming Languages',
-    patterns: ['Java', 'Python', 'JavaScript', 'TypeScript', 'C++', 'Go']
-  },
-  {
-    category: 'Frameworks',
-    patterns: ['React', 'Angular', 'Vue.js', 'Next.js', 'Django', 'Spring']
-  },
-  {
-    category: 'Cloud Services',
-    patterns: ['AWS', 'Azure', 'GCP', 'Docker', 'Kubernetes']
-  }
-];
+import { analyzeTextWithGemini } from '@/lib/gemini'
+import pdfParse from 'pdf-parse/lib/pdf-parse.js'
 
 export async function uploadResume(formData: FormData) {
-  const file = formData.get('resume') as File
-  const configsJson = formData.get('keywordConfigs') as string
-  const keywordConfigs = configsJson ? JSON.parse(configsJson) : defaultKeywordConfigs
+  const file = formData.get('resume')
+  const prompt = formData.get('prompt') as string
   
-  if (!file) {
+  if (!file || !(file instanceof File)) {
     return { success: false, message: 'ファイルが選択されていません。' }
   }
 
+  if (!prompt) {
+    return { success: false, message: 'プロンプトが入力されていません。' }
+  }
+
   try {
-    // テキストとして直接読み込む
-    const text = await file.text()
+    // PDFファイルをArrayBufferとして読み込む
+    const arrayBuffer = await file.arrayBuffer()
+    const buffer = Buffer.from(arrayBuffer)
+    
+    // PDFをテキストに変換
+    const data = await pdfParse(buffer, {
+      max: 0, // ページ制限なし
+      version: 'v2.0.550'
+    })
+    const text = data.text
     
     // Analyze with Gemini
-    const analysis = await analyzeTextWithGemini(text, keywordConfigs)
+    const analysis = await analyzeTextWithGemini(text, prompt)
     
-    // Transform the analysis result into a flat array of keywords
-    const keywords = Object.values(analysis.keywords).flat() as string[]
-
-    await prisma.resume.create({
-      data: {
-        fileName: file.name,
-        keywords: keywords,
-        fullText: text,
-        analysis: analysis
-      }
-    })
-
-    revalidatePath('/resume-upload')
-    return { success: true, message: 'レジュメが正常に処理されました。' }
+    return { success: true, message: analysis }
   } catch (error) {
     console.error('処理エラー:', error)
-    return { success: false, message: '処理中にエラーが発生しました。' }
+    return { success: false, message: '処理中にエラーが発生しました。PDFの読み込みに失敗した可能性があります。' }
   }
 }
 
