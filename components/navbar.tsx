@@ -39,6 +39,15 @@ export function Navbar() {
           >
             労働市場分析
           </Link>
+          <Link
+            href="/company"
+            className={cn(
+              "text-sm font-medium transition-colors hover:text-primary",
+              pathname === "/company" ? "text-primary" : "text-muted-foreground"
+            )}
+          >
+            企業分析
+          </Link>
         </div>
       </div>
     </nav>
