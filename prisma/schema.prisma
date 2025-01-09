@@ -35,3 +35,15 @@ model JobSearchCriteria {
   exclusionTerms  String?   @db.Text
   createdAt       DateTime  @default(now())
 }
+
+model AiMessage {
+  id        Int      @id @default(autoincrement())
+  content   String   @db.Text
+  tag       Tag      @default(job)
+  createdAt DateTime @default(now())
+}
+
+enum Tag {
+  job
+  skill
+}
