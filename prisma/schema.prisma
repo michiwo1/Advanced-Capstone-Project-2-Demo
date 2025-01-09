@@ -14,13 +14,20 @@ datasource db {
 }
 
 model Resume {
-  id        String   @id @default(cuid())
-  fileName  String
-  keywords  String[]
-  fullText  String   @db.Text
-  analysis  Json?    // Store the full analysis result
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id              String          @id @default(cuid())
+  originalResume  String          @db.Text
+  createdAt       DateTime        @default(now())
+  histories       ResumeHistory[]
+}
+
+model ResumeHistory {
+  id            String    @id @default(cuid())
+  resume        Resume    @relation(fields: [resumeId], references: [id])
+  resumeId      String
+  versionName   String
+  updatedResume String    @db.Text
+  comments      String?   @db.Text
+  updatedAt     DateTime  @default(now())
 }
 
 model JobSearchCriteria {
