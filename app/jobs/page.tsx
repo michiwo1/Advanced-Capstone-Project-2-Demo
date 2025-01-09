@@ -59,7 +59,16 @@ export default async function JobsPage() {
             </div>
           </CardContent>
           <CardFooter>
-            <Button>LinkedInで検索</Button>
+            <Button asChild>
+              <a href={`https://www.linkedin.com/jobs/search/?${
+                new URLSearchParams({
+                  ...(latestCriteria?.jobTitle && { keywords: latestCriteria.jobTitle }),
+                  ...(latestCriteria?.location && { location: latestCriteria.location }),
+                }).toString()
+              }`} target="_blank" rel="noopener noreferrer">
+                LinkedInで検索
+              </a>
+            </Button>
           </CardFooter>
         </Card>
       </div>
