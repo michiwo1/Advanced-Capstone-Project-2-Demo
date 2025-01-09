@@ -29,7 +29,9 @@ export function ResumeUploadForm() {
       })
 
       if (result.success) {
-        router.push('/jobs')
+        setTimeout(() => {
+          router.push('/jobs')
+        }, 1000)
       }
     } catch (error: unknown) {
       console.error('Upload error:', error);

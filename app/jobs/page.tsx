@@ -3,6 +3,8 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { getLatestJobSearchCriteria } from "../actions/get-latest-criteria"
 
+export const revalidate = 0; // このページは常に最新のデータを取得
+
 export default async function JobsPage() {
   const latestCriteria = await getLatestJobSearchCriteria();
 
@@ -150,12 +152,9 @@ export default async function JobsPage() {
           </CardContent>
           <CardFooter>
             <Button asChild>
-              <a href={`https://www.monster.com/jobs/search?${
-                new URLSearchParams({
-                  ...(latestCriteria?.jobTitle && { q: latestCriteria.jobTitle }),
-                  ...(latestCriteria?.location && { where: latestCriteria.location }),
-                }).toString()
-              }`} target="_blank" rel="noopener noreferrer">
+              <a href={`https://www.monster.com/jobs/${
+                latestCriteria?.jobTitle ? `q-${latestCriteria.jobTitle.toLowerCase().replace(/\s+/g, '-')}-jobs` : ''
+              }?page=1&so=p.h.p`} target="_blank" rel="noopener noreferrer">
                 Monsterで検索
               </a>
             </Button>
