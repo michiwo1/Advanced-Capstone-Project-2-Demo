@@ -207,3 +207,42 @@ ${text}`;
     throw error;
   }
 } 
+
+export async function analyzeTextWithGemini7(text: string, company: string) {
+  const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
+  
+  const fullPrompt = `
+あなたは採用マッチングシステムとして働いてください。
+
+【指示】
+1. 以下の企業情報と私のレジュメ（職務経歴書）を読み、どれほどマッチしているかを診断してください。
+2. 診断結果を **辞書型（JSON形式）** で出力してください。
+3. 具体的には、出力には必ず以下のキーを含めてください:
+   - "matchRate": 1～100の数値（整数）で、企業と私がどれだけマッチしているかを示す
+   - "reasons": 文字列で、マッチ率の根拠や理由をできるだけ具体的に
+
+【企業情報】
+${company}
+
+
+【レジュメ本文】:
+${text}
+
+
+【出力例】
+{
+  "matchRate": 85,
+  "reasons": "理由"
+}
+
+`;
+
+  try {
+    const result = await model.generateContent(fullPrompt);
+    const response = await result.response;
+    return response.text();
+  } catch (error) {
+    console.error('Failed to get Gemini response:', error);
+    throw error;
+  }
+} 

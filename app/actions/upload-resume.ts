@@ -159,3 +159,18 @@ export async function uploadResume(formData: FormData) {
   }
 }
 
+export async function getOriginalResume(): Promise<string | null> {
+  try {
+    const latestResume = await prisma.resume.findFirst({
+      orderBy: {
+        id: 'desc'
+      }
+    });
+    
+    return latestResume?.originalResume ?? null;
+  } catch (error) {
+    console.error('Failed to fetch resume:', error);
+    return null;
+  }
+}
+

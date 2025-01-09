@@ -1,13 +1,31 @@
 'use client';
 
 import { useState } from 'react';
+import { analyzeCompany } from '@/app/actions/analyze-company';
+import ReactMarkdown from 'react-markdown';
+
+interface AnalysisResult {
+  matchRate: number;
+  reasons: string;
+  improvements: string[];
+  outlook: string;
+}
 
 export default function CompanyPage() {
   const [showResult, setShowResult] = useState(false);
+  const [companyInfo, setCompanyInfo] = useState('');
+  const [analysisResult, setAnalysisResult] = useState<AnalysisResult | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setShowResult(true);
+    try {
+      const result = await analyzeCompany(companyInfo);
+      setAnalysisResult(JSON.parse(result));
+      setShowResult(true);
+    } catch (error) {
+      console.error('Analysis failed:', error);
+      alert('分析中にエラーが発生しました。');
+    }
   };
 
   return (
@@ -20,6 +38,8 @@ export default function CompanyPage() {
           <textarea
             className="w-full h-48 p-4 border rounded-lg resize-none"
             placeholder="企業情報を入力してください"
+            value={companyInfo}
+            onChange={(e) => setCompanyInfo(e.target.value)}
           />
         </div>
         <button
@@ -30,38 +50,22 @@ export default function CompanyPage() {
         </button>
       </form>
 
-      {showResult && (
+      {showResult && analysisResult && (
         <div className="mt-8 p-6 border rounded-lg bg-gray-50">
           <div className="mb-6">
             <div className="flex justify-between mb-2">
               <h3 className="font-semibold">マッチ率</h3>
-              <span className="font-semibold">85%</span>
+              <span className="font-semibold">{analysisResult.matchRate}%</span>
             </div>
             <div className="w-full bg-gray-200 rounded-full h-4">
               <div
                 className="bg-green-600 h-4 rounded-full transition-all duration-500"
-                style={{ width: '85%' }}
+                style={{ width: `${analysisResult.matchRate}%` }}
               />
             </div>
           </div>
           <h3 className="text-xl font-bold mb-4">診断結果</h3>
-          <div className="space-y-4">
-            <div>
-              <h4 className="font-semibold mb-2">企業の強み</h4>
-              <p>• 革新的な技術開発力と研究開発体制</p>
-              <p>• 安定した財務基盤</p>
-              <p>• グローバルな市場展開</p>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-2">改善ポイント</h4>
-              <p>• 人材育成プログラムの強化</p>
-              <p>• デジタルトランスフォーメーションの加速</p>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-2">今後の展望</h4>
-              <p>持続可能な成長が期待できる企業です。特に技術革新への投資と市場展開の戦略が効果的に機能しています。</p>
-            </div>
-          </div>
+          <ReactMarkdown>{analysisResult.reasons}</ReactMarkdown>
         </div>
       )}
     </div>
