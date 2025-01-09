@@ -1,6 +1,6 @@
 'use server'
 
-import { analyzeTextWithGemini, analyzeTextWithGemini2, analyzeTextWithGemini3 } from '@/lib/gemini'
+import { analyzeTextWithGemini, analyzeTextWithGemini2, analyzeTextWithGemini3, analyzeTextWithGemini4 } from '@/lib/gemini'
 import pdfParse from 'pdf-parse/lib/pdf-parse.js'
 import { prisma } from '@/lib/prisma'
 
@@ -108,6 +108,15 @@ export async function uploadResume(formData: FormData) {
           tag: 'skill'
         }
       })
+
+      // Gemini4での分析結果をAiMessageとして保存
+      const gemini4Analysis = await analyzeTextWithGemini4(text)
+      await prisma.skillsDatabase.create({
+        data: {
+          skill_name: gemini4Analysis
+        }
+      })
+
     } catch (dbError) {
       console.error('データベース保存エラー:', dbError)
       if (dbError instanceof SyntaxError) {

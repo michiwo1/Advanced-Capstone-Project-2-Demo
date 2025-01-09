@@ -98,3 +98,33 @@ ${text}`;
     throw error;
   }
 } 
+
+export async function analyzeTextWithGemini4(text: string) {
+  const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
+  
+  const fullPrompt = `
+この人のキャリアステップに必要な５つのスキルをカンマ区切りでリスト化してください。
+
+### 要求内容
+- スキル名: この人のキャリアステップに必要なスキル
+
+
+### 注意
+- スキル名は、この人のキャリアステップに必要なスキルをカンマ区切りでリスト化してください。
+- ５つのスキルをリスト化してください。
+
+### 出力例
+Python, JavaScript, React, Node.js, AWS, DevOps
+
+テキスト:
+${text}`;
+
+  try {
+    const result = await model.generateContent(fullPrompt);
+    const response = await result.response;
+    return response.text();
+  } catch (error) {
+    console.error('Failed to get Gemini response:', error);
+    throw error;
+  }
+} 

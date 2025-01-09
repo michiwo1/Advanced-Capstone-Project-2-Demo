@@ -54,3 +54,9 @@ enum Tag {
   job
   skill
 }
+
+model SkillsDatabase {
+  id         Int      @id @default(autoincrement())
+  skill_name String   @db.Text
+  createdAt  DateTime @default(now())
+}
