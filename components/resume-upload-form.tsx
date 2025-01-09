@@ -6,7 +6,7 @@ import { uploadResume } from '@/app/actions/upload-resume'
 import { Button } from '@/components/ui/button'
 import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert'
 import { useDropzone } from 'react-dropzone'
-import { Cloud, File } from 'lucide-react'
+import { Cloud, File, Loader2 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 export function ResumeUploadForm() {
@@ -104,7 +104,14 @@ export function ResumeUploadForm() {
         disabled={loading || !file}
         className="w-full"
       >
-        {loading ? '処理中...' : 'アップロード'}
+        {loading ? (
+          <>
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            分析中...
+          </>
+        ) : (
+          'アップロード'
+        )}
       </Button>
     </form>
   )
