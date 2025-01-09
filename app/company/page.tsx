@@ -32,6 +32,18 @@ export default function CompanyPage() {
 
       {showResult && (
         <div className="mt-8 p-6 border rounded-lg bg-gray-50">
+          <div className="mb-6">
+            <div className="flex justify-between mb-2">
+              <h3 className="font-semibold">マッチ率</h3>
+              <span className="font-semibold">85%</span>
+            </div>
+            <div className="w-full bg-gray-200 rounded-full h-4">
+              <div
+                className="bg-green-600 h-4 rounded-full transition-all duration-500"
+                style={{ width: '85%' }}
+              />
+            </div>
+          </div>
           <h3 className="text-xl font-bold mb-4">診断結果</h3>
           <div className="space-y-4">
             <div>
