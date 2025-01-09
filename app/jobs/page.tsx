@@ -71,6 +71,36 @@ export default async function JobsPage() {
             </Button>
           </CardFooter>
         </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Glassdoor</CardTitle>
+            <CardDescription>Glassdoor, Inc.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm text-gray-600 mb-4">
+              Glassdoorでは、企業の口コミ・評価に加えて、
+              給与情報や面接体験などの情報も確認できます。
+            </p>
+            <div className="flex flex-wrap gap-2">
+              <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs">企業レビュー</span>
+              <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs">給与情報</span>
+              <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs">面接情報</span>
+            </div>
+          </CardContent>
+          <CardFooter>
+            <Button asChild>
+              <a href={`https://www.glassdoor.com/Job/japan-jobs-SRCH_IL.0,5_IN123?${
+                new URLSearchParams({
+                  ...(latestCriteria?.jobTitle && { keyword: latestCriteria.jobTitle }),
+                  ...(latestCriteria?.location && { location: `${latestCriteria.location}, Japan` }),
+                }).toString()
+              }`} target="_blank" rel="noopener noreferrer">
+                Glassdoorで検索
+              </a>
+            </Button>
+          </CardFooter>
+        </Card>
       </div>
 
       {latestCriteria && (
