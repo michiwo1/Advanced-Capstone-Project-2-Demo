@@ -57,11 +57,8 @@ export async function uploadResume(formData: FormData) {
         .replace(/\n\s*/g, '')          // Remove newlines and following spaces
         .replace(/,(\s*[}\]])/g, '$1')  // Remove trailing commas
       
-      console.log("Original Analysis:", analysis)
-      console.log("Cleaned Analysis:", cleanedAnalysis)
       const parsedAnalysis = JSON.parse(cleanedAnalysis)
-      console.log("1-------------")
-      console.log(parsedAnalysis)
+
       // Validate required fields
       const requiredFields = ['job_title', 'location', 'employment_type', 'salary_range', 'skills', 'industry', 'keywords', 'exclusion_terms']
       const missingFields = requiredFields.filter(field => !parsedAnalysis[field])
@@ -82,6 +79,18 @@ export async function uploadResume(formData: FormData) {
           exclusionTerms: parsedAnalysis.exclusion_terms
         }
       })
+
+      // レジュメをデータベースに保存
+      const savedResume = await prisma.resume.create({
+        data: {
+          originalResume: text
+        }
+      })
+
+      if (!savedResume) {
+        throw new Error('レジュメの保存に失敗しました。')
+      }
+      
     } catch (dbError) {
       console.error('データベース保存エラー:', dbError)
       if (dbError instanceof SyntaxError) {
