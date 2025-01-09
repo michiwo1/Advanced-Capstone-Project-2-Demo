@@ -1,11 +1,15 @@
 import * as React from 'react'
 import { getLatestAiMessage } from '../actions/get-latest-ai-message'
+import { getLatestChartData } from '../actions/get-latest-chart-data'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import ReactMarkdown from 'react-markdown'
 import { MarketChart } from '@/components/market-chart'
 
 export default async function MarketPage() {
-  const aiMessage = await getLatestAiMessage("market");
+  const [aiMessage, chartData] = await Promise.all([
+    getLatestAiMessage("market"),
+    getLatestChartData()
+  ]);
 
   return (
     <div className="container mx-auto py-8">
@@ -31,7 +35,7 @@ export default async function MarketPage() {
         </CardHeader>
         <CardContent>
           <div className="w-full max-w-xl mx-auto">
-            <MarketChart />
+            <MarketChart chartData={chartData || undefined} />
           </div>
         </CardContent>
       </Card>

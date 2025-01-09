@@ -128,9 +128,19 @@ export async function uploadResume(formData: FormData) {
 
       // Gemini6での分析結果をAiMessageとして保存
       const gemini6Analysis = await analyzeTextWithGemini6(text)
+      // レスポンスから```を除去
+      const cleanedGemini6Analysis = gemini6Analysis
+        .replace(/^[\s\S]*?{/, '{')     // Remove everything before the first {
+        .replace(/}[\s\S]*$/, '}')      // Remove everything after the last }
+        .replace(/```[a-z]*\s*/g, '')   // Remove any markdown code blocks
+        .replace(/^\s+|\s+$/g, '')      // Trim whitespace
+        .replace(/'/g, '"')             // Convert single quotes to double quotes
+        .replace(/\n\s*/g, '')          // Remove newlines and following spaces
+        .replace(/,(\s*[}\]])/g, '$1')  // Remove trailing commas
+      
       await prisma.chartData.create({
         data: {
-          chart_data: gemini6Analysis
+          chart_data: cleanedGemini6Analysis
         }
       })
 
