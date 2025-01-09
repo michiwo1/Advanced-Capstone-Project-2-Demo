@@ -1,16 +1,31 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import { uploadResume } from '@/app/actions/upload-resume'
 import { Button } from '@/components/ui/button'
 import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert'
+import { useDropzone } from 'react-dropzone'
+import { Cloud, File } from 'lucide-react'
+import { cn } from '@/lib/utils'
 
 export function ResumeUploadForm() {
   const router = useRouter()
   const [file, setFile] = useState<File | null>(null)
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null)
+
+  const onDrop = useCallback((acceptedFiles: File[]) => {
+    setFile(acceptedFiles[0])
+  }, [])
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop,
+    accept: {
+      'application/pdf': ['.pdf']
+    },
+    maxFiles: 1
+  })
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -45,32 +60,50 @@ export function ResumeUploadForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      {message && (
-        <Alert variant={message.type === 'error' ? 'destructive' : 'default'}>
-          <AlertTitle>
-            {message.type === 'success' ? '成功' : 'エラー'}
-          </AlertTitle>
-          <AlertDescription>{message.text}</AlertDescription>
-        </Alert>
-      )}
-      
+    <form onSubmit={handleSubmit} className="max-w-xl mx-auto space-y-6">      
       <div className="space-y-4">
-        <div className="grid w-full max-w-sm items-center gap-1.5">
-          <label htmlFor="resume" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-            PDFをアップロード
-          </label>
-          <input
-            id="resume"
-            type="file"
-            accept=".pdf"
-            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-            onChange={(e) => setFile(e.target.files?.[0] || null)}
-          />
+        <div
+          {...getRootProps()}
+          className={cn(
+            "border-2 border-dashed rounded-lg p-8 text-center hover:bg-accent/50 transition-colors cursor-pointer",
+            isDragActive && "border-primary bg-accent",
+            file && "border-green-500 bg-green-50"
+          )}
+        >
+          <input {...getInputProps()} />
+          <div className="flex flex-col items-center gap-4">
+            {file ? (
+              <>
+                <File className="h-10 w-10 text-green-500" />
+                <div>
+                  <p className="text-sm font-medium">{file.name}</p>
+                  <p className="text-xs text-muted-foreground">
+                    {(file.size / 1024 / 1024).toFixed(2)} MB
+                  </p>
+                </div>
+              </>
+            ) : (
+              <>
+                <Cloud className="h-10 w-10 text-muted-foreground" />
+                <div>
+                  <p className="text-lg font-medium">
+                    ここにPDFファイルをドラッグ&ドロップ
+                  </p>
+                  <p className="text-sm text-muted-foreground">
+                    または、クリックしてファイルを選択
+                  </p>
+                </div>
+              </>
+            )}
+          </div>
         </div>
       </div>
       
-      <Button type="submit" disabled={loading || !file}>
+      <Button
+        type="submit"
+        disabled={loading || !file}
+        className="w-full"
+      >
         {loading ? '処理中...' : 'アップロード'}
       </Button>
     </form>
