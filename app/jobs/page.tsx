@@ -90,10 +90,10 @@ export default async function JobsPage() {
           </CardContent>
           <CardFooter>
             <Button asChild>
-              <a href={`https://www.glassdoor.com/Job/japan-jobs-SRCH_IL.0,5_IN123?${
+              <a href={`https://www.glassdoor.com/Job/jobs-SRCH_KO0,4?${
                 new URLSearchParams({
                   ...(latestCriteria?.jobTitle && { keyword: latestCriteria.jobTitle }),
-                  ...(latestCriteria?.location && { location: `${latestCriteria.location}, Japan` }),
+                  ...(latestCriteria?.location && { location: latestCriteria.location }),
                 }).toString()
               }`} target="_blank" rel="noopener noreferrer">
                 Glassdoorで検索
@@ -123,7 +123,7 @@ export default async function JobsPage() {
               <a href={`https://www.ziprecruiter.com/jobs-search?${
                 new URLSearchParams({
                   ...(latestCriteria?.jobTitle && { search: latestCriteria.jobTitle }),
-                  ...(latestCriteria?.location && { location: `${latestCriteria.location}, Japan` }),
+                  ...(latestCriteria?.location && { location: latestCriteria.location }),
                 }).toString()
               }`} target="_blank" rel="noopener noreferrer">
                 ZipRecruiterで検索
@@ -153,7 +153,7 @@ export default async function JobsPage() {
               <a href={`https://www.monster.com/jobs/search?${
                 new URLSearchParams({
                   ...(latestCriteria?.jobTitle && { q: latestCriteria.jobTitle }),
-                  ...(latestCriteria?.location && { where: `${latestCriteria.location}, Japan` }),
+                  ...(latestCriteria?.location && { where: latestCriteria.location }),
                 }).toString()
               }`} target="_blank" rel="noopener noreferrer">
                 Monsterで検索
@@ -183,7 +183,7 @@ export default async function JobsPage() {
               <a href={`https://www.careerbuilder.com/jobs?${
                 new URLSearchParams({
                   ...(latestCriteria?.jobTitle && { keywords: latestCriteria.jobTitle }),
-                  ...(latestCriteria?.location && { location: `${latestCriteria.location}, Japan` }),
+                  ...(latestCriteria?.location && { location: latestCriteria.location }),
                 }).toString()
               }`} target="_blank" rel="noopener noreferrer">
                 CareerBuilderで検索
