@@ -142,3 +142,22 @@ ${text}`;
     throw error;
   }
 } 
+
+export async function analyzeTextWithGemini5(text: string) {
+  const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
+  
+  const fullPrompt = `
+以下のレジュメから職歴やスキルに基づいて年収や競争力を算出してください。
+
+テキスト:
+${text}`;
+
+  try {
+    const result = await model.generateContent(fullPrompt);
+    const response = await result.response;
+    return response.text();
+  } catch (error) {
+    console.error('Failed to get Gemini response:', error);
+    throw error;
+  }
+} 

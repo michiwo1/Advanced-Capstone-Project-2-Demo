@@ -53,6 +53,7 @@ model AiMessage {
 enum Tag {
   job
   skill
+  market
 }
 
 model SkillsDatabase {
