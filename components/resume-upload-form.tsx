@@ -1,11 +1,13 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { uploadResume } from '@/app/actions/upload-resume'
 import { Button } from '@/components/ui/button'
 import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert'
 
 export function ResumeUploadForm() {
+  const router = useRouter()
   const [file, setFile] = useState<File | null>(null)
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null)
@@ -25,6 +27,10 @@ export function ResumeUploadForm() {
         type: result.success ? 'success' : 'error',
         text: result.message
       })
+
+      if (result.success) {
+        router.push('/jobs')
+      }
     } catch (error: unknown) {
       console.error('Upload error:', error);
       setMessage({
