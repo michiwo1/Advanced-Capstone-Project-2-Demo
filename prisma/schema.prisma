@@ -22,3 +22,16 @@ model Resume {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+model JobSearchCriteria {
+  id              String    @id @default(cuid())
+  jobTitle        String?    @db.VarChar(255)
+  location        String?   @db.VarChar(255)
+  employmentType  String?   @db.VarChar(50)
+  salaryRange     String?   @db.VarChar(50)
+  skills          String?   @db.Text
+  industry        String?   @db.VarChar(100)
+  keywords        String?   @db.Text
+  exclusionTerms  String?   @db.Text
+  createdAt       DateTime  @default(now())
+}
