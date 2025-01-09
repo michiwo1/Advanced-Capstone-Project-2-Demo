@@ -11,10 +11,16 @@ export async function analyzeCompany(companyInfo: string) {
     }
 
     const result = await analyzeTextWithGemini7(originalResume, companyInfo);
-    console.log("1--------------------");
-    console.log(result);
-    console.log("2--------------------");
-    return result;
+        const result1 = result
+        .replace(/^[\s\S]*?{/, '{')     // Remove everything before the first {
+        .replace(/}[\s\S]*$/, '}')      // Remove everything after the last }
+        .replace(/```[a-z]*\s*/g, '')   // Remove any markdown code blocks
+        .replace(/^\s+|\s+$/g, '')      // Trim whitespace
+        .replace(/'/g, '"')             // Convert single quotes to double quotes
+        .replace(/\n\s*/g, '')          // Remove newlines and following spaces
+        .replace(/,(\s*[}\]])/g, '$1')  // Remove trailing commas
+      
+    return result1;
   } catch (error) {
     console.error('Analysis failed:', error);
     throw error;

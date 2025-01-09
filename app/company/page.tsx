@@ -15,9 +15,11 @@ export default function CompanyPage() {
   const [showResult, setShowResult] = useState(false);
   const [companyInfo, setCompanyInfo] = useState('');
   const [analysisResult, setAnalysisResult] = useState<AnalysisResult | null>(null);
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsAnalyzing(true);
     try {
       const result = await analyzeCompany(companyInfo);
       setAnalysisResult(JSON.parse(result));
@@ -25,6 +27,8 @@ export default function CompanyPage() {
     } catch (error) {
       console.error('Analysis failed:', error);
       alert('分析中にエラーが発生しました。');
+    } finally {
+      setIsAnalyzing(false);
     }
   };
 
@@ -44,9 +48,12 @@ export default function CompanyPage() {
         </div>
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors"
+          disabled={isAnalyzing}
+          className={`w-full py-2 px-4 rounded-lg text-white transition-colors ${
+            isAnalyzing ? 'bg-blue-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'
+          }`}
         >
-          診断する
+          {isAnalyzing ? '診断中...' : '診断する'}
         </button>
       </form>
 
