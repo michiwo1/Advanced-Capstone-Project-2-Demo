@@ -1,6 +1,6 @@
 'use server'
 
-import { analyzeTextWithGemini } from '@/lib/gemini'
+import { analyzeTextWithGemini, analyzeTextWithGemini2 } from '@/lib/gemini'
 import pdfParse from 'pdf-parse/lib/pdf-parse.js'
 import { prisma } from '@/lib/prisma'
 
@@ -91,6 +91,14 @@ export async function uploadResume(formData: FormData) {
         throw new Error('レジュメの保存に失敗しました。')
       }
       
+      // Gemini2での分析結果をAiMessageとして保存
+      const gemini2Analysis = await analyzeTextWithGemini2(text)
+      await prisma.aiMessage.create({
+        data: {
+          content: gemini2Analysis,
+          tag: 'job'
+        }
+      })
     } catch (dbError) {
       console.error('データベース保存エラー:', dbError)
       if (dbError instanceof SyntaxError) {
