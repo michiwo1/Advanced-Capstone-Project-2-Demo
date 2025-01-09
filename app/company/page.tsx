@@ -57,9 +57,9 @@ export default function CompanyPage() {
           </div>
           <button
             type="submit"
-            disabled={isAnalyzing}
+            disabled={isAnalyzing || !companyInfo.trim()}
             className={`w-full py-3 px-4 rounded-lg text-white font-medium transition-all ${
-              isAnalyzing 
+              isAnalyzing || !companyInfo.trim()
                 ? 'bg-blue-400 cursor-not-allowed' 
                 : 'bg-blue-600 hover:bg-blue-700 hover:shadow-md'
             }`}
