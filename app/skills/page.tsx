@@ -35,6 +35,7 @@ export default async function SkillsPage() {
           </Card>
         )}
 
+        <h2 className="text-2xl font-bold mb-6">あなたにおすすめのスキル</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {skills.map((skill, index) => (
             <Card 
@@ -47,7 +48,7 @@ export default async function SkillsPage() {
               <CardContent className="p-6">
                 <div className="flex flex-col gap-4">
                   <a
-                    href={`https://www.youtube.com/results?search_query=${encodeURIComponent(skill + "tutorial")}`}
+                    href={`https://www.youtube.com/results?search_query=${encodeURIComponent(skill + " tutorial")}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center gap-3 text-red-600 hover:text-red-700 bg-red-50 hover:bg-red-100 p-3 rounded-lg transition-colors duration-200"
