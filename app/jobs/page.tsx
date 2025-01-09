@@ -195,8 +195,7 @@ export default async function JobsPage() {
       {latestCriteria && (
         <Card className="mt-8">
           <CardHeader>
-            <CardTitle>最新の検索条件</CardTitle>
-            <CardDescription>前回設定した検索条件</CardDescription>
+            <CardTitle>あなたにおすすめの検索条件</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-2 gap-4">
