@@ -9,7 +9,7 @@ export const revalidate = 0; // このページは常に最新のデータを取
 
 export default async function JobsPage() {
   const latestCriteria = await getLatestJobSearchCriteria();
-  const latestAiMessage = await getLatestAiMessage();
+  const latestAiMessage = await getLatestAiMessage("job");
 
   return (
     <div className="container mx-auto py-8">

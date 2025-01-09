@@ -1,6 +1,6 @@
 'use server'
 
-import { analyzeTextWithGemini, analyzeTextWithGemini2 } from '@/lib/gemini'
+import { analyzeTextWithGemini, analyzeTextWithGemini2, analyzeTextWithGemini3 } from '@/lib/gemini'
 import pdfParse from 'pdf-parse/lib/pdf-parse.js'
 import { prisma } from '@/lib/prisma'
 
@@ -97,6 +97,15 @@ export async function uploadResume(formData: FormData) {
         data: {
           content: gemini2Analysis,
           tag: 'job'
+        }
+      })
+
+      // Gemini3での分析結果をAiMessageとして保存
+      const gemini3Analysis = await analyzeTextWithGemini3(text)
+      await prisma.aiMessage.create({
+        data: {
+          content: gemini3Analysis,
+          tag: 'skill'
         }
       })
     } catch (dbError) {

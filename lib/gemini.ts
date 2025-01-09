@@ -79,3 +79,22 @@ ${text}`;
     throw error;
   }
 } 
+
+export async function analyzeTextWithGemini3(text: string) {
+  const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
+  
+  const fullPrompt = `
+以下のレジュメを解析し、現在のスキルや職歴を基に不足しているスキルを特定してください。また、次のキャリアステップに必要なスキルと、それを補うための学習方法やリソース（オンラインコースや書籍など）も提案してください。
+
+テキスト:
+${text}`;
+
+  try {
+    const result = await model.generateContent(fullPrompt);
+    const response = await result.response;
+    return response.text();
+  } catch (error) {
+    console.error('Failed to get Gemini response:', error);
+    throw error;
+  }
+} 

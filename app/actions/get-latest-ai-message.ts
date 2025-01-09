@@ -1,15 +1,15 @@
 import { prisma } from "@/lib/prisma";
+import { Tag } from "@prisma/client";
 
-export async function getLatestAiMessage() {
-  try {
-    const latestMessage = await prisma.aiMessage.findFirst({
-      orderBy: {
-        createdAt: 'desc'
-      }
-    });
-    return latestMessage;
-  } catch (error) {
-    console.error('Error fetching latest AI message:', error);
-    return null;
-  }
+export async function getLatestAiMessage(tag: Tag) {
+  const message = await prisma.aiMessage.findFirst({
+    where: {
+      tag: tag,
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+
+  return message;
 } 
