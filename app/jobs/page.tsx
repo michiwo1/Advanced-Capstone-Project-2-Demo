@@ -2,16 +2,30 @@ import * as React from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { getLatestJobSearchCriteria } from "../actions/get-latest-criteria"
+import { getLatestAiMessage } from "../actions/get-latest-ai-message"
 
 export const revalidate = 0; // このページは常に最新のデータを取得
 
 export default async function JobsPage() {
   const latestCriteria = await getLatestJobSearchCriteria();
+  const latestAiMessage = await getLatestAiMessage();
 
   return (
     <div className="container mx-auto py-8">
       <h1 className="text-4xl font-bold mb-8">求人情報一覧</h1>
       
+      {latestAiMessage && (
+        <Card className="mb-8 border-2 border-blue-200">
+          <CardHeader>
+            <CardTitle>AIからのアドバイス</CardTitle>
+            <CardDescription>{new Date(latestAiMessage.createdAt).toLocaleString('ja-JP')}</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm text-gray-600">{latestAiMessage.content}</p>
+          </CardContent>
+        </Card>
+      )}
+
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         <Card>
           <CardHeader>
