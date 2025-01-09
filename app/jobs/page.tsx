@@ -101,6 +101,96 @@ export default async function JobsPage() {
             </Button>
           </CardFooter>
         </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>ZipRecruiter</CardTitle>
+            <CardDescription>ZipRecruiter, Inc.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm text-gray-600 mb-4">
+              ZipRecruiterのAIマッチング技術により、
+              あなたのスキルと経験に合った求人を効率的に見つけることができます。
+            </p>
+            <div className="flex flex-wrap gap-2">
+              <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs">AIマッチング</span>
+              <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs">ワンクリック応募</span>
+              <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs">求人アラート</span>
+            </div>
+          </CardContent>
+          <CardFooter>
+            <Button asChild>
+              <a href={`https://www.ziprecruiter.com/jobs-search?${
+                new URLSearchParams({
+                  ...(latestCriteria?.jobTitle && { search: latestCriteria.jobTitle }),
+                  ...(latestCriteria?.location && { location: `${latestCriteria.location}, Japan` }),
+                }).toString()
+              }`} target="_blank" rel="noopener noreferrer">
+                ZipRecruiterで検索
+              </a>
+            </Button>
+          </CardFooter>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Monster</CardTitle>
+            <CardDescription>Monster Worldwide, Inc.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm text-gray-600 mb-4">
+              Monsterは世界最大級の求人サイトの一つで、
+              キャリアアドバイスや履歴書作成ツールも提供しています。
+            </p>
+            <div className="flex flex-wrap gap-2">
+              <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs">グローバル求人</span>
+              <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs">キャリアアドバイス</span>
+              <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs">履歴書ツール</span>
+            </div>
+          </CardContent>
+          <CardFooter>
+            <Button asChild>
+              <a href={`https://www.monster.com/jobs/search?${
+                new URLSearchParams({
+                  ...(latestCriteria?.jobTitle && { q: latestCriteria.jobTitle }),
+                  ...(latestCriteria?.location && { where: `${latestCriteria.location}, Japan` }),
+                }).toString()
+              }`} target="_blank" rel="noopener noreferrer">
+                Monsterで検索
+              </a>
+            </Button>
+          </CardFooter>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>CareerBuilder</CardTitle>
+            <CardDescription>CareerBuilder, LLC</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm text-gray-600 mb-4">
+              CareerBuilderは、AIを活用した求人マッチングと
+              キャリア開発ツールを提供する総合的な就職支援プラットフォームです。
+            </p>
+            <div className="flex flex-wrap gap-2">
+              <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs">スキル分析</span>
+              <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs">給与査定</span>
+              <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs">キャリアパス</span>
+            </div>
+          </CardContent>
+          <CardFooter>
+            <Button asChild>
+              <a href={`https://www.careerbuilder.com/jobs?${
+                new URLSearchParams({
+                  ...(latestCriteria?.jobTitle && { keywords: latestCriteria.jobTitle }),
+                  ...(latestCriteria?.location && { location: `${latestCriteria.location}, Japan` }),
+                }).toString()
+              }`} target="_blank" rel="noopener noreferrer">
+                CareerBuilderで検索
+              </a>
+            </Button>
+          </CardFooter>
+        </Card>
       </div>
 
       {latestCriteria && (
