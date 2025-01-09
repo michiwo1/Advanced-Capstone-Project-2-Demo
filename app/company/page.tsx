@@ -33,46 +33,83 @@ export default function CompanyPage() {
   };
 
   return (
-    <div className="flex-1 space-y-4 p-8 pt-6">
-      <div className="flex items-center justify-between space-y-2">
-        <h2 className="text-3xl font-bold tracking-tight">企業分析</h2>
-      </div>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="mt-4">
-          <textarea
-            className="w-full h-48 p-4 border rounded-lg resize-none"
-            placeholder="企業情報を入力してください"
-            value={companyInfo}
-            onChange={(e) => setCompanyInfo(e.target.value)}
-          />
+    <div className="container mx-auto max-w-4xl space-y-6 p-8 pt-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-3xl font-bold tracking-tight">企業分析</h2>
+          <p className="text-muted-foreground mt-2">企業情報を入力して、あなたとの相性を分析します</p>
         </div>
-        <button
-          type="submit"
-          disabled={isAnalyzing}
-          className={`w-full py-2 px-4 rounded-lg text-white transition-colors ${
-            isAnalyzing ? 'bg-blue-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'
-          }`}
-        >
-          {isAnalyzing ? '診断中...' : '診断する'}
-        </button>
-      </form>
+      </div>
+
+      <div className="bg-white rounded-lg shadow-sm border p-6">
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label htmlFor="companyInfo" className="block text-sm font-medium text-gray-700 mb-2">
+              企業情報
+            </label>
+            <textarea
+              id="companyInfo"
+              className="w-full h-48 p-4 border rounded-lg resize-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              placeholder="企業の特徴、事業内容、企業文化などの情報を入力してください"
+              value={companyInfo}
+              onChange={(e) => setCompanyInfo(e.target.value)}
+            />
+          </div>
+          <button
+            type="submit"
+            disabled={isAnalyzing}
+            className={`w-full py-3 px-4 rounded-lg text-white font-medium transition-all ${
+              isAnalyzing 
+                ? 'bg-blue-400 cursor-not-allowed' 
+                : 'bg-blue-600 hover:bg-blue-700 hover:shadow-md'
+            }`}
+          >
+            {isAnalyzing ? (
+              <span className="flex items-center justify-center">
+                <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                診断中...
+              </span>
+            ) : '診断する'}
+          </button>
+        </form>
+      </div>
 
       {showResult && analysisResult && (
-        <div className="mt-8 p-6 border rounded-lg bg-gray-50">
-          <div className="mb-6">
-            <div className="flex justify-between mb-2">
-              <h3 className="font-semibold">マッチ率</h3>
-              <span className="font-semibold">{analysisResult.matchRate}%</span>
+        <div className="bg-white rounded-lg shadow-sm border overflow-hidden">
+          <div className="p-6 border-b">
+            <h3 className="text-xl font-bold mb-4">診断結果</h3>
+            <div className="mb-6">
+              <div className="flex justify-between mb-2">
+                <h4 className="font-medium text-gray-700">マッチ率</h4>
+                <span className="font-semibold text-blue-600">{analysisResult.matchRate}%</span>
+              </div>
+              <div className="w-full bg-gray-100 rounded-full h-5">
+                <div
+                  className="bg-gradient-to-r from-blue-500 to-blue-600 h-5 rounded-full transition-all duration-500 shadow-sm"
+                  style={{ width: `${analysisResult.matchRate}%` }}
+                />
+              </div>
             </div>
-            <div className="w-full bg-gray-200 rounded-full h-4">
-              <div
-                className="bg-green-600 h-4 rounded-full transition-all duration-500"
-                style={{ width: `${analysisResult.matchRate}%` }}
-              />
+            <div className="prose max-w-none">
+              <ReactMarkdown>{analysisResult.reasons}</ReactMarkdown>
             </div>
           </div>
-          <h3 className="text-xl font-bold mb-4">診断結果</h3>
-          <ReactMarkdown>{analysisResult.reasons}</ReactMarkdown>
+          {analysisResult.improvements && analysisResult.improvements.length > 0 && (
+            <div className="p-6 bg-gray-50">
+              <h4 className="font-semibold mb-3">改善ポイント</h4>
+              <ul className="space-y-2">
+                {analysisResult.improvements.map((improvement, index) => (
+                  <li key={index} className="flex items-start">
+                    <span className="text-blue-500 mr-2">•</span>
+                    {improvement}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
       )}
     </div>
