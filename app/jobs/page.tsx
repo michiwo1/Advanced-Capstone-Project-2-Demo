@@ -12,7 +12,7 @@ export default async function JobsPage() {
   const latestAiMessage = await getLatestAiMessage("job");
 
   return (
-    <div className="≈">
+    <div className="container mx-auto py-8">
       <h1 className="text-4xl font-bold mb-8">求人情報一覧</h1>
       
       {latestAiMessage && (
