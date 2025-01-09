@@ -29,6 +29,7 @@ export default async function JobsPage() {
         </Card>
       )}
 
+              <h2 className="text-3xl font-semibold mb-6">あなたにおすすめの求人</h2>
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         <Card>
           <CardHeader>
