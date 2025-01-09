@@ -1,6 +1,6 @@
 'use server'
 
-import { analyzeTextWithGemini, analyzeTextWithGemini2, analyzeTextWithGemini3, analyzeTextWithGemini4, analyzeTextWithGemini5 } from '@/lib/gemini'
+import { analyzeTextWithGemini, analyzeTextWithGemini2, analyzeTextWithGemini3, analyzeTextWithGemini4, analyzeTextWithGemini5, analyzeTextWithGemini6 } from '@/lib/gemini'
 import pdfParse from 'pdf-parse/lib/pdf-parse.js'
 import { prisma } from '@/lib/prisma'
 
@@ -123,6 +123,14 @@ export async function uploadResume(formData: FormData) {
         data: {
           content: gemini5Analysis,
           tag: 'market'
+        }
+      })
+
+      // Gemini6での分析結果をAiMessageとして保存
+      const gemini6Analysis = await analyzeTextWithGemini6(text)
+      await prisma.chartData.create({
+        data: {
+          chart_data: gemini6Analysis
         }
       })
 

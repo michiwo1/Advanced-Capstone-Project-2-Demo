@@ -48,7 +48,7 @@ export async function analyzeTextWithGemini(text: string) {
     "exclusion_terms": "Junior, Internship",
 }
 
-テキスト:
+レジュメ本文:
 ${text}`;
 
   try {
@@ -67,7 +67,7 @@ export async function analyzeTextWithGemini2(text: string) {
   const fullPrompt = `
 以下の私のレジュメを解析し、次のキャリアステップに関する提案をしてください。また、私のスキルに基づいて適切な職種や役割をいくつか挙げてください。
 
-テキスト:
+レジュメ本文:
 ${text}`;
 
   try {
@@ -86,7 +86,7 @@ export async function analyzeTextWithGemini3(text: string) {
   const fullPrompt = `
 以下のレジュメを解析し、現在のスキルや職歴を基に不足しているスキルを特定してください。また、次のキャリアステップに必要なスキルと、それを補うための学習方法やリソース（オンラインコースや書籍など）も提案してください。
 
-テキスト:
+レジュメ本文:
 ${text}`;
 
   try {
@@ -130,7 +130,7 @@ export async function analyzeTextWithGemini4(text: string) {
   "DevOps": "継続的な開発・運用プロセスを効率化するための手法とツール"
 }
 
-テキスト:
+レジュメ本文:
 ${text}`;
 
   try {
@@ -149,7 +149,51 @@ export async function analyzeTextWithGemini5(text: string) {
   const fullPrompt = `
 以下のレジュメから職歴やスキルに基づいて年収や競争力を算出してください。
 
-テキスト:
+レジュメ本文:
+${text}`;
+
+  try {
+    const result = await model.generateContent(fullPrompt);
+    const response = await result.response;
+    return response.text();
+  } catch (error) {
+    console.error('Failed to get Gemini response:', error);
+    throw error;
+  }
+} 
+
+export async function analyzeTextWithGemini6(text: string) {
+  const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
+  
+  const fullPrompt = `
+指示:
+あなたは採用担当者の役割を担っています。以下のレジュメを読み込み、下記の6項目について10点満点で評価してください。
+
+1. 実務経験・職務レベル
+2. 専門スキル・技術力
+3. 実績・成果
+4. ソフトスキル・コミュニケーション
+5. 業界・領域知識
+6. キャリア成長度・適応力
+
+形式:
+辞書型（JSON形式） のオブジェクトで結果を出力してください。
+キーは日本語項目名、値は数値評価（1～10の整数）にしてください。
+
+
+出力例（イメージ）:
+
+{
+  "実務経験・職務レベル": 8,
+  "専門スキル・技術力": 9,
+  "実績・成果": 8,
+  "ソフトスキル・コミュニケーション": 7,
+  "業界・領域知識": 8,
+  "キャリア成長度・適応力": 9
+}
+
+
+レジュメ本文:
 ${text}`;
 
   try {
