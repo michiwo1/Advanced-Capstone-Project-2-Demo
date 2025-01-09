@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { getLatestJobSearchCriteria } from "../actions/get-latest-criteria"
 import { getLatestAiMessage } from "../actions/get-latest-ai-message"
+import ReactMarkdown from 'react-markdown'
 
 export const revalidate = 0; // このページは常に最新のデータを取得
 
@@ -21,7 +22,9 @@ export default async function JobsPage() {
             <CardDescription>{new Date(latestAiMessage.createdAt).toLocaleString('ja-JP')}</CardDescription>
           </CardHeader>
           <CardContent>
-            <p className="text-sm text-gray-600">{latestAiMessage.content}</p>
+            <div className="prose prose-sm max-w-none">
+              <ReactMarkdown>{latestAiMessage.content}</ReactMarkdown>
+            </div>
           </CardContent>
         </Card>
       )}
