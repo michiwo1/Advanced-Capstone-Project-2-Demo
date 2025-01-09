@@ -6,14 +6,9 @@ import { prisma } from '@/lib/prisma'
 
 export async function uploadResume(formData: FormData) {
   const file = formData.get('resume')
-  const prompt = formData.get('prompt') as string
   
   if (!file || !(file instanceof File)) {
     return { success: false, message: 'ファイルが選択されていません。' }
-  }
-
-  if (!prompt) {
-    return { success: false, message: 'プロンプトが入力されていません。' }
   }
 
   try {
@@ -41,7 +36,7 @@ export async function uploadResume(formData: FormData) {
     // Analyze with Gemini
     let analysis: string
     try {
-      analysis = await analyzeTextWithGemini(text, prompt)
+      analysis = await analyzeTextWithGemini(text)
       if (!analysis) {
         return { success: false, message: 'テキスト分析に失敗しました。Gemini APIからの応答がありませんでした。' }
       }

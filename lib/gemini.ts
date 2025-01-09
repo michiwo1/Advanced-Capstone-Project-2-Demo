@@ -2,17 +2,54 @@ import { GoogleGenerativeAI } from '@google/generative-ai';
 
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_GEMINI_API_KEY!);
 
-export async function analyzeTextWithGemini(text: string, prompt: string) {
+export async function analyzeTextWithGemini(text: string) {
   const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
   
   const fullPrompt = `
-以下のテキストに対して、与えられた指示に従って分析してください：
+以下の形式でJSONデータを生成してください。このJSONは、求人検索条件を保存するためのものです。各キーとその値の説明は以下の通りです。
+
+### JSON形式
+{
+    "job_title": "文字列 (求人の職種)",
+    "location": "文字列 (勤務地。リモートの場合は 'Remote')",
+    "employment_type": "文字列 (雇用形態。例: Full-time, Part-time, Contract)",
+    "salary_range": "文字列 (給与範囲。例: '$70,000 - $90,000')",
+    "skills": "文字列のリスト (必須スキルをカンマ区切りでリスト化)",
+    "industry": "文字列 (業界情報。例: IT, Finance)",
+    "keywords": "文字列のリスト (検索用キーワード)",
+    "exclusion_terms": "文字列のリスト (除外するキーワード)",
+}
+
+### 要求内容
+次の条件に基づいてJSONデータを生成してください：
+- 求人の職種: この人にあった求人の職種
+- 勤務地: この人にあった勤務地
+- 雇用形態: この人にあった雇用形態
+- 給与範囲: この人にあった給与範囲
+- 必須スキル: この人にあった必須スキル
+- 業界情報: この人にあった業界情報
+- 検索用キーワード: この人にあった検索用キーワード
+- 除外キーワード: この人にあった除外キーワード
+
+### 注意
+- JSON形式に厳密に従ってください。
+- キー名や構造を変更しないでください。
+- 値がリスト形式の場合はカンマ区切りでリスト化してください。
+
+### 出力例
+{
+    "job_title": "Data Scientist",
+    "location": "Remote",
+    "employment_type": "Full-time",
+    "salary_range": "$100,000 - $120,000",
+    "skills": "Python, Machine Learning, SQL",
+    "industry": "IT",
+    "keywords": "AI, Deep Learning",
+    "exclusion_terms": "Junior, Internship",
+}
 
 テキスト:
-${text}
-
-指示:
-${prompt}`;
+${text}`;
 
   try {
     const result = await model.generateContent(fullPrompt);
