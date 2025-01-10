@@ -18,41 +18,46 @@ export default async function DiagnosisPage() {
   const results = await getDiagnosisResults();
 
   return (
-    <div className="container mx-auto py-8">
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold">診断結果一覧</h1>
+    <div className="container mx-auto py-12 px-4">
+      <div className="flex items-center justify-between mb-8 bg-gradient-to-r from-blue-50 to-white p-6 rounded-xl shadow-sm">
+        <div>
+          <h1 className="text-3xl font-bold text-gray-800 mb-2">診断結果一覧</h1>
+          <p className="text-gray-600">あなたと企業とのマッチング診断結果をご確認いただけます</p>
+        </div>
         <Link
           href="/company"
-          className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+          className="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
         >
-          企業診断
+          新規企業診断
         </Link>
       </div>
-      <div className="grid gap-4">
+      <div className="grid gap-6">
         {results.map((result) => (
-          <Card key={result.id}>
-            <CardContent className="p-6">
-              <div className="flex justify-between items-start">
-                <div>
-                  <div className="flex items-center gap-2 mb-2">
-                    <h2 className="text-xl font-semibold">{result.title}</h2>
+          <Card key={result.id} className="hover:shadow-lg transition-shadow duration-200">
+            <CardContent className="p-8">
+              <div className="flex justify-between items-start gap-6">
+                <div className="flex-1">
+                  <div className="flex items-center gap-4 mb-4">
+                    <h2 className="text-2xl font-semibold text-gray-800">{result.title}</h2>
                     {result.link && (
                       <Link
                         href={result.link}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-sm text-blue-600 hover:text-blue-800 hover:underline"
+                        className="px-4 py-1 text-sm text-blue-600 border border-blue-600 rounded-full hover:bg-blue-50 transition-colors"
                       >
-                        企業サイトへ
+                        企業サイトへ →
                       </Link>
                     )}
                   </div>
-                  <p className="text-gray-600 mb-4">マッチ率: {result.matchRate}%</p>
+                  <p className="text-lg font-medium text-blue-600 mb-4">
+                    マッチ率: {result.matchRate}%
+                  </p>
                   <div className="prose max-w-none">
-                    <ReactMarkdown className="text-gray-700">{result.reason}</ReactMarkdown>
+                    <ReactMarkdown className="text-gray-700 leading-relaxed">{result.reason}</ReactMarkdown>
                   </div>
                 </div>
-                <div className="text-sm text-gray-500">
+                <div className="text-sm text-gray-500 whitespace-nowrap">
                   {formatDistanceToNow(result.createdAt, { addSuffix: true, locale: ja })}
                 </div>
               </div>
@@ -60,7 +65,10 @@ export default async function DiagnosisPage() {
           </Card>
         ))}
         {results.length === 0 && (
-          <p className="text-center text-gray-500">診断結果がありません</p>
+          <div className="text-center py-12 bg-gray-50 rounded-lg">
+            <p className="text-gray-500 text-lg">診断結果がありません</p>
+            <p className="text-gray-400 mt-2">新規企業診断から始めましょう</p>
+          </div>
         )}
       </div>
     </div>
