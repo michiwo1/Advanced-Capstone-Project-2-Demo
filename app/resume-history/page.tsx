@@ -1,6 +1,7 @@
 import { prisma } from '@/lib/prisma'
 import ReactMarkdown from 'react-markdown'
 import Link from 'next/link'
+import PDFExportButton from '@/components/pdf-export-button'
 
 export default async function ResumeHistoryPage() {
   const histories = await prisma.resumeHistory.findMany({
@@ -35,19 +36,34 @@ export default async function ResumeHistoryPage() {
           >
             <div className="flex justify-between items-start mb-4">
               <h2 className="text-xl font-semibold">{history.versionName}</h2>
-              <time className="text-sm text-gray-500">
-                {new Date(history.updatedAt).toLocaleDateString('ja-JP', {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric',
-                  hour: '2-digit',
-                  minute: '2-digit'
-                })}
-              </time>
+              <div className="flex items-center gap-4">
+                <time className="text-sm text-gray-500">
+                  {new Date(history.updatedAt).toLocaleDateString('ja-JP', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                  })}
+                </time>
+                <PDFExportButton 
+                  targetId={`resume-${history.id}`} 
+                  filename={`${history.versionName}.pdf`}
+                />
+              </div>
             </div>
             
-            <div className="prose prose-sm max-w-none">
-              <div className="bg-gray-50 rounded p-4">
+            <div 
+              id={`resume-${history.id}`} 
+              className="prose prose-sm max-w-none"
+              style={{
+                padding: '20px',
+                fontFamily: 'sans-serif',
+                maxWidth: '800px',
+                margin: '0 auto'
+              }}
+            >
+              <div className="rounded p-4">
                 <ReactMarkdown>{history.updatedResume}</ReactMarkdown>
               </div>
             </div>
