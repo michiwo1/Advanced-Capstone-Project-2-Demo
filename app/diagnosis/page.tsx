@@ -4,7 +4,6 @@ import { formatDistanceToNow } from "date-fns";
 import { ja } from "date-fns/locale";
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
-import { Progress } from "@/components/ui/progress";
 
 async function getDiagnosisResults() {
   const results = await prisma.diagnosisResult.findMany({
@@ -51,13 +50,9 @@ export default async function DiagnosisPage() {
                       </Link>
                     )}
                   </div>
-                  <div className="mb-6">
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-gray-700 font-medium">マッチ率</span>
-                      <span className="text-lg font-bold text-blue-600">{result.matchRate}%</span>
-                    </div>
-                    <Progress value={result.matchRate} className="h-2" />
-                  </div>
+                  <p className="text-lg font-semibold text-blue-600 mb-4">
+                    マッチ率: {result.matchRate}%
+                  </p>
                   <div className="prose max-w-none">
                     <ReactMarkdown className="text-gray-700 leading-relaxed">{result.reason}</ReactMarkdown>
                   </div>
