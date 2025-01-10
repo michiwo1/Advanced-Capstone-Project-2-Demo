@@ -6,6 +6,7 @@ import { analyzeResume } from '@/app/actions/analyze-resume'
 import { saveResumeHistory } from '@/app/actions/save-resume-history'
 import ReactMarkdown from 'react-markdown'
 import Link from 'next/link'
+import * as ReactDOM from 'react-dom/client'
 
 // Loading button component with form status
 function SubmitButton() {
@@ -70,6 +71,47 @@ export function ResumeAnalysisForm() {
   const [title, setTitle] = useState('')
   const [saveError, setSaveError] = useState<string | null>(null)
 
+  // Add PDF export function
+  const handlePdfExport = async () => {
+    if (!result) return;
+    
+    // Dynamic import of html2pdf.js
+    const html2pdf = (await import('html2pdf.js')).default;
+    
+    // Create a temporary div and render markdown content
+    const tempDiv = document.createElement('div');
+    const root = ReactDOM.createRoot(tempDiv);
+    root.render(
+      <div style={{
+        padding: '20px',
+        fontFamily: 'sans-serif',
+        maxWidth: '800px',
+        margin: '0 auto'
+      }}>
+        <h1 style={{marginBottom: '20px'}}>AI分析結果</h1>
+        <div className="prose prose-sm max-w-none">
+          <ReactMarkdown>{result}</ReactMarkdown>
+        </div>
+      </div>
+    );
+
+    // Wait for React to finish rendering
+    await new Promise(resolve => setTimeout(resolve, 100));
+    
+    const opt = {
+      margin: 1,
+      filename: 'resume-analysis.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+    };
+
+    html2pdf().set(opt).from(tempDiv).save().then(() => {
+      // Cleanup
+      root.unmount();
+    });
+  };
+
   async function handleSubmit(formData: FormData) {
     setResult(null)
     setResumeId(null)
@@ -122,7 +164,13 @@ export function ResumeAnalysisForm() {
           <AnalysisResult result={result} />
         </div>
         {result && (
-          <div className="mt-4 flex justify-end">
+          <div className="mt-4 flex justify-end gap-2">
+            <button
+              onClick={handlePdfExport}
+              className="px-6 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors"
+            >
+              PDFで出力
+            </button>
             <button
               onClick={() => setIsModalOpen(true)}
               className="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
