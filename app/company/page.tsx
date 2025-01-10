@@ -110,6 +110,17 @@ export default function CompanyPage() {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
             <h3 className="text-xl font-bold mb-4">分析結果の保存</h3>
+            <div className="mb-4">
+              <label htmlFor="companyTitle" className="block text-sm font-medium text-gray-700 mb-2">
+                企業名
+              </label>
+              <input
+                type="text"
+                id="companyTitle"
+                className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="企業名を入力してください"
+              />
+            </div>
             <p className="text-gray-600 mb-6">この企業の分析結果を保存しますか？</p>
             <div className="flex justify-end space-x-2">
               <button
