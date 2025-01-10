@@ -53,7 +53,7 @@ export default async function ResumeHistoryPage() {
                       filename={`${history.versionName}.pdf`}
                     />
                     <Link
-                      href={`/resume?history=${history.id}`}
+                      href={`/resume/improve?history=${history.id}`}
                       className="inline-flex items-center px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-all duration-200 text-sm"
                     >
                       この履歴書を改善
