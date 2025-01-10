@@ -63,6 +63,7 @@ function AnalysisResult({ result }: { result: string | null }) {
 
 export function ResumeAnalysisForm() {
   const [result, setResult] = useState<string | null>(null)
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
   async function handleSubmit(formData: FormData) {
     setResult(null)
@@ -85,7 +86,7 @@ export function ResumeAnalysisForm() {
         {result && (
           <div className="mt-4 flex justify-end">
             <button
-              onClick={() => {/* TODO: 保存機能の実装 */}}
+              onClick={() => setIsModalOpen(true)}
               className="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
             >
               結果を保存
@@ -93,6 +94,41 @@ export function ResumeAnalysisForm() {
           </div>
         )}
       </div>
+
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
+          <div className="bg-white rounded-lg p-6 w-[500px] max-w-[90vw]">
+            <h3 className="text-xl font-semibold mb-4">分析結果の保存</h3>
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                タイトル
+              </label>
+              <input
+                type="text"
+                className="w-full px-3 py-2 border rounded-md"
+                placeholder="保存するタイトルを入力"
+              />
+            </div>
+            <div className="flex justify-end gap-3">
+              <button
+                onClick={() => setIsModalOpen(false)}
+                className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-md"
+              >
+                キャンセル
+              </button>
+              <button
+                onClick={() => {
+                  // TODO: 保存の処理を実装
+                  setIsModalOpen(false)
+                }}
+                className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+              >
+                保存
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       <div className="fixed bottom-0 left-0 right-0 bg-white border-t shadow-lg p-4">
         <form action={handleSubmit} className="container mx-auto flex gap-4">
