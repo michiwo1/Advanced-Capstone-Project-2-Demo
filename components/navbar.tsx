@@ -48,6 +48,15 @@ export function Navbar() {
           >
             企業分析
           </Link>
+          <Link
+            href="/resume"
+            className={cn(
+              "text-sm font-medium transition-colors hover:text-primary",
+              pathname === "/resume" ? "text-primary" : "text-muted-foreground"
+            )}
+          >
+            レジュメ改善
+          </Link>
         </div>
       </div>
     </nav>
