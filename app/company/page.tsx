@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { analyzeCompany } from '@/app/actions/analyze-company';
 import { saveDiagnosis } from '@/app/actions/save-diagnosis';
 import Link from 'next/link';
+import ReactMarkdown from 'react-markdown';
 
 interface AnalysisResult {
   matchRate: number;
@@ -102,7 +103,7 @@ export default function CompanyPage() {
               </div>
             </div>
             <div className="prose max-w-none">
-              <div className="text-gray-700 whitespace-pre-wrap">{analysisResult.reasons}</div>
+              <ReactMarkdown className="text-gray-700">{analysisResult.reasons}</ReactMarkdown>
             </div>
             <div className="flex justify-end mt-4">
               <button
