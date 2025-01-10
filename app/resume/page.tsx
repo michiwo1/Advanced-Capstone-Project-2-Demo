@@ -22,7 +22,7 @@ export default async function ResumePage() {
       <div className="grid grid-cols-2 gap-8">
         {/* 左側：履歴書表示エリア */}
         <div className="border rounded-lg p-6 bg-white shadow">
-          <h2 className="text-2xl font-semibold mb-4">改善する履歴書</h2>
+          <h2 className="text-2xl font-semibold mb-4">あなたの履歴書</h2>
           <div className="min-h-[600px] whitespace-pre-wrap prose prose-sm max-w-none">
             {resume ? resume.originalResume : 'レジュメがまだ登録されていません。'}
           </div>
