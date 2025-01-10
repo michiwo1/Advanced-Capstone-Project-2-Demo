@@ -67,3 +67,11 @@ model ChartData {
   chart_data  String   @db.Text
   createdAt DateTime @default(now())
 }
+
+model DiagnosisResult {
+  id          String    @id @default(cuid())
+  title       String    @db.VarChar(255)
+  matchRate   Int
+  reason      String    @db.Text
+  createdAt   DateTime  @default(now())
+}
