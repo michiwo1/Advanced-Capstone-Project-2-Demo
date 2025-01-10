@@ -5,7 +5,6 @@ import { useFormStatus } from 'react-dom'
 import { analyzeResume } from '@/app/actions/analyze-resume'
 import { saveResumeHistory } from '@/app/actions/save-resume-history'
 import ReactMarkdown from 'react-markdown'
-import Link from 'next/link'
 import * as ReactDOM from 'react-dom/client'
 
 // Loading button component with form status
@@ -153,32 +152,28 @@ export function ResumeAnalysisForm() {
       <div className="border rounded-lg p-6 bg-white shadow">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-2xl font-semibold">AI分析結果</h2>
-          <Link
-            href="/resume-history"
-            className="text-blue-500 hover:text-blue-600 transition-colors"
-          >
-            保存済み分析履歴を見る →
-          </Link>
+          <div className="flex gap-2 items-center">
+            {result && (
+              <>
+                <button
+                  onClick={handlePdfExport}
+                  className="px-6 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors"
+                >
+                  PDFで出力
+                </button>
+                <button
+                  onClick={() => setIsModalOpen(true)}
+                  className="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+                >
+                  結果を保存
+                </button>
+              </>
+            )}
+          </div>
         </div>
         <div className="min-h-[600px] whitespace-pre-wrap prose prose-sm max-w-none">
           <AnalysisResult result={result} />
         </div>
-        {result && (
-          <div className="mt-4 flex justify-end gap-2">
-            <button
-              onClick={handlePdfExport}
-              className="px-6 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors"
-            >
-              PDFで出力
-            </button>
-            <button
-              onClick={() => setIsModalOpen(true)}
-              className="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
-            >
-              結果を保存
-            </button>
-          </div>
-        )}
       </div>
 
       {isModalOpen && (
