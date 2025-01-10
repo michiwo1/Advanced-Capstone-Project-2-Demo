@@ -35,7 +35,7 @@ export default async function ResumeImprovePage({
           href="/resume-history"
           className="inline-flex items-center px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors"
         >
-          保存済み分析履歴を見る →
+          保存済み改善履歴を見る
         </Link>
       </div>
       

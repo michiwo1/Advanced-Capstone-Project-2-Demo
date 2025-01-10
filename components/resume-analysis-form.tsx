@@ -60,7 +60,7 @@ function AnalysisResult({ result }: { result: string | null }) {
 
   if (result) return <ReactMarkdown>{result}</ReactMarkdown>
   
-  return '分析結果がここに表示されます。'
+  return '改善された履歴書がここに表示されます。'
 }
 
 export function ResumeAnalysisForm() {
@@ -155,7 +155,7 @@ export function ResumeAnalysisForm() {
     <>
       <div className="border rounded-lg p-6 bg-white shadow">
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-2xl font-semibold">AI分析結果</h2>
+          <h2 className="text-2xl font-semibold">AI改善結果</h2>
           <div className="flex gap-2 items-center">
             {result && (
               <>
