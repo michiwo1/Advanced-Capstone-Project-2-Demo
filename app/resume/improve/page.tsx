@@ -2,6 +2,7 @@ import { prisma } from '@/lib/prisma'
 import { notFound } from 'next/navigation'
 import ReactMarkdown from 'react-markdown'
 import Link from 'next/link'
+import { ImprovementForm } from '@/components/improvement-form'
 
 export default async function ResumeImprovePage({
   searchParams,
@@ -57,42 +58,7 @@ export default async function ResumeImprovePage({
         </div>
 
         {/* 右側：AI分析結果表示エリア */}
-        <div className="border rounded-lg p-6 bg-white shadow">
-          <h2 className="text-2xl font-semibold mb-4">改善のアドバイス</h2>
-          <div className="min-h-[600px] whitespace-pre-wrap prose prose-sm max-w-none">
-            <ReactMarkdown
-              components={{
-                h1: ({...props}) => <h1 className="text-2xl font-bold mb-4" {...props} />,
-                h2: ({...props}) => <h2 className="text-xl font-semibold mb-3" {...props} />,
-                p: ({...props}) => <p className="mb-4 leading-relaxed" {...props} />,
-                ul: ({...props}) => <ul className="list-disc pl-6 mb-4" {...props} />,
-                li: ({...props}) => <li className="mb-2" {...props} />
-              }}
-            >
-              {/* TODO: AIによる改善アドバイスの実装 */}
-              このセクションでは、AIが履歴書の改善点を分析し、具体的なアドバイスを提供します。
-            </ReactMarkdown>
-          </div>
-        </div>
-      </div>
-
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t shadow-lg p-4">
-        <div className="container mx-auto">
-          <form className="flex gap-4">
-            <input
-              type="text"
-              placeholder="AIに指示を入力してください..."
-              className="flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
-            />
-            <button
-              type="submit"
-              className="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors disabled:bg-blue-300 min-w-[100px]"
-            >
-              送信
-            </button>
-          </form>
-        </div>
+        <ImprovementForm updatedResume={history.updatedResume} />
       </div>
     </div>
   )
