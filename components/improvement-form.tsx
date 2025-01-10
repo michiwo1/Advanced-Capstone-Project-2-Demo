@@ -3,17 +3,23 @@
 import { useState } from 'react'
 import ReactMarkdown from 'react-markdown'
 import { improveResume } from '@/app/actions/improve-resume'
+import { saveResumeHistory } from '@/app/actions/save-resume-history'
 
 export function ImprovementForm({ updatedResume }: { updatedResume: string }) {
   const [advice, setAdvice] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [title, setTitle] = useState('')
+  const [saveError, setSaveError] = useState<string | null>(null)
+  const [resumeId, setResumeId] = useState<string | null>(null)
 
   async function handleSubmit(formData: FormData) {
     try {
       setIsLoading(true)
       formData.append('resume', updatedResume)
       const result = await improveResume(formData)
-      setAdvice(result)
+      setAdvice(result.message)
+      setResumeId(result.resumeId)
     } catch (error) {
       console.error('Failed to get improvement advice:', error)
       setAdvice('改善アドバイスの取得に失敗しました。')
@@ -22,10 +28,41 @@ export function ImprovementForm({ updatedResume }: { updatedResume: string }) {
     }
   }
 
+  async function handleSave() {
+    if (!title.trim() || !advice || !resumeId) {
+      setSaveError('保存に必要な情報が不足しています。')
+      return
+    }
+
+    try {
+      const response = await saveResumeHistory(resumeId, title, advice)
+      if (response.success) {
+        setIsModalOpen(false)
+        setTitle('')
+        setSaveError(null)
+      } else {
+        setSaveError('保存に失敗しました。')
+      }
+    } catch (error) {
+      console.error('Save failed:', error)
+      setSaveError('保存に失敗しました。')
+    }
+  }
+
   return (
     <>
       <div className="border rounded-lg p-6 bg-white shadow">
-        <h2 className="text-2xl font-semibold mb-4">改善のアドバイス</h2>
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-2xl font-semibold">改善のアドバイス</h2>
+          {advice && (
+            <button
+              onClick={() => setIsModalOpen(true)}
+              className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+            >
+              保存
+            </button>
+          )}
+        </div>
         <div className="min-h-[600px] whitespace-pre-wrap prose prose-sm max-w-none">
           {isLoading ? (
             <div className="flex flex-col items-center justify-center h-full space-y-4">
@@ -72,6 +109,50 @@ export function ImprovementForm({ updatedResume }: { updatedResume: string }) {
           </form>
         </div>
       </div>
+
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
+          <div className="bg-white rounded-lg p-6 w-[500px] max-w-[90vw]">
+            <h3 className="text-xl font-semibold mb-4">改善アドバイスの保存</h3>
+            {saveError && (
+              <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-md">
+                {saveError}
+              </div>
+            )}
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                タイトル
+              </label>
+              <input
+                type="text"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                className="w-full px-3 py-2 border rounded-md"
+                placeholder="保存するタイトルを入力"
+              />
+            </div>
+            <div className="flex justify-end gap-3">
+              <button
+                onClick={() => {
+                  setIsModalOpen(false)
+                  setTitle('')
+                  setSaveError(null)
+                }}
+                className="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-md"
+              >
+                キャンセル
+              </button>
+              <button
+                onClick={handleSave}
+                disabled={!title.trim()}
+                className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 disabled:bg-blue-300"
+              >
+                保存
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   )
 } 

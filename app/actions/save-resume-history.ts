@@ -3,6 +3,7 @@
 import { prisma } from '@/lib/prisma'
 
 export async function saveResumeHistory(resumeId: string, versionName: string, updatedResume: string) {
+  console.log('saveResumeHistory', resumeId, versionName, updatedResume)
   try {
     const history = await prisma.resumeHistory.create({
       data: {
