@@ -47,10 +47,18 @@ export default async function ResumeHistoryPage() {
                       minute: '2-digit'
                     })}
                   </time>
-                  <PDFExportButton 
-                    targetId={`resume-${history.id}`} 
-                    filename={`${history.versionName}.pdf`}
-                  />
+                  <div className="flex gap-2">
+                    <PDFExportButton 
+                      targetId={`resume-${history.id}`} 
+                      filename={`${history.versionName}.pdf`}
+                    />
+                    <Link
+                      href={`/resume?history=${history.id}`}
+                      className="inline-flex items-center px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-all duration-200 text-sm"
+                    >
+                      この履歴書を改善
+                    </Link>
+                  </div>
                 </div>
               </div>
             </div>
