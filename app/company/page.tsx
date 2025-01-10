@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { analyzeCompany } from '@/app/actions/analyze-company';
+import { saveDiagnosis } from '@/app/actions/save-diagnosis';
 
 interface AnalysisResult {
   matchRate: number;
@@ -142,9 +143,23 @@ export default function CompanyPage() {
                     ? 'bg-blue-400 cursor-not-allowed text-white'
                     : 'bg-blue-600 hover:bg-blue-700 text-white'
                 }`}
-                onClick={() => {
-                  // TODO: 保存の実装
-                  alert('保存機能は現在開発中です');
+                onClick={async () => {
+                  if (!analysisResult) return;
+                  try {
+                    const result = await saveDiagnosis(
+                      companyTitle,
+                      analysisResult.matchRate,
+                      analysisResult.reasons
+                    );
+                    if (result.success) {
+                      alert('保存が完了しました');
+                    } else {
+                      throw new Error(result.error);
+                    }
+                  } catch (error) {
+                    console.error('保存に失敗しました:', error);
+                    alert('保存に失敗しました');
+                  }
                   setShowSaveDialog(false);
                   setCompanyTitle('');
                 }}
