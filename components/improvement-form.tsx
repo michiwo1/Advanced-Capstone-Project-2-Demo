@@ -9,8 +9,8 @@ export function ImprovementForm({ updatedResume }: { updatedResume: string }) {
   const [isLoading, setIsLoading] = useState(false)
 
   async function handleSubmit(formData: FormData) {
-    setIsLoading(true)
     try {
+      setIsLoading(true)
       formData.append('resume', updatedResume)
       const result = await improveResume(formData)
       setAdvice(result)
@@ -50,7 +50,11 @@ export function ImprovementForm({ updatedResume }: { updatedResume: string }) {
 
       <div className="fixed bottom-0 left-0 right-0 bg-white border-t shadow-lg p-4">
         <div className="container mx-auto">
-          <form action={handleSubmit} className="flex gap-4">
+          <form onSubmit={async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.currentTarget);
+            await handleSubmit(formData);
+          }} className="flex gap-4">
             <input
               type="text"
               name="instruction"
@@ -63,7 +67,7 @@ export function ImprovementForm({ updatedResume }: { updatedResume: string }) {
               disabled={isLoading}
               className="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors disabled:bg-blue-300 min-w-[100px]"
             >
-              {isLoading ? '分析中...' : '送信'}
+              {isLoading ? '改善中...' : '送信'}
             </button>
           </form>
         </div>
