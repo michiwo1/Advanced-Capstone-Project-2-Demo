@@ -6,7 +6,6 @@ import { analyzeResume } from '@/app/actions/analyze-resume'
 import { saveResumeHistory } from '@/app/actions/save-resume-history'
 import ReactMarkdown from 'react-markdown'
 import * as ReactDOM from 'react-dom/client'
-import { ArrowPathIcon, PencilSquareIcon, DocumentArrowDownIcon, BookmarkIcon } from '@heroicons/react/24/outline'
 
 // Loading button component with form status
 function SubmitButton() {
@@ -161,13 +160,6 @@ export function ResumeAnalysisForm() {
             {result && (
               <>
                 <button
-                  onClick={() => handleSubmit(new FormData())}
-                  className="p-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-colors"
-                  title="さらに改善"
-                >
-                  <ArrowPathIcon className="h-6 w-6" />
-                </button>
-                <button
                   onClick={() => {
                     if (isEditing) {
                       setResult(editableResult)
@@ -176,24 +168,21 @@ export function ResumeAnalysisForm() {
                       setIsEditing(true)
                     }
                   }}
-                  className="p-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors"
-                  title={isEditing ? '編集を完了' : '編集する'}
+                  className="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors"
                 >
-                  <PencilSquareIcon className="h-6 w-6" />
+                  {isEditing ? '完了' : '編集'}
                 </button>
                 <button
                   onClick={handlePdfExport}
-                  className="p-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors"
-                  title="PDFで出力"
+                  className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors"
                 >
-                  <DocumentArrowDownIcon className="h-6 w-6" />
+                  PDF出力
                 </button>
                 <button
                   onClick={() => setIsModalOpen(true)}
-                  className="p-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
-                  title="結果を保存"
+                  className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
                 >
-                  <BookmarkIcon className="h-6 w-6" />
+                  保存
                 </button>
               </>
             )}
