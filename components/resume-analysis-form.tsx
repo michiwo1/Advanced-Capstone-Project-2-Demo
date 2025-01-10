@@ -89,7 +89,6 @@ export function ResumeAnalysisForm() {
         maxWidth: '800px',
         margin: '0 auto'
       }}>
-        <h1 style={{marginBottom: '20px'}}>AI分析結果</h1>
         <div className="prose prose-sm max-w-none">
           <ReactMarkdown>{isEditing ? editableResult : result}</ReactMarkdown>
         </div>
