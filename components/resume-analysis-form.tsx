@@ -65,6 +65,8 @@ function AnalysisResult({ result }: { result: string | null }) {
 
 export function ResumeAnalysisForm() {
   const [result, setResult] = useState<string | null>(null)
+  const [editableResult, setEditableResult] = useState<string | null>(null)
+  const [isEditing, setIsEditing] = useState(false)
   const [resumeId, setResumeId] = useState<string | null>(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [title, setTitle] = useState('')
@@ -89,7 +91,7 @@ export function ResumeAnalysisForm() {
       }}>
         <h1 style={{marginBottom: '20px'}}>AI分析結果</h1>
         <div className="prose prose-sm max-w-none">
-          <ReactMarkdown>{result}</ReactMarkdown>
+          <ReactMarkdown>{isEditing ? editableResult : result}</ReactMarkdown>
         </div>
       </div>
     );
@@ -113,16 +115,19 @@ export function ResumeAnalysisForm() {
 
   async function handleSubmit(formData: FormData) {
     setResult(null)
+    setEditableResult(null)
     setResumeId(null)
     try {
       const response = await analyzeResume(formData)
       setResult(response.message)
+      setEditableResult(response.message)
       if (response.resumeId) {
         setResumeId(response.resumeId)
       }
     } catch (error) {
       console.error('Analysis failed:', error)
       setResult('分析中にエラーが発生しました。')
+      setEditableResult('分析中にエラーが発生しました。')
     }
   }
 
@@ -133,7 +138,7 @@ export function ResumeAnalysisForm() {
     }
 
     try {
-      const response = await saveResumeHistory(resumeId, title, result)
+      const response = await saveResumeHistory(resumeId, title, isEditing ? editableResult! : result)
       if (response.success) {
         setIsModalOpen(false)
         setTitle('')
@@ -156,6 +161,19 @@ export function ResumeAnalysisForm() {
             {result && (
               <>
                 <button
+                  onClick={() => {
+                    if (isEditing) {
+                      setResult(editableResult)
+                      setIsEditing(false)
+                    } else {
+                      setIsEditing(true)
+                    }
+                  }}
+                  className="px-6 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors"
+                >
+                  {isEditing ? '編集を完了' : '編集する'}
+                </button>
+                <button
                   onClick={handlePdfExport}
                   className="px-6 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors"
                 >
@@ -172,7 +190,15 @@ export function ResumeAnalysisForm() {
           </div>
         </div>
         <div className="min-h-[600px] whitespace-pre-wrap prose prose-sm max-w-none">
-          <AnalysisResult result={result} />
+          {isEditing ? (
+            <textarea
+              value={editableResult || ''}
+              onChange={(e) => setEditableResult(e.target.value)}
+              className="w-full h-full min-h-[600px] p-4 border rounded-lg resize-none focus:ring-2 focus:ring-blue-500"
+            />
+          ) : (
+            <AnalysisResult result={result} />
+          )}
         </div>
       </div>
 
