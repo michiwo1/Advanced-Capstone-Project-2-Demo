@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { formatDistanceToNow } from "date-fns";
 import { ja } from "date-fns/locale";
 import Link from "next/link";
+import ReactMarkdown from "react-markdown";
 
 async function getDiagnosisResults() {
   const results = await prisma.diagnosisResult.findMany({
@@ -39,7 +40,9 @@ export default async function DiagnosisPage() {
                     )}
                   </div>
                   <p className="text-gray-600 mb-4">マッチ率: {result.matchRate}%</p>
-                  <p className="text-gray-700 whitespace-pre-wrap">{result.reason}</p>
+                  <div className="prose max-w-none">
+                    <ReactMarkdown className="text-gray-700">{result.reason}</ReactMarkdown>
+                  </div>
                 </div>
                 <div className="text-sm text-gray-500">
                   {formatDistanceToNow(result.createdAt, { addSuffix: true, locale: ja })}
