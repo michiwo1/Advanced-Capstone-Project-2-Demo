@@ -22,5 +22,5 @@ export async function analyzeResume(formData: FormData) {
   const result = await analyzeTextWithGemini8(resume.originalResume, formData)
   
   revalidatePath('/resume')
-  return { message: result }
+  return { message: result, resumeId: resume.id }
 } 
