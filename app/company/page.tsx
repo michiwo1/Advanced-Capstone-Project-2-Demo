@@ -14,6 +14,7 @@ export default function CompanyPage() {
   const [analysisResult, setAnalysisResult] = useState<AnalysisResult | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [showSaveDialog, setShowSaveDialog] = useState(false);
+  const [companyTitle, setCompanyTitle] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -117,6 +118,8 @@ export default function CompanyPage() {
               <input
                 type="text"
                 id="companyTitle"
+                value={companyTitle}
+                onChange={(e) => setCompanyTitle(e.target.value)}
                 className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 placeholder="企業名を入力してください"
               />
@@ -125,16 +128,25 @@ export default function CompanyPage() {
             <div className="flex justify-end space-x-2">
               <button
                 className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
-                onClick={() => setShowSaveDialog(false)}
+                onClick={() => {
+                  setShowSaveDialog(false);
+                  setCompanyTitle('');
+                }}
               >
                 キャンセル
               </button>
               <button
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                disabled={!companyTitle.trim()}
+                className={`px-4 py-2 rounded-lg transition-colors ${
+                  !companyTitle.trim()
+                    ? 'bg-blue-400 cursor-not-allowed text-white'
+                    : 'bg-blue-600 hover:bg-blue-700 text-white'
+                }`}
                 onClick={() => {
                   // TODO: 保存の実装
                   alert('保存機能は現在開発中です');
                   setShowSaveDialog(false);
+                  setCompanyTitle('');
                 }}
               >
                 保存する
