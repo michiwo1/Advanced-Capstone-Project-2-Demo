@@ -2,13 +2,10 @@
 
 import { useState } from 'react';
 import { analyzeCompany } from '@/app/actions/analyze-company';
-import ReactMarkdown from 'react-markdown';
 
 interface AnalysisResult {
   matchRate: number;
   reasons: string;
-  improvements: string[];
-  outlook: string;
 }
 
 export default function CompanyPage() {
@@ -94,22 +91,9 @@ export default function CompanyPage() {
               </div>
             </div>
             <div className="prose max-w-none">
-              <ReactMarkdown>{analysisResult.reasons}</ReactMarkdown>
+              <div className="text-gray-700 whitespace-pre-wrap">{analysisResult.reasons}</div>
             </div>
           </div>
-          {analysisResult.improvements && analysisResult.improvements.length > 0 && (
-            <div className="p-6 bg-gray-50">
-              <h4 className="font-semibold mb-3">改善ポイント</h4>
-              <ul className="space-y-2">
-                {analysisResult.improvements.map((improvement, index) => (
-                  <li key={index} className="flex items-start">
-                    <span className="text-blue-500 mr-2">•</span>
-                    {improvement}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
         </div>
       )}
     </div>

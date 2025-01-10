@@ -32,8 +32,8 @@ export default async function MarketPage() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <Card className="mb-8">
           <CardHeader>
-            <CardTitle>業界別市場動向</CardTitle>
-            <CardDescription>各業界の求人動向を100点満点で表示</CardDescription>
+            <CardTitle>あなたのスキル評価</CardTitle>
+            <CardDescription>各スキルを100点満点で表示</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="w-full max-w-xl mx-auto">
