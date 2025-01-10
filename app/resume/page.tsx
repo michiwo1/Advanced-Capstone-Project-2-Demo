@@ -1,6 +1,9 @@
 import * as React from 'react'
+import { getResume } from '../actions/get-resume'
 
 export default async function ResumePage() {
+  const resume = await getResume()
+
   return (
     <div className="container mx-auto py-8">
       <h1 className="text-4xl font-bold mb-8">レジュメ改善</h1>
@@ -9,8 +12,8 @@ export default async function ResumePage() {
         {/* 左側：履歴書表示エリア */}
         <div className="border rounded-lg p-6 bg-white shadow">
           <h2 className="text-2xl font-semibold mb-4">あなたの履歴書</h2>
-          <div className="min-h-[600px]">
-            {/* ここに履歴書のコンテンツが表示されます */}
+          <div className="min-h-[600px] whitespace-pre-wrap">
+            {resume ? resume.originalResume : 'レジュメがまだ登録されていません。'}
           </div>
         </div>
 
