@@ -13,6 +13,18 @@ export function ImprovementForm({ updatedResume }: { updatedResume: string }) {
   const [title, setTitle] = useState('')
   const [saveError, setSaveError] = useState<string | null>(null)
   const [resumeId, setResumeId] = useState<string | null>(null)
+  const [isEditing, setIsEditing] = useState(false)
+  const [editableAdvice, setEditableAdvice] = useState<string>('')
+
+  const handleEditToggle = () => {
+    if (isEditing) {
+      setAdvice(editableAdvice)
+      setIsEditing(false)
+    } else {
+      setEditableAdvice(advice || '')
+      setIsEditing(true)
+    }
+  }
 
   const handlePdfExport = async () => {
     if (!advice) return;
@@ -89,6 +101,23 @@ export function ImprovementForm({ updatedResume }: { updatedResume: string }) {
     }
   }
 
+  // Loading skeleton for improvement result
+  function LoadingSkeleton() {
+    return (
+      <div className="animate-pulse space-y-4">
+        <div className="h-4 bg-gray-200 rounded w-3/4"></div>
+        <div className="h-4 bg-gray-200 rounded w-1/2"></div>
+        <div className="h-4 bg-gray-200 rounded w-5/6"></div>
+        <div className="h-4 bg-gray-200 rounded w-2/3"></div>
+        <div className="space-y-3 mt-8">
+          <div className="h-3 bg-gray-200 rounded w-full"></div>
+          <div className="h-3 bg-gray-200 rounded w-full"></div>
+          <div className="h-3 bg-gray-200 rounded w-3/4"></div>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <>
       <div className="border rounded-lg p-6 bg-white shadow">
@@ -96,6 +125,12 @@ export function ImprovementForm({ updatedResume }: { updatedResume: string }) {
           <h2 className="text-2xl font-semibold">改善のアドバイス</h2>
           {advice && (
             <div className="flex gap-2">
+              <button
+                onClick={handleEditToggle}
+                className="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors"
+              >
+                {isEditing ? '完了' : '編集'}
+              </button>
               <button
                 onClick={handlePdfExport}
                 className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors"
@@ -115,8 +150,14 @@ export function ImprovementForm({ updatedResume }: { updatedResume: string }) {
           {isLoading ? (
             <div className="flex flex-col items-center justify-center h-full space-y-4">
               <div className="animate-spin h-8 w-8 border-4 border-blue-500 border-t-transparent rounded-full"></div>
-              <div className="text-gray-500 animate-pulse">AIが履歴書を分析しています...</div>
+              <div className="text-gray-500 animate-pulse">AIが履歴書を改善しています...</div>
             </div>
+          ) : isEditing ? (
+            <textarea
+              value={editableAdvice}
+              onChange={(e) => setEditableAdvice(e.target.value)}
+              className="w-full h-full min-h-[600px] p-4 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
           ) : (
             <ReactMarkdown
               components={{
