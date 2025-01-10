@@ -4,6 +4,7 @@ import { formatDistanceToNow } from "date-fns";
 import { ja } from "date-fns/locale";
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
+import { Progress } from "@/components/ui/progress";
 
 async function getDiagnosisResults() {
   const results = await prisma.diagnosisResult.findMany({
@@ -19,14 +20,14 @@ export default async function DiagnosisPage() {
 
   return (
     <div className="container mx-auto py-12 px-4">
-      <div className="flex items-center justify-between mb-8 bg-gradient-to-r from-blue-50 to-white p-6 rounded-xl shadow-sm">
+      <div className="flex items-center justify-between mb-8 bg-gradient-to-r p-6 rounded-xl">
         <div>
           <h1 className="text-3xl font-bold text-gray-800 mb-2">診断結果一覧</h1>
           <p className="text-gray-600">あなたと企業とのマッチング診断結果をご確認いただけます</p>
         </div>
         <Link
           href="/company"
-          className="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+          className="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all duration-200"
         >
           新規企業診断
         </Link>
@@ -50,9 +51,13 @@ export default async function DiagnosisPage() {
                       </Link>
                     )}
                   </div>
-                  <p className="text-lg font-medium text-blue-600 mb-4">
-                    マッチ率: {result.matchRate}%
-                  </p>
+                  <div className="mb-6">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-gray-700 font-medium">マッチ率</span>
+                      <span className="text-lg font-bold text-blue-600">{result.matchRate}%</span>
+                    </div>
+                    <Progress value={result.matchRate} className="h-2" />
+                  </div>
                   <div className="prose max-w-none">
                     <ReactMarkdown className="text-gray-700 leading-relaxed">{result.reason}</ReactMarkdown>
                   </div>
