@@ -88,7 +88,7 @@ export function ResumeAnalysisForm() {
               onClick={() => {/* TODO: 保存機能の実装 */}}
               className="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
             >
-              分析結果を保存
+              結果を保存
             </button>
           </div>
         )}
