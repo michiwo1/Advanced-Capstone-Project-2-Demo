@@ -19,7 +19,15 @@ export default async function DiagnosisPage() {
 
   return (
     <div className="container mx-auto py-8">
-      <h1 className="text-2xl font-bold mb-6">診断結果一覧</h1>
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-2xl font-bold">診断結果一覧</h1>
+        <Link
+          href="/company"
+          className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+        >
+          企業診断
+        </Link>
+      </div>
       <div className="grid gap-4">
         {results.map((result) => (
           <Card key={result.id}>
