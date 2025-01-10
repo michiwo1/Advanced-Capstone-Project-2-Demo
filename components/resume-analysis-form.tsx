@@ -48,7 +48,7 @@ export function ResumeAnalysisForm() {
             disabled={isAnalyzing}
             className="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors disabled:bg-blue-300"
           >
-            {isAnalyzing ? '分析中...' : '送信'}
+            {isAnalyzing ? '改善中...' : '送信'}
           </button>
         </form>
       </div>
