@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { analyzeCompany } from '@/app/actions/analyze-company';
 import { saveDiagnosis } from '@/app/actions/save-diagnosis';
+import Link from 'next/link';
 
 interface AnalysisResult {
   matchRate: number;
@@ -39,6 +40,12 @@ export default function CompanyPage() {
           <h2 className="text-3xl font-bold tracking-tight">企業分析</h2>
           <p className="text-muted-foreground mt-2">企業情報を入力して、あなたとの相性を分析します</p>
         </div>
+        <Link
+          href="/diagnosis"
+          className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+        >
+          診断結果一覧
+        </Link>
       </div>
 
       <div className="bg-white rounded-lg shadow-sm border p-6">
