@@ -17,6 +17,7 @@ export default function CompanyPage() {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [showSaveDialog, setShowSaveDialog] = useState(false);
   const [companyTitle, setCompanyTitle] = useState('');
+  const [companyLink, setCompanyLink] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -132,6 +133,19 @@ export default function CompanyPage() {
                 placeholder="企業名を入力してください"
               />
             </div>
+            <div className="mb-4">
+              <label htmlFor="companyLink" className="block text-sm font-medium text-gray-700 mb-2">
+                企業リンク
+              </label>
+              <input
+                type="url"
+                id="companyLink"
+                value={companyLink}
+                onChange={(e) => setCompanyLink(e.target.value)}
+                className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="企業のウェブサイトURLを入力してください"
+              />
+            </div>
             <p className="text-gray-600 mb-6">この企業の分析結果を保存しますか？</p>
             <div className="flex justify-end space-x-2">
               <button
@@ -139,6 +153,7 @@ export default function CompanyPage() {
                 onClick={() => {
                   setShowSaveDialog(false);
                   setCompanyTitle('');
+                  setCompanyLink('');
                 }}
               >
                 キャンセル
@@ -156,7 +171,8 @@ export default function CompanyPage() {
                     const result = await saveDiagnosis(
                       companyTitle,
                       analysisResult.matchRate,
-                      analysisResult.reasons
+                      analysisResult.reasons,
+                      companyLink
                     );
                     if (result.success) {
                       alert('保存が完了しました');
@@ -169,6 +185,7 @@ export default function CompanyPage() {
                   }
                   setShowSaveDialog(false);
                   setCompanyTitle('');
+                  setCompanyLink('');
                 }}
               >
                 保存する

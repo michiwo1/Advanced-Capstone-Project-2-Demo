@@ -2,13 +2,14 @@
 
 import { prisma } from '@/lib/prisma'
 
-export async function saveDiagnosis(title: string, matchRate: number, reason: string) {
+export async function saveDiagnosis(title: string, matchRate: number, reason: string, link?: string) {
   try {
     const result = await prisma.diagnosisResult.create({
       data: {
         title,
         matchRate,
         reason,
+        link,
       },
     })
     return { success: true, data: result }
