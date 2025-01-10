@@ -5,6 +5,9 @@ import { analyzeTextWithGemini8 } from '@/lib/gemini'
 import { getResume } from './get-resume'
 
 export async function analyzeResume(formData: FormData) {
+  // Add a small delay to make loading state noticeable
+  await new Promise(resolve => setTimeout(resolve, 1000))
+
   const instruction = formData.get('instruction')
   
   if (!instruction || typeof instruction !== 'string') {
