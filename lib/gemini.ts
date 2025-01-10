@@ -251,12 +251,14 @@ ${text}
 
 export async function analyzeTextWithGemini8(text: string, formData: FormData) {
   const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
-  
   const fullPrompt = `
 あなたは優秀なレジュメの改善アドバイザーです。以下の指示に従ってレジュメを改善してください。
 
+注意点:
+- レジュメの改善されてレジュメの内容だけを出力してください。
+
 【指示】
-${formData}
+${formData.get('instruction')}
 
 【レジュメ本文】
 ${text}
