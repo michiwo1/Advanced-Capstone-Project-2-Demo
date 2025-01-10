@@ -93,6 +93,17 @@ export default function CompanyPage() {
             <div className="prose max-w-none">
               <div className="text-gray-700 whitespace-pre-wrap">{analysisResult.reasons}</div>
             </div>
+            <div className="flex justify-end mt-4">
+              <button
+                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                onClick={() => {
+                  // TODO: 保存機能の実装
+                  alert('保存機能は現在開発中です');
+                }}
+              >
+                結果を保存
+              </button>
+            </div>
           </div>
         </div>
       )}
