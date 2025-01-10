@@ -82,6 +82,16 @@ export function ResumeAnalysisForm() {
         <div className="min-h-[600px] whitespace-pre-wrap prose prose-sm max-w-none">
           <AnalysisResult result={result} />
         </div>
+        {result && (
+          <div className="mt-4 flex justify-end">
+            <button
+              onClick={() => {/* TODO: 保存機能の実装 */}}
+              className="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+            >
+              分析結果を保存
+            </button>
+          </div>
+        )}
       </div>
 
       <div className="fixed bottom-0 left-0 right-0 bg-white border-t shadow-lg p-4">
