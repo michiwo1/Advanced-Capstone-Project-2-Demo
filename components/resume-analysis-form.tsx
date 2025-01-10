@@ -5,6 +5,7 @@ import { useFormStatus } from 'react-dom'
 import { analyzeResume } from '@/app/actions/analyze-resume'
 import { saveResumeHistory } from '@/app/actions/save-resume-history'
 import ReactMarkdown from 'react-markdown'
+import Link from 'next/link'
 
 // Loading button component with form status
 function SubmitButton() {
@@ -108,7 +109,15 @@ export function ResumeAnalysisForm() {
   return (
     <>
       <div className="border rounded-lg p-6 bg-white shadow">
-        <h2 className="text-2xl font-semibold mb-4">AI分析結果</h2>
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-2xl font-semibold">AI分析結果</h2>
+          <Link
+            href="/resume-history"
+            className="text-blue-500 hover:text-blue-600 transition-colors"
+          >
+            保存済み分析履歴を見る →
+          </Link>
+        </div>
         <div className="min-h-[600px] whitespace-pre-wrap prose prose-sm max-w-none">
           <AnalysisResult result={result} />
         </div>
