@@ -13,6 +13,7 @@ export default function CompanyPage() {
   const [companyInfo, setCompanyInfo] = useState('');
   const [analysisResult, setAnalysisResult] = useState<AnalysisResult | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [showSaveDialog, setShowSaveDialog] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -96,12 +97,36 @@ export default function CompanyPage() {
             <div className="flex justify-end mt-4">
               <button
                 className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-                onClick={() => {
-                  // TODO: 保存機能の実装
-                  alert('保存機能は現在開発中です');
-                }}
+                onClick={() => setShowSaveDialog(true)}
               >
                 結果を保存
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {showSaveDialog && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+            <h3 className="text-xl font-bold mb-4">分析結果の保存</h3>
+            <p className="text-gray-600 mb-6">この企業の分析結果を保存しますか？</p>
+            <div className="flex justify-end space-x-2">
+              <button
+                className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
+                onClick={() => setShowSaveDialog(false)}
+              >
+                キャンセル
+              </button>
+              <button
+                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                onClick={() => {
+                  // TODO: 保存の実装
+                  alert('保存機能は現在開発中です');
+                  setShowSaveDialog(false);
+                }}
+              >
+                保存する
               </button>
             </div>
           </div>
