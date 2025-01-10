@@ -1,6 +1,8 @@
 'use server'
 
 import { revalidatePath } from 'next/cache'
+import { analyzeTextWithGemini8 } from '@/lib/gemini'
+import { getResume } from './get-resume'
 
 export async function analyzeResume(formData: FormData) {
   const instruction = formData.get('instruction')
@@ -9,9 +11,13 @@ export async function analyzeResume(formData: FormData) {
     throw new Error('指示を入力してください')
   }
 
-  // TODO: AIモデルとの連携処理を実装
-  console.log('AI指示:', instruction)
+  const resume = await getResume()
+  if (!resume) {
+    throw new Error('レジュメが見つかりません')
+  }
 
+  const result = await analyzeTextWithGemini8(resume.originalResume, formData)
+  
   revalidatePath('/resume')
-  return { message: '指示を受け付けました' }
+  return { message: result }
 } 

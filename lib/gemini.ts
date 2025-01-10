@@ -247,3 +247,29 @@ ${text}
     throw error;
   }
 } 
+
+
+export async function analyzeTextWithGemini8(text: string, formData: FormData) {
+  const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
+  
+  const fullPrompt = `
+あなたは優秀なレジュメの改善アドバイザーです。以下の指示に従ってレジュメを改善してください。
+
+【指示】
+${formData}
+
+【レジュメ本文】
+${text}
+
+
+`;
+
+  try {
+    const result = await model.generateContent(fullPrompt);
+    const response = await result.response;
+    return response.text();
+  } catch (error) {
+    console.error('Failed to get Gemini response:', error);
+    throw error;
+  }
+} 
