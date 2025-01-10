@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import ReactMarkdown from 'react-markdown'
+import * as ReactDOM from 'react-dom/client'
 import { improveResume } from '@/app/actions/improve-resume'
 import { saveResumeHistory } from '@/app/actions/save-resume-history'
 
@@ -12,6 +13,45 @@ export function ImprovementForm({ updatedResume }: { updatedResume: string }) {
   const [title, setTitle] = useState('')
   const [saveError, setSaveError] = useState<string | null>(null)
   const [resumeId, setResumeId] = useState<string | null>(null)
+
+  const handlePdfExport = async () => {
+    if (!advice) return;
+    
+    // Dynamic import of html2pdf.js
+    const html2pdf = (await import('html2pdf.js')).default;
+    
+    // Create a temporary div and render markdown content
+    const tempDiv = document.createElement('div');
+    const root = ReactDOM.createRoot(tempDiv);
+    root.render(
+      <div style={{
+        padding: '20px',
+        fontFamily: 'sans-serif',
+        maxWidth: '800px',
+        margin: '0 auto'
+      }}>
+        <div className="prose prose-sm max-w-none">
+          <ReactMarkdown>{advice}</ReactMarkdown>
+        </div>
+      </div>
+    );
+
+    // Wait for React to finish rendering
+    await new Promise(resolve => setTimeout(resolve, 100));
+    
+    const opt = {
+      margin: 1,
+      filename: '履歴書改善アドバイス.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+    };
+
+    html2pdf().set(opt).from(tempDiv).save().then(() => {
+      // Cleanup
+      root.unmount();
+    });
+  };
 
   async function handleSubmit(formData: FormData) {
     try {
@@ -55,12 +95,20 @@ export function ImprovementForm({ updatedResume }: { updatedResume: string }) {
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-2xl font-semibold">改善のアドバイス</h2>
           {advice && (
-            <button
-              onClick={() => setIsModalOpen(true)}
-              className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
-            >
-              保存
-            </button>
+            <div className="flex gap-2">
+              <button
+                onClick={handlePdfExport}
+                className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors"
+              >
+                PDF出力
+              </button>
+              <button
+                onClick={() => setIsModalOpen(true)}
+                className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+              >
+                保存
+              </button>
+            </div>
           )}
         </div>
         <div className="min-h-[600px] whitespace-pre-wrap prose prose-sm max-w-none">
