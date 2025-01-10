@@ -73,5 +73,6 @@ model DiagnosisResult {
   title       String    @db.VarChar(255)
   matchRate   Int
   reason      String    @db.Text
+  link        String?   @db.Text
   createdAt   DateTime  @default(now())
 }
