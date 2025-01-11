@@ -15,7 +15,7 @@ export function VantaBackground() {
   useEffect(() => {
     if (!vantaEffect && vantaRef.current && typeof window !== 'undefined' && window.VANTA) {
       setVantaEffect(
-        window.VANTA.DOTS({
+        window.VANTA.NET({
           el: vantaRef.current,
           mouseControls: true,
           touchControls: true,
@@ -24,12 +24,17 @@ export function VantaBackground() {
           minWidth: 200.00,
           scale: 1.00,
           scaleMobile: 1.00,
-          backgroundColor: 0x222222,
-          color: 0xff8820,
-          color2: 0xff8820,
-          size: 3,
-          spacing: 35,
-          showLines: true
+          color: 0x0066ff,
+          backgroundColor: 0x000000,
+          backgroundAlpha: 0,
+          points: 10,
+          maxDistance: 22,
+          spacing: 19,
+          showDots: true,
+          mouseEase: true,
+          mouseFactor: 0.4,
+          mouseSpeed: 1.5,
+          speed: 1.5
         })
       );
     }
