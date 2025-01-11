@@ -22,7 +22,7 @@ ChartJS.register(
 );
 
 // サンプルデータ - 後で実際のデータに置き換え
-const rawData = [380, 420, 510, 320, 750, 450, 490, 300, 610, 480, 520, 430, 670, 550];
+const rawData = [380, 420, 510, 320, 750, 450, 490, 300, 610, 480, 520, 430, 670, 550, 20];
 const bins = [300, 400, 500, 600, 700, 800];
 
 function binData(data: number[], binEdges: number[]) {
@@ -39,11 +39,17 @@ function binData(data: number[], binEdges: number[]) {
 }
 
 const labels = [
+  "200-299万",
   "300-399万",
   "400-499万",
   "500-599万",
   "600-699万",
-  "700-799万"
+  "700-799万",
+  "800-899万",
+  "900-999万",
+  "1000-1099万",
+  "1100-1199万",
+  "1200-1299万",
 ];
 
 export function SalaryChart() {
@@ -75,7 +81,7 @@ export function SalaryChart() {
         beginAtZero: true,
         title: {
           display: true,
-          text: '人数'
+          text: '割合'
         }
       },
       x: {
