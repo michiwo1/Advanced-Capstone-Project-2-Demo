@@ -13,6 +13,15 @@ export function Navbar() {
       <div className="container mx-auto px-4">
         <div className="flex h-16 items-center space-x-4">
           <Link
+            href="/"
+            className={cn(
+              "text-sm font-medium transition-colors hover:text-primary",
+              pathname === "/" ? "text-primary" : "text-muted-foreground"
+            )}
+          >
+            アップロード
+          </Link>
+          <Link
             href="/jobs"
             className={cn(
               "text-sm font-medium transition-colors hover:text-primary",
