@@ -60,36 +60,37 @@ export function ResumeUploadForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-xl mx-auto space-y-6">      
-      <div className="space-y-4">
+    <form onSubmit={handleSubmit} className="max-w-[650px] mx-auto space-y-8">      
+      <div className="space-y-6">
         <div
           {...getRootProps()}
           className={cn(
-            "border-2 border-dashed rounded-lg p-8 text-center hover:bg-accent/50 transition-colors cursor-pointer",
-            isDragActive && "border-primary bg-accent",
+            "border-2 border-dotted rounded-xl p-10 text-center transition-all cursor-pointer",
+            "hover:border-blue-400 hover:bg-blue-50/50",
+            isDragActive ? "border-blue-500 bg-blue-50/70" : "border-blue-300",
             file && "border-green-500 bg-green-50"
           )}
         >
           <input {...getInputProps()} />
-          <div className="flex flex-col items-center gap-4">
+          <div className="flex flex-col items-center gap-6">
             {file ? (
               <>
-                <File className="h-10 w-10 text-green-500" />
+                <File className="h-12 w-12 text-green-500" />
                 <div>
-                  <p className="text-sm font-medium">{file.name}</p>
-                  <p className="text-xs text-muted-foreground">
+                  <p className="text-base font-semibold">{file.name}</p>
+                  <p className="text-sm text-muted-foreground mt-1">
                     {(file.size / 1024 / 1024).toFixed(2)} MB
                   </p>
                 </div>
               </>
             ) : (
               <>
-                <Cloud className="h-10 w-10 text-muted-foreground" />
+                <Cloud className="h-12 w-12 text-blue-400" />
                 <div>
-                  <p className="text-lg font-medium">
+                  <p className="text-xl font-semibold text-gray-800">
                     ここにPDFファイルをドラッグ&ドロップ
                   </p>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-base text-gray-600 mt-2">
                     または、クリックしてファイルを選択
                   </p>
                 </div>
@@ -102,17 +103,32 @@ export function ResumeUploadForm() {
       <Button
         type="submit"
         disabled={loading || !file}
-        className="w-full"
+        className={cn(
+          "w-full py-6 text-lg font-medium rounded-lg shadow-md transition-all",
+          "bg-blue-500 hover:bg-blue-600 text-white",
+          "disabled:bg-gray-400 disabled:cursor-not-allowed"
+        )}
       >
         {loading ? (
           <>
-            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+            <Loader2 className="mr-3 h-5 w-5 animate-spin" />
             分析中...
           </>
         ) : (
           'アップロード'
         )}
       </Button>
+
+      {message && (
+        <Alert variant={message.type === 'success' ? 'default' : 'destructive'} className="animate-in fade-in-50">
+          <AlertTitle>
+            {message.type === 'success' ? '成功' : 'エラー'}
+          </AlertTitle>
+          <AlertDescription>
+            {message.text}
+          </AlertDescription>
+        </Alert>
+      )}
     </form>
   )
 }
