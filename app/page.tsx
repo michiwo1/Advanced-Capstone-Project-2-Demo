@@ -1,10 +1,12 @@
 import { ResumeUploadForm } from "@/components/resume-upload-form";
-import { VantaBackground } from "@/components/vanta-background";
+import { BackgroundParticles } from "@/components/background-particles";
 
 export default function HomePage() {
   return (
     <div className="min-h-screen relative">
-      <VantaBackground />
+      <div className="absolute inset-0 z-0">
+        <BackgroundParticles />
+      </div>
       <div className="relative z-10 min-h-screen bg-gradient-to-br from-blue-50/70 to-indigo-100/70 flex items-center justify-center px-4 sm:px-6 lg:px-8">
         <div className="max-w-xl w-full space-y-10">
           <div className="space-y-6">
