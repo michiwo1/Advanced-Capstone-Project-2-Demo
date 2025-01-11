@@ -32,7 +32,7 @@ export default function RootLayout({
         <Script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.net.min.js" strategy="beforeInteractive" />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gradient-to-b from-white via-blue-400/60 to-indigo-500/80 min-h-screen`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[#FAFAFA] min-h-screen`}
       >
         <NavigationWrapper />
         {children}
