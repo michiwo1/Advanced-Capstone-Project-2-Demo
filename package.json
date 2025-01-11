@@ -36,7 +36,9 @@
     "react-tsparticles": "^2.12.2",
     "tailwind-merge": "^2.6.0",
     "tailwindcss-animate": "^1.0.7",
-    "tsparticles-slim": "^2.12.0"
+    "three": "^0.172.0",
+    "tsparticles-slim": "^2.12.0",
+    "vanta": "^0.5.24"
   },
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.16",
@@ -44,6 +46,7 @@
     "@types/pdf-parse": "^1.1.4",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/three": "^0.172.0",
     "eslint": "^8",
     "eslint-config-next": "14.2.16",
     "postcss": "^8",
