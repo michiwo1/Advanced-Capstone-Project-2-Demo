@@ -2,11 +2,8 @@ import { GoogleGenerativeAI } from '@google/generative-ai';
 
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_GEMINI_API_KEY!);
 
-// モデル名の型定義
-type GeminiModel = 'gemini-pro';
-
-export async function analyzeTextWithGemini(text: string, modelName: GeminiModel) {
-  const model = genAI.getGenerativeModel({ model: modelName });
+export async function analyzeTextWithGemini(text: string) {
+  const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
   
   const fullPrompt = `
 以下の形式でJSONデータを生成してください。このJSONは、求人検索条件を保存するためのものです。各キーとその値の説明は以下の通りです。
@@ -64,8 +61,8 @@ ${text}`;
   }
 } 
 
-export async function analyzeTextWithGemini2(text: string, modelName: GeminiModel = DEFAULT_MODEL) {
-  const model = genAI.getGenerativeModel({ model: modelName });
+export async function analyzeTextWithGemini2(text: string) {
+  const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
   
   const fullPrompt = `
 以下の私のレジュメを解析し、次のキャリアステップに関する提案をしてください。また、私のスキルに基づいて適切な職種や役割をいくつか挙げてください。300文字以内で出力してください。
@@ -83,8 +80,8 @@ ${text}`;
   }
 } 
 
-export async function analyzeTextWithGemini3(text: string, modelName: GeminiModel = DEFAULT_MODEL) {
-  const model = genAI.getGenerativeModel({ model: modelName });
+export async function analyzeTextWithGemini3(text: string) {
+  const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
   
   const fullPrompt = `
 以下のレジュメを解析し、現在のスキルや職歴を基に不足しているスキル6つ以上を特定してください。また、次のキャリアステップに必要なスキルと、それを補うための学習方法やリソース（オンラインコースや書籍など）も提案してください。300文字以内で出力してください。
@@ -102,8 +99,8 @@ ${text}`;
   }
 } 
 
-export async function analyzeTextWithGemini4(text: string, modelName: GeminiModel = DEFAULT_MODEL) {
-  const model = genAI.getGenerativeModel({ model: modelName });
+export async function analyzeTextWithGemini4(text: string) {
+  const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
   
   const fullPrompt = `
 「この人のキャリアステップに必要な6つのスキルを以下の形式で、スキル名と理由を辞書型で出力してください。理由には各スキルが必要な背景や利点を簡潔に記載してください。
@@ -146,8 +143,8 @@ ${text}`;
   }
 } 
 
-export async function analyzeTextWithGemini5(text: string, modelName: GeminiModel = DEFAULT_MODEL) {
-  const model = genAI.getGenerativeModel({ model: modelName });
+export async function analyzeTextWithGemini5(text: string) {
+  const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
   
   const fullPrompt = `
 以下のレジュメから職歴やスキルに基づいて年収や競争力を算出してください。300文字以内で出力してください。
@@ -165,8 +162,8 @@ ${text}`;
   }
 } 
 
-export async function analyzeTextWithGemini6(text: string, modelName: GeminiModel = DEFAULT_MODEL) {
-  const model = genAI.getGenerativeModel({ model: modelName });
+export async function analyzeTextWithGemini6(text: string) {
+  const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
   
   const fullPrompt = `
 指示:
@@ -211,8 +208,8 @@ ${text}`;
   }
 } 
 
-export async function analyzeTextWithGemini7(text: string, company: string, modelName: GeminiModel = DEFAULT_MODEL) {
-  const model = genAI.getGenerativeModel({ model: modelName });
+export async function analyzeTextWithGemini7(text: string, company: string) {
+  const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
   
   const fullPrompt = `
 あなたは採用マッチングシステムとして働いてください。
@@ -252,8 +249,8 @@ ${text}
 } 
 
 
-export async function analyzeTextWithGemini8(text: string, formData: FormData, modelName: GeminiModel = DEFAULT_MODEL) {
-  const model = genAI.getGenerativeModel({ model: modelName });
+export async function analyzeTextWithGemini8(text: string, formData: FormData) {
+  const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
   const fullPrompt = `
 あなたは優秀なレジュメの改善アドバイザーです。以下の指示に従ってレジュメを改善してください。
 
@@ -279,8 +276,8 @@ ${text}
   }
 } 
 
-export async function analyzeTextWithGemini9(text: string, formData: FormData, modelName: GeminiModel = DEFAULT_MODEL) {
-  const model = genAI.getGenerativeModel({ model: modelName });
+export async function analyzeTextWithGemini9(text: string, formData: FormData) {
+  const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
   const fullPrompt = `
 あなたは優秀なレジュメの改善アドバイザーです。以下の指示に従ってレジュメを改善してください。
 
