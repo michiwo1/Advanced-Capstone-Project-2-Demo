@@ -110,7 +110,7 @@ export async function uploadResume(formData: FormData) {
       })
 
       // Gemini4での分析結果をAiMessageとして保存
-      const gemini4Analysis = await analyzeTextWithGemini4(text)
+      const gemini4Analysis = await analyzeTextWithGemini4(gemini3Analysis)
       await prisma.skillsDatabase.create({
           data: {
             skill_name: gemini4Analysis
