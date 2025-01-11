@@ -44,8 +44,8 @@ export default async function MarketPage() {
 
         <Card className="mb-8">
           <CardHeader>
-            <CardTitle>年収レンジ分布</CardTitle>
-            <CardDescription>業界別の年収分布状況</CardDescription>
+            <CardTitle>ソフトウェアエンジニアの年収レンジ分布</CardTitle>
+            <CardDescription>年収分布状況</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="w-full h-[400px] p-4 mt-10">
