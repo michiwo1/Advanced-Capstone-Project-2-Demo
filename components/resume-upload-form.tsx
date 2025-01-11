@@ -4,7 +4,6 @@ import { useState, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import { uploadResume } from '@/app/actions/upload-resume'
 import { Button } from '@/components/ui/button'
-import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert'
 import { useDropzone } from 'react-dropzone'
 import { Cloud, File, Loader2 } from 'lucide-react'
 import { cn } from '@/lib/utils'
@@ -24,7 +23,8 @@ export function ResumeUploadForm() {
     accept: {
       'application/pdf': ['.pdf']
     },
-    maxFiles: 1
+    maxFiles: 1,
+    disabled: loading
   })
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -65,7 +65,8 @@ export function ResumeUploadForm() {
         <div
           {...getRootProps()}
           className={cn(
-            "border-2 border-dotted rounded-xl p-10 text-center transition-all cursor-pointer",
+            "border-2 border-dotted rounded-xl p-10 text-center transition-all",
+            loading ? "cursor-not-allowed opacity-60" : "cursor-pointer",
             "hover:border-blue-400 hover:bg-blue-50/50",
             isDragActive ? "border-blue-500 bg-blue-50/70" : "border-blue-300",
             file && "border-green-500 bg-green-50"
