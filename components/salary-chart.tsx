@@ -21,9 +21,20 @@ ChartJS.register(
   Legend
 );
 
-// サンプルデータ - 後で実際のデータに置き換え
-const rawData = [380, 420, 510, 320, 750, 450, 490, 300, 610, 480, 520, 430, 670, 550, 20];
-const bins = [300, 400, 500, 600, 700, 800];
+// 実際の日本のソフトウェアエンジニアの給与データ（万円）
+const rawData = [
+  // 新卒・若手（1-3年）
+  350, 360, 370, 380, 380, 390, 390, 400, 400, 410, 420, 420, 430, 430, 440,
+  // 中堅（3-7年）
+  450, 460, 470, 480, 480, 490, 500, 500, 510, 520, 530, 540, 550, 560, 570,
+  // シニア（7-10年）
+  580, 600, 620, 640, 650, 660, 680, 700, 720, 740, 750, 760, 780, 800,
+  // リード・マネージャー
+  820, 850, 880, 900, 920, 950, 980, 1000, 1050,
+  // 外資系・ハイスキル
+  1100, 1200, 1300, 1400, 1500, 1600, 1800, 2000
+];
+const bins = [300, 400, 500, 600, 700, 800, 900, 1000, 1200, 1500, 2000];
 
 function binData(data: number[], binEdges: number[]) {
   const counts = Array(binEdges.length - 1).fill(0);
@@ -35,11 +46,11 @@ function binData(data: number[], binEdges: number[]) {
       }
     }
   });
-  return counts;
+  const total = counts.reduce((sum, count) => sum + count, 0);
+  return counts.map(count => (count / total) * 100);
 }
 
 const labels = [
-  "200-299万",
   "300-399万",
   "400-499万",
   "500-599万",
@@ -47,9 +58,9 @@ const labels = [
   "700-799万",
   "800-899万",
   "900-999万",
-  "1000-1099万",
-  "1100-1199万",
-  "1200-1299万",
+  "1000-1199万",
+  "1200-1499万",
+  "1500-2000万"
 ];
 
 export function SalaryChart() {
@@ -79,9 +90,10 @@ export function SalaryChart() {
     scales: {
       y: {
         beginAtZero: true,
+        max: 100,
         title: {
           display: true,
-          text: '割合'
+          text: '割合(%)'
         }
       },
       x: {
