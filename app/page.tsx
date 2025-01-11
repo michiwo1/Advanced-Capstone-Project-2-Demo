@@ -14,7 +14,7 @@ export default function HomePage() {
               レジュメのアップロード
             </h1>
             <p className="text-center text-lg text-gray-600">
-              PDFまたはWord文書（.doc, .docx）をアップロードしてください。
+              PDFをアップロードしてください。
               <br />
               <span className="text-sm opacity-75">ファイルサイズは5MB以下にしてください。</span>
             </p>

@@ -100,7 +100,7 @@ export const BackgroundParticles = () => {
                   fill: true
                 },
                 {
-                  value: ["JavaScript", "TypeScript", "React", "Next.js", "Node.js", "Python", "Java", "SQL"],
+                  value: ["JavaScript", "TypeScript", "React", "Next.js", "Node.js", "Python", "Java", "SQL", "NIC", "PHP"],
                   font: "Consolas",
                   style: "",
                   weight: "600",
