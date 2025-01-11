@@ -26,38 +26,43 @@ export default async function DiagnosisPage() {
         </div>
         <Link
           href="/company"
-          className="inline-flex items-center px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all duration-200"
+          className="inline-flex items-center px-6 py-3 bg-[#4A90E2] text-white rounded-lg hover:bg-[#5DA1F0] transition-all duration-200 shadow-sm text-center justify-center whitespace-nowrap"
         >
           新規企業診断
         </Link>
       </div>
-      <div className="grid gap-6">
+      <div className="grid gap-8">
         {results.map((result) => (
-          <Card key={result.id} className="hover:shadow-lg transition-shadow duration-200">
-            <CardContent className="p-8">
-              <div className="flex justify-between items-start gap-6">
-                <div className="flex-1">
+          <Card 
+            key={result.id} 
+            className="hover:shadow-lg transition-shadow duration-200 border border-[#D9DDE1] rounded-lg overflow-hidden"
+          >
+            <CardContent className="p-6 sm:p-8">
+              <div className="flex flex-col sm:flex-row justify-between items-start gap-4 sm:gap-6">
+                <div className="flex-1 w-full">
                   <div className="flex items-center gap-4 mb-4">
-                    <h2 className="text-2xl font-semibold text-gray-800">{result.title}</h2>
+                    <span className="text-[#4A90E2] font-bold text-lg">
+                      マッチ率: {result.matchRate}%
+                    </span>
                     {result.link && (
                       <Link
                         href={result.link}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="px-4 py-1 text-sm text-blue-600 border border-blue-600 rounded-full hover:bg-blue-50 transition-colors"
+                        className="px-4 py-1.5 text-sm text-[#4A90E2] border border-[#4A90E2] rounded-md hover:bg-blue-50 transition-colors whitespace-nowrap"
                       >
                         企業サイトへ →
                       </Link>
                     )}
                   </div>
-                  <p className="text-lg font-semibold text-blue-600 mb-4">
-                    マッチ率: {result.matchRate}%
-                  </p>
-                  <div className="prose max-w-none">
-                    <ReactMarkdown className="text-gray-700 leading-relaxed">{result.reason}</ReactMarkdown>
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-4">
+                    <h2 className="text-xl sm:text-2xl font-semibold text-gray-800">{result.title}</h2>
+                  </div>
+                  <div className="prose max-w-none mt-4">
+                    <ReactMarkdown className="text-gray-700 leading-relaxed text-base">{result.reason}</ReactMarkdown>
                   </div>
                 </div>
-                <div className="text-sm text-gray-500 whitespace-nowrap">
+                <div className="text-sm text-gray-500 whitespace-nowrap mt-2 sm:mt-0">
                   {formatDistanceToNow(result.createdAt, { addSuffix: true, locale: ja })}
                 </div>
               </div>
@@ -65,9 +70,9 @@ export default async function DiagnosisPage() {
           </Card>
         ))}
         {results.length === 0 && (
-          <div className="text-center py-12 bg-gray-50 rounded-lg">
-            <p className="text-gray-500 text-lg">診断結果がありません</p>
-            <p className="text-gray-400 mt-2">新規企業診断から始めましょう</p>
+          <div className="text-center py-16 bg-gray-50 rounded-lg border border-gray-100">
+            <p className="text-gray-600 text-xl font-medium">診断結果がありません</p>
+            <p className="text-gray-500 mt-3">新規企業診断から始めましょう</p>
           </div>
         )}
       </div>
