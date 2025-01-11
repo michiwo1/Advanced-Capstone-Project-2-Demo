@@ -118,17 +118,6 @@ export function ResumeUploadForm() {
           'アップロード'
         )}
       </Button>
-
-      {message && (
-        <Alert variant={message.type === 'success' ? 'default' : 'destructive'} className="animate-in fade-in-50">
-          <AlertTitle>
-            {message.type === 'success' ? '成功' : 'エラー'}
-          </AlertTitle>
-          <AlertDescription>
-            {message.text}
-          </AlertDescription>
-        </Alert>
-      )}
     </form>
   )
 }
