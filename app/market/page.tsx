@@ -14,12 +14,12 @@ export default async function MarketPage() {
 
   return (
     <div className="container mx-auto py-8">
-      <h1 className="text-4xl font-bold mb-8">労働市場分析</h1>
+      <h1 className="text-4xl font-bold mb-8">Labor Market Analysis</h1>
       {aiMessage && (
         <Card className="mb-8 border-2 border-blue-200">
           <CardHeader>
-            <CardTitle>AIからのアドバイス</CardTitle>
-            <CardDescription>{new Date(aiMessage.createdAt).toLocaleString('ja-JP')}</CardDescription>
+            <CardTitle>AI Insights</CardTitle>
+            <CardDescription>{new Date(aiMessage.createdAt).toLocaleString('en-US')}</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="prose prose-sm max-w-none">
@@ -32,8 +32,8 @@ export default async function MarketPage() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <Card className="mb-8">
           <CardHeader>
-            <CardTitle>あなたのスキル評価</CardTitle>
-            <CardDescription>各スキルを100点満点で表示</CardDescription>
+            <CardTitle>Your Skill Assessment</CardTitle>
+            <CardDescription>Skills rated out of 100 points</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="w-full max-w-xl mx-auto">
@@ -44,8 +44,8 @@ export default async function MarketPage() {
 
         <Card className="mb-8">
           <CardHeader>
-            <CardTitle>ソフトウェアエンジニアの年収レンジ分布</CardTitle>
-            <CardDescription>年収分布状況</CardDescription>
+            <CardTitle>Software Engineer Salary Distribution</CardTitle>
+            <CardDescription>Annual salary ranges</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="w-full h-[400px] p-4 mt-10">

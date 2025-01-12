@@ -11,12 +11,12 @@ export async function analyzeResume(formData: FormData) {
   const instruction = formData.get('instruction')
   
   if (!instruction || typeof instruction !== 'string') {
-    throw new Error('指示を入力してください')
+    throw new Error('Please enter instructions')
   }
 
   const resume = await getResume()
   if (!resume) {
-    throw new Error('レジュメが見つかりません')
+    throw new Error('Resume not found')
   }
 
   const result = await analyzeTextWithGemini8(resume.originalResume, formData)

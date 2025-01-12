@@ -1,7 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { prisma } from "@/lib/prisma";
 import { formatDistanceToNow } from "date-fns";
-import { ja } from "date-fns/locale";
+import { enUS } from "date-fns/locale";
 import Link from "next/link";
 import ReactMarkdown from "react-markdown";
 
@@ -21,14 +21,14 @@ export default async function DiagnosisPage() {
     <div className="container mx-auto py-12 px-4">
       <div className="flex items-center justify-between mb-8 bg-gradient-to-r p-6 rounded-xl">
         <div>
-          <h1 className="text-3xl font-bold text-gray-800 mb-2">診断結果一覧</h1>
-          <p className="text-gray-600">あなたと企業とのマッチング診断結果をご確認いただけます</p>
+          <h1 className="text-3xl font-bold text-gray-800 mb-2">Diagnosis Results</h1>
+          <p className="text-gray-600">View your company compatibility analysis results</p>
         </div>
         <Link
           href="/company"
           className="inline-flex items-center px-6 py-3 bg-[#4A90E2] text-white rounded-lg hover:bg-[#5DA1F0] transition-all duration-200 shadow-sm text-center justify-center whitespace-nowrap"
         >
-          新規企業診断
+          New Company Analysis
         </Link>
       </div>
       <div className="grid gap-8">
@@ -42,7 +42,7 @@ export default async function DiagnosisPage() {
                 <div className="flex-1 w-full">
                   <div className="flex items-center gap-4 mb-4">
                     <span className="text-[#4A90E2] font-bold text-lg">
-                      マッチ率: {result.matchRate}%
+                      Match Rate: {result.matchRate}%
                     </span>
                     {result.link && (
                       <Link
@@ -51,7 +51,7 @@ export default async function DiagnosisPage() {
                         rel="noopener noreferrer"
                         className="px-4 py-1.5 text-sm text-[#4A90E2] border border-[#4A90E2] rounded-md hover:bg-blue-50 transition-colors whitespace-nowrap"
                       >
-                        企業サイトへ →
+                        Visit Company Site →
                       </Link>
                     )}
                   </div>
@@ -63,7 +63,7 @@ export default async function DiagnosisPage() {
                   </div>
                 </div>
                 <div className="text-sm text-gray-500 whitespace-nowrap mt-2 sm:mt-0">
-                  {formatDistanceToNow(result.createdAt, { addSuffix: true, locale: ja })}
+                  {formatDistanceToNow(result.createdAt, { addSuffix: true, locale: enUS })}
                 </div>
               </div>
             </CardContent>
@@ -71,8 +71,8 @@ export default async function DiagnosisPage() {
         ))}
         {results.length === 0 && (
           <div className="text-center py-16 bg-gray-50 rounded-lg border border-gray-100">
-            <p className="text-gray-600 text-xl font-medium">診断結果がありません</p>
-            <p className="text-gray-500 mt-3">新規企業診断から始めましょう</p>
+            <p className="text-gray-600 text-xl font-medium">No diagnosis results found</p>
+            <p className="text-gray-500 mt-3">Start with a new company analysis</p>
           </div>
         )}
       </div>

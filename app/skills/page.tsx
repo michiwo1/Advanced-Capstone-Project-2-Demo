@@ -15,14 +15,14 @@ export default async function SkillsPage() {
   return (
     <div className="container mx-auto py-8">
         <h1 className="text-4xl font-bold mb-8">
-          スキル一覧
+          Skills List
         </h1>
         
       {aiMessage && (
         <Card className="mb-8 border-2 border-blue-200">
           <CardHeader>
-            <CardTitle>AIからのアドバイス</CardTitle>
-            <CardDescription>{new Date(aiMessage.createdAt).toLocaleString('ja-JP')}</CardDescription>
+            <CardTitle>AI Insights</CardTitle>
+            <CardDescription>{new Date(aiMessage.createdAt).toLocaleString('en-US')}</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="prose prose-sm max-w-none">
@@ -32,7 +32,7 @@ export default async function SkillsPage() {
         </Card>
       )}
 
-        <h2 className="text-2xl font-bold mb-6">あなたにおすすめのスキル</h2>
+        <h2 className="text-2xl font-bold mb-6">Recommended Skills for You</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {Object.entries(skills).map(([skill, description]) => (
             <Card 
@@ -56,7 +56,7 @@ export default async function SkillsPage() {
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
                       <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/>
                     </svg>
-                    <span className="font-medium">YouTubeで学ぶ</span>
+                    <span className="font-medium">Learn on YouTube</span>
                   </a>
                   <a
                     href={`https://www.udemy.com/courses/search/?q=${encodeURIComponent(skill)}`}
@@ -67,7 +67,7 @@ export default async function SkillsPage() {
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
                       <path d="M12 0L1.608 6v12L12 24l10.392-6V6L12 0zm-1.838 19.798c-1.02-.614-1.706-1.535-2.082-2.762-.376-1.227-.47-2.784-.47-4.67 0-1.885.094-3.442.47-4.67.376-1.227 1.062-2.147 2.082-2.762 1.02-.614 2.315-.922 3.838-.922 1.524 0 2.818.307 3.838.922 1.02.614 1.706 1.535 2.082 2.762.376 1.227.47 2.784.47 4.67 0 1.885-.094 3.442-.47 4.67-.376 1.227-1.062 2.147-2.082 2.762-1.02.614-2.315.922-3.838.922-1.524 0-2.818-.307-3.838-.922z"/>
                     </svg>
-                    <span className="font-medium">Udemyで学ぶ</span>
+                    <span className="font-medium">Learn on Udemy</span>
                   </a>
                 </div>
               </CardContent>

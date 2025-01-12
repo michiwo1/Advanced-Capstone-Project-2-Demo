@@ -30,12 +30,12 @@ export default async function ResumeImprovePage({
   return (
     <div className="container mx-auto py-8 pb-24 relative min-h-screen">
       <div className="flex justify-between items-center mb-8">
-        <h1 className="text-4xl font-bold">{ history.versionName }の履歴書を改善</h1>
+        <h1 className="text-4xl font-bold">Improve Resume: {history.versionName}</h1>
         <Link
           href="/resume-history"
           className="inline-flex items-center px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors"
         >
-          保存済み改善履歴を見る
+          View Saved Improvement History
         </Link>
       </div>
       

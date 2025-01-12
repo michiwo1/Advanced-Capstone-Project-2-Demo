@@ -24,7 +24,7 @@ export default function HomePage() {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5, delay: 0.2 }}
             >
-              レジュメのアップロード
+              Resume Upload
             </motion.h1>
             <motion.p 
               className="text-center text-lg text-gray-600"
@@ -32,9 +32,9 @@ export default function HomePage() {
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.4 }}
             >
-              PDFをアップロードしてください。
+              Please upload your PDF resume.
               <br />
-              <span className="text-sm opacity-75">ファイルサイズは5MB以下にしてください。</span>
+              <span className="text-sm opacity-75">File size should be less than 5MB.</span>
             </motion.p>
           </motion.div>
           <motion.div 

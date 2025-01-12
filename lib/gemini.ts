@@ -6,37 +6,37 @@ export async function analyzeTextWithGemini(text: string) {
   const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
   
   const fullPrompt = `
-以下の形式でJSONデータを生成してください。このJSONは、求人検索条件を保存するためのものです。各キーとその値の説明は以下の通りです。
+Please generate JSON data in the following format. This JSON is for storing job search criteria. Here's the explanation for each key and its value:
 
-### JSON形式
+### JSON Format
 {
-    "job_title": "文字列 (求人の職種)",
-    "location": "文字列 (勤務地。リモートの場合は 'Remote')",
-    "employment_type": "文字列 (雇用形態。例: Full-time, Part-time, Contract)",
-    "salary_range": "文字列 (給与範囲。例: '$70,000 - $90,000')",
-    "skills": "文字列のリスト (必須スキルをカンマ区切りでリスト化)",
-    "industry": "文字列 (業界情報。例: IT, Finance)",
-    "keywords": "文字列のリスト (検索用キーワード)",
-    "exclusion_terms": "文字列のリスト (除外するキーワード)",
+    "job_title": "string (job position)",
+    "location": "string (work location. 'Remote' for remote work)",
+    "employment_type": "string (e.g., Full-time, Part-time, Contract)",
+    "salary_range": "string (e.g., '$70,000 - $90,000')",
+    "skills": "list of strings (required skills as comma-separated list)",
+    "industry": "string (e.g., IT, Finance)",
+    "keywords": "list of strings (search keywords)",
+    "exclusion_terms": "list of strings (terms to exclude)",
 }
 
-### 要求内容
-次の条件に基づいてJSONデータを生成してください：
-- 求人の職種: この人にあった求人の職種
-- 勤務地: この人にあった勤務地
-- 雇用形態: この人にあった雇用形態
-- 給与範囲: この人にあった給与範囲
-- 必須スキル: この人にあった必須スキル
-- 業界情報: この人にあった業界情報
-- 検索用キーワード: この人にあった検索用キーワード
-- 除外キーワード: この人にあった除外キーワード
+### Requirements
+Please generate JSON data based on the following criteria:
+- Job Position: Suitable job position for this person
+- Location: Suitable work location for this person
+- Employment Type: Suitable employment type for this person
+- Salary Range: Suitable salary range for this person
+- Required Skills: Required skills suitable for this person
+- Industry: Suitable industry for this person
+- Search Keywords: Search keywords suitable for this person
+- Exclusion Terms: Exclusion terms suitable for this person
 
-### 注意
-- JSON形式に厳密に従ってください。
-- キー名や構造を変更しないでください。
-- 値がリスト形式の場合はカンマ区切りでリスト化してください。
+### Notes
+- Strictly follow the JSON format.
+- Do not change key names or structure.
+- For list values, use comma-separated format.
 
-### 出力例
+### Output Example
 {
     "job_title": "Data Scientist",
     "location": "Remote",
@@ -48,7 +48,7 @@ export async function analyzeTextWithGemini(text: string) {
     "exclusion_terms": "Junior, Internship",
 }
 
-レジュメ本文:
+Resume Content:
 ${text}`;
 
   try {
@@ -65,9 +65,9 @@ export async function analyzeTextWithGemini2(text: string) {
   const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
   
   const fullPrompt = `
-以下の私のレジュメを解析し、次のキャリアステップに関する提案をしてください。また、私のスキルに基づいて適切な職種や役割をいくつか挙げてください。300文字以内で出力してください。
+Please analyze my resume below and suggest next career steps. Also, suggest appropriate job positions and roles based on my skills. Please keep the output within 300 characters.
 
-レジュメ本文:
+Resume Content:
 ${text}`;
 
   try {
@@ -84,9 +84,9 @@ export async function analyzeTextWithGemini3(text: string) {
   const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
   
   const fullPrompt = `
-以下のレジュメを解析し、現在のスキルや職歴を基に不足しているスキル6つ以上を特定してください。また、次のキャリアステップに必要なスキルと、それを補うための学習方法やリソース（オンラインコースや書籍など）も提案してください。300文字以内で出力してください。
+Please analyze the resume below and identify 6 or more missing skills based on current skills and work history. Also, suggest skills needed for the next career step and learning methods or resources (online courses, books, etc.) to acquire them. Please keep the output within 300 characters.
 
-レジュメ本文:
+Resume Content:
 ${text}`;
 
   try {
@@ -103,34 +103,33 @@ export async function analyzeTextWithGemini4(text: string) {
   const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
   
   const fullPrompt = `
-「この人のキャリアステップに必要な6つのスキルを以下の形式で、スキル名と理由を辞書型で出力してください。理由には各スキルが必要な背景や利点を簡潔に記載してください。
+Please output 6 skills needed for this person's career step in dictionary format with skill names and reasons. For each reason, briefly explain the background and benefits of the skill.
 
-### 出力形式
+### Output Format
 {
-  "キャリアステップに必要なスキル": "理由",
-  "キャリアステップに必要なスキル": "理由",
-  "キャリアステップに必要なスキル": "理由",
-  "キャリアステップに必要なスキル": "理由",
-  "キャリアステップに必要なスキル": "理由",
-  "キャリアステップに必要なスキル": "理由"
+  "Required Skill for Career Step": "Reason",
+  "Required Skill for Career Step": "Reason",
+  "Required Skill for Career Step": "Reason",
+  "Required Skill for Career Step": "Reason",
+  "Required Skill for Career Step": "Reason",
+  "Required Skill for Career Step": "Reason"
 }
 
+### Notes
+- Output 6 skills in dictionary format.
+- For each reason, briefly explain the background and benefits of the skill.
 
-### 注意
-- 6つのスキルを辞書型で出力してください。
-- 理由は、各スキルが必要な背景や利点を簡潔に記載してください。
-
-### 出力例
+### Output Example
 {
-  "Python": "データ分析、Web開発、機械学習など多用途で使えるプログラミング言語",
-  "JavaScript": "フロントエンド開発の基礎となるプログラミング言語",
-  "React": "モダンなUIを構築するための人気のあるライブラリ",
-  "Node.js": "効率的なサーバーサイド開発を実現するためのJavaScriptランタイム",
-  "AWS": "クラウドインフラを構築・運用するための業界標準プラットフォーム",
-  "DevOps": "継続的な開発・運用プロセスを効率化するための手法とツール"
+  "Python": "Versatile programming language for data analysis, web development, and machine learning",
+  "JavaScript": "Fundamental programming language for frontend development",
+  "React": "Popular library for building modern UIs",
+  "Node.js": "JavaScript runtime for efficient server-side development",
+  "AWS": "Industry-standard platform for cloud infrastructure",
+  "DevOps": "Methods and tools for efficient continuous development and operations"
 }
 
-レジュメ本文:
+Resume Content:
 ${text}`;
 
   try {
@@ -147,9 +146,9 @@ export async function analyzeTextWithGemini5(text: string) {
   const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
   
   const fullPrompt = `
-以下のレジュメから職歴やスキルに基づいて年収や競争力を算出してください。300文字以内で出力してください。
+Please calculate the salary range and competitiveness based on the work history and skills from the resume below. Please keep the output within 300 characters.
 
-レジュメ本文:
+Resume Content:
 ${text}`;
 
   try {
@@ -166,36 +165,33 @@ export async function analyzeTextWithGemini6(text: string) {
   const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
   
   const fullPrompt = `
-指示:
-あなたは採用担当者の役割を担っています。以下のレジュメを読み込み、下記の6項目について100点満点で評価してください。
+Instructions:
+You are acting as a hiring manager. Please read the resume below and evaluate the following 6 items on a 100-point scale.
 
-1. 実務経験・職務レベル
-2. 専門スキル・技術力
-3. 実績・成果
-4. ソフトスキル・コミュニケーション
-5. 業界・領域知識
-6. キャリア成長度・適応力
+1. Work Experience & Job Level
+2. Technical Skills & Expertise
+3. Achievements & Results
+4. Soft Skills & Communication
+5. Industry & Domain Knowledge
+6. Career Growth & Adaptability
 
-形式:
-辞書型（JSON形式） のオブジェクトで結果を出力してください。
-キーは日本語項目名、値は数値評価（1～100の整数）にしてください。
-厳しめに評価してください。
+Format:
+Please output the results in a dictionary (JSON format).
+Keys should be the item names in English, values should be numerical evaluations (integers from 1-100).
+Please evaluate strictly.
 
-
-
-出力例（エンジニア歴10年のイメージ）:
+Output Example (for a 10-year experienced engineer):
 
 {
-  "実務経験・職務レベル": 80,
-  "専門スキル・技術力": 92,
-  "実績・成果": 86,
-  "ソフトスキル・コミュニケーション": 71,
-  "業界・領域知識": 83,
-  "キャリア成長度・適応力": 90
+  "Work Experience & Job Level": 80,
+  "Technical Skills & Expertise": 92,
+  "Achievements & Results": 86,
+  "Soft Skills & Communication": 71,
+  "Industry & Domain Knowledge": 83,
+  "Career Growth & Adaptability": 90
 }
 
-
-レジュメ本文:
+Resume Content:
 ${text}`;
 
   try {
@@ -212,30 +208,27 @@ export async function analyzeTextWithGemini7(text: string, company: string) {
   const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
   
   const fullPrompt = `
-あなたは採用マッチングシステムとして働いてください。
+Please act as a recruitment matching system.
 
-【指示】
-1. 以下の企業情報と私のレジュメ（職務経歴書）を読み、どれほどマッチしているかを診断してください。
-2. 診断結果を **辞書型（JSON形式）** で出力してください。
-3. matchRateは2つ文章の使われている単語が重複している割合を計算してください。
-4. 具体的には、出力には必ず以下のキーを含めてください:
-   - "matchRate": 1～100の数値（整数）で、企業と私がどれだけマッチしているかを示す.
-   - "reasons": 文字列で、マッチ率の根拠や理由をできるだけ具体的に
+[Instructions]
+1. Read the company information and my resume below and analyze how well they match.
+2. Output the diagnosis results in **dictionary (JSON format)**.
+3. Calculate matchRate based on the percentage of overlapping words between the two texts.
+4. Specifically, the output must include the following keys:
+   - "matchRate": An integer from 1-100 indicating how well the company and I match.
+   - "reasons": A string explaining the basis and reasons for the match rate in detail.
 
-【企業情報】
+[Company Information]
 ${company}
 
-
-【レジュメ本文】:
+[Resume Content]:
 ${text}
 
-
-【出力例】
+[Output Example]
 {
   "matchRate": 85,
-  "reasons": "理由"
+  "reasons": "reason"
 }
-
 `;
 
   try {
@@ -252,15 +245,15 @@ ${text}
 export async function analyzeTextWithGemini8(text: string, formData: FormData) {
   const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
   const fullPrompt = `
-あなたは優秀なレジュメの改善アドバイザーです。以下の指示に従ってレジュメを改善してください。
+You are an excellent resume improvement advisor. Please improve the resume according to the instructions below.
 
-注意点:
-- レジュメの改善されてレジュメの内容だけを出力してください。
+Note:
+- Please output only the improved resume content.
 
-【指示】
+[Instructions]
 ${formData.get('instruction')}
 
-【レジュメ本文】
+[Resume Content]
 ${text}
 
 
@@ -279,15 +272,15 @@ ${text}
 export async function analyzeTextWithGemini9(text: string, formData: FormData) {
   const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
   const fullPrompt = `
-あなたは優秀なレジュメの改善アドバイザーです。以下の指示に従ってレジュメを改善してください。
+You are an excellent resume improvement advisor. Please improve the resume according to the instructions below.
 
-注意点:
-- レジュメの改善されてレジュメの内容だけを出力してください。
+Note:
+- Please output only the improved resume content.
 
-【指示】
+[Instructions]
 ${formData.get('instruction')}
 
-【レジュメ本文】
+[Resume Content]
 ${text}
 
 
