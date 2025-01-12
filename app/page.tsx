@@ -3,6 +3,8 @@
 import { ResumeUploadForm } from "@/components/resume-upload-form";
 import { BackgroundParticles } from "@/components/background-particles";
 import { motion } from "framer-motion";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { AlertTriangle } from "lucide-react";
 
 export default function HomePage() {
   return (
@@ -37,6 +39,20 @@ export default function HomePage() {
               <span className="text-base text-blue-600 font-mono">{"{"} supports: PDF format | max_size: 5MB {"}"}</span>
             </motion.p>
           </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <Alert variant="destructive" className="mb-6">
+              <AlertTriangle className="h-5 w-5" />
+              <AlertDescription>
+                This is a demo service. Please only upload test data. We are not responsible for any personal information leaks.
+              </AlertDescription>
+            </Alert>
+          </motion.div>
+          
           <motion.div 
             className="bg-white/80 backdrop-blur-sm py-10 px-6 shadow-xl rounded-2xl sm:px-12 transition-all hover:shadow-2xl hover:bg-white/90 border border-gray-200"
             initial={{ opacity: 0, y: 30 }}

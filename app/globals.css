@@ -10,11 +10,11 @@
     --card-foreground: 0 0% 3.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 3.9%;
-    --primary: 212 76% 59%; /* #4A90E2 */
+    --primary: 212 76% 59%;
     --primary-foreground: 0 0% 98%;
-    --secondary: 212 100% 21%; /* #002f6c */
+    --secondary: 212 100% 21%;
     --secondary-foreground: 0 0% 98%;
-    --muted: 220 14% 97%; /* #f5f7fa */
+    --muted: 220 14% 97%;
     --muted-foreground: 0 0% 45.1%;
     --accent: 212 76% 59%;
     --accent-foreground: 0 0% 98%;
@@ -23,6 +23,9 @@
     --border: 212 76% 59%;
     --input: 0 0% 89.8%;
     --ring: 212 76% 59%;
+    --text-primary: 215 28% 17%;
+    --text-secondary: 217 19% 35%;
+    --text-muted: 215 20% 47%;
     --chart-1: 12 76% 61%;
     --chart-2: 173 58% 39%;
     --chart-3: 197 37% 24%;
@@ -51,6 +54,9 @@
     --border: 212 76% 59%;
     --input: 0 0% 14.9%;
     --ring: 212 76% 59%;
+    --text-primary: 217 24% 80%;
+    --text-secondary: 217 19% 70%;
+    --text-muted: 215 20% 60%;
     --chart-1: 220 70% 50%;
     --chart-2: 160 60% 45%;
     --chart-3: 30 80% 55%;
@@ -64,11 +70,11 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-secondary font-sans;
     line-height: 1.8;
   }
   h1, h2, h3, h4, h5, h6 {
-    @apply font-bold text-secondary;
+    @apply font-display font-bold text-primary;
   }
   h1 {
     @apply text-4xl md:text-5xl mb-8;
@@ -80,10 +86,10 @@
     @apply text-2xl md:text-3xl mb-4;
   }
   p {
-    @apply mb-4 text-base md:text-lg;
+    @apply mb-4 text-base md:text-lg text-secondary;
   }
   strong {
-    @apply font-bold text-secondary;
+    @apply font-bold text-primary;
   }
 }
 
@@ -97,10 +103,25 @@
   .btn-primary {
     @apply bg-primary hover:bg-secondary text-white font-bold py-2 px-4 rounded transition-colors duration-300;
   }
+  .font-display {
+    font-family: var(--font-inter-display), system-ui, -apple-system, sans-serif;
+  }
+  .font-sans {
+    font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
+  }
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+  .text-primary {
+    color: hsl(var(--text-primary));
+  }
+  .text-secondary {
+    color: hsl(var(--text-secondary));
+  }
+  .text-muted {
+    color: hsl(var(--text-muted));
   }
 }
