@@ -3,7 +3,7 @@ import { GoogleGenerativeAI } from '@google/generative-ai';
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_GEMINI_API_KEY!);
 
 export async function analyzeTextWithGemini(text: string) {
-  const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
+  const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash-thinking-exp-1219' });
   
   const fullPrompt = `
 Please generate JSON data in the following format. This JSON is for storing job search criteria. Here's the explanation for each key and its value:
@@ -62,7 +62,7 @@ ${text}`;
 } 
 
 export async function analyzeTextWithGemini2(text: string) {
-  const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
+  const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash-thinking-exp-1219' });
   
   const fullPrompt = `
 Please analyze my resume below and suggest next career steps. Also, suggest appropriate job positions and roles based on my skills. Please keep the output within 300 characters.
@@ -81,7 +81,7 @@ ${text}`;
 } 
 
 export async function analyzeTextWithGemini3(text: string) {
-  const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
+  const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash-thinking-exp-1219' });
   
   const fullPrompt = `
 Please analyze the resume below and identify 6 or more missing skills based on current skills and work history. Also, suggest skills needed for the next career step and learning methods or resources (online courses, books, etc.) to acquire them. Please keep the output within 300 characters.
@@ -100,7 +100,7 @@ ${text}`;
 } 
 
 export async function analyzeTextWithGemini4(text: string) {
-  const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
+  const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash-thinking-exp-1219' });
   
   const fullPrompt = `
 Please output 6 skills needed for this person's career step in dictionary format with skill names and reasons. For each reason, briefly explain the background and benefits of the skill.
@@ -143,7 +143,7 @@ ${text}`;
 } 
 
 export async function analyzeTextWithGemini5(text: string) {
-  const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
+  const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash-thinking-exp-1219' });
   
   const fullPrompt = `
 Please calculate the salary range and competitiveness based on the work history and skills from the resume below. Please keep the output within 300 characters.
@@ -162,7 +162,7 @@ ${text}`;
 } 
 
 export async function analyzeTextWithGemini6(text: string) {
-  const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
+  const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash-thinking-exp-1219' });
   
   const fullPrompt = `
 Instructions:
@@ -205,7 +205,7 @@ ${text}`;
 } 
 
 export async function analyzeTextWithGemini7(text: string, company: string) {
-  const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
+  const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash-thinking-exp-1219' });
   
   const fullPrompt = `
 Please act as a recruitment matching system.
@@ -243,7 +243,7 @@ ${text}
 
 
 export async function analyzeTextWithGemini8(text: string, formData: FormData) {
-  const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
+  const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash-thinking-exp-1219' });
   const fullPrompt = `
 You are an excellent resume improvement advisor. Please improve the resume according to the instructions below.
 
@@ -270,7 +270,7 @@ ${text}
 } 
 
 export async function analyzeTextWithGemini9(text: string, formData: FormData) {
-  const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
+  const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash-thinking-exp-1219' });
   const fullPrompt = `
 You are an excellent resume improvement advisor. Please improve the resume according to the instructions below.
 
