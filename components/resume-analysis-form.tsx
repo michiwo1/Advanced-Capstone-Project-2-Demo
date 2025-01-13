@@ -76,40 +76,44 @@ export function ResumeAnalysisForm() {
   const handlePdfExport = async () => {
     if (!result) return;
     
-    // Dynamic import of html2pdf.js
-    const html2pdf = (await import('html2pdf.js')).default;
-    
-    // Create a temporary div and render markdown content
-    const tempDiv = document.createElement('div');
-    const root = ReactDOM.createRoot(tempDiv);
-    root.render(
-      <div style={{
-        padding: '20px',
-        fontFamily: 'sans-serif',
-        maxWidth: '800px',
-        margin: '0 auto'
-      }}>
-        <div className="prose prose-sm max-w-none">
-          <ReactMarkdown>{isEditing ? editableResult : result}</ReactMarkdown>
+    try {
+      // Dynamic import of html2pdf.js
+      const html2pdf = await import('html2pdf.js/dist/html2pdf.min');
+      
+      // Create a temporary div and render markdown content
+      const tempDiv = document.createElement('div');
+      const root = ReactDOM.createRoot(tempDiv);
+      root.render(
+        <div style={{
+          padding: '20px',
+          fontFamily: 'sans-serif',
+          maxWidth: '800px',
+          margin: '0 auto'
+        }}>
+          <div className="prose prose-sm max-w-none">
+            <ReactMarkdown>{isEditing ? editableResult : result}</ReactMarkdown>
+          </div>
         </div>
-      </div>
-    );
+      );
 
-    // Wait for React to finish rendering
-    await new Promise(resolve => setTimeout(resolve, 100));
-    
-    const opt = {
-      margin: 1,
-      filename: 'resume-analysis.pdf',
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2 },
-      jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
-    };
+      // Wait for React to finish rendering
+      await new Promise(resolve => setTimeout(resolve, 100));
+      
+      const opt = {
+        margin: 1,
+        filename: 'resume-analysis.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+      };
 
-    html2pdf().set(opt).from(tempDiv).save().then(() => {
-      // Cleanup
-      root.unmount();
-    });
+      html2pdf.default().set(opt).from(tempDiv).save().then(() => {
+        // Cleanup
+        root.unmount();
+      });
+    } catch (error) {
+      console.error('PDF export failed:', error);
+    }
   };
 
   async function handleSubmit(formData: FormData) {
@@ -176,7 +180,7 @@ export function ResumeAnalysisForm() {
                   onClick={handlePdfExport}
                   className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors"
                 >
-                  Export PDF
+                  PDF
                 </button>
                 <button
                   onClick={() => setIsModalOpen(true)}

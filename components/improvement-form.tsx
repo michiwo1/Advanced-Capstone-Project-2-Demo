@@ -29,40 +29,44 @@ export function ImprovementForm({ updatedResume }: { updatedResume: string }) {
   const handlePdfExport = async () => {
     if (!advice) return;
     
-    // Dynamic import of html2pdf.js
-    const html2pdf = (await import('html2pdf.js')).default;
-    
-    // Create a temporary div and render markdown content
-    const tempDiv = document.createElement('div');
-    const root = ReactDOM.createRoot(tempDiv);
-    root.render(
-      <div style={{
-        padding: '20px',
-        fontFamily: 'sans-serif',
-        maxWidth: '800px',
-        margin: '0 auto'
-      }}>
-        <div className="prose prose-sm max-w-none">
-          <ReactMarkdown>{advice}</ReactMarkdown>
+    try {
+      // Dynamic import of html2pdf.js
+      const html2pdf = await import('html2pdf.js/dist/html2pdf.min');
+      
+      // Create a temporary div and render markdown content
+      const tempDiv = document.createElement('div');
+      const root = ReactDOM.createRoot(tempDiv);
+      root.render(
+        <div style={{
+          padding: '20px',
+          fontFamily: 'sans-serif',
+          maxWidth: '800px',
+          margin: '0 auto'
+        }}>
+          <div className="prose prose-sm max-w-none">
+            <ReactMarkdown>{isEditing ? editableAdvice : advice}</ReactMarkdown>
+          </div>
         </div>
-      </div>
-    );
+      );
 
-    // Wait for React to finish rendering
-    await new Promise(resolve => setTimeout(resolve, 100));
-    
-    const opt = {
-      margin: 1,
-      filename: 'resume-improvement-advice.pdf',
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2 },
-      jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
-    };
+      // Wait for React to finish rendering
+      await new Promise(resolve => setTimeout(resolve, 100));
+      
+      const opt = {
+        margin: 1,
+        filename: 'resume-improvement-advice.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+      };
 
-    html2pdf().set(opt).from(tempDiv).save().then(() => {
-      // Cleanup
-      root.unmount();
-    });
+      html2pdf.default().set(opt).from(tempDiv).save().then(() => {
+        // Cleanup
+        root.unmount();
+      });
+    } catch (error) {
+      console.error('PDF export failed:', error);
+    }
   };
 
   async function handleSubmit(formData: FormData) {

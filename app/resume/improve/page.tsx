@@ -40,9 +40,9 @@ export default async function ResumeImprovePage({
       </div>
       
       <div className="grid grid-cols-2 gap-8">
-        {/* 左側：履歴書表示エリア */}
+        {/* Left side: Resume display area */}
         <div className="border rounded-lg p-6 bg-white shadow">
-          <h2 className="text-2xl font-semibold mb-4">現在の履歴書</h2>
+          <h2 className="text-2xl font-semibold mb-4">Current Resume</h2>
           <div className="min-h-[600px] whitespace-pre-wrap prose prose-sm max-w-none">
             <ReactMarkdown
               components={{
