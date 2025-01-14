@@ -212,32 +212,117 @@ Please act as a recruitment matching system.
 
 [Instructions]
 1. Read the company information and my resume below and analyze how well they match.
-2. Output the diagnosis results in **dictionary (JSON format)**.
+2. You must respond with ONLY a JSON object, nothing else.
 3. Calculate matchRate based on the percentage of overlapping words between the two texts.
-4. Specifically, the output must include the following keys:
-   - "matchRate": An integer from 1-100 indicating how well the company and I match.
-   - "reasons": A string explaining the basis and reasons for the match rate in detail.
+4. The JSON object must have exactly this structure:
+{
+  "matchRate": number (1-100),
+  "reasons": string
+}
+5. Do not include any explanations, markdown, or code blocks.
+6. The response must be a single line of valid JSON.
+7. The matchRate must be a number between 1 and 100.
+8. The reasons must be a string explaining the match rate.
 
 [Company Information]
 ${company}
 
 [Resume Content]:
 ${text}
-
-[Output Example]
-{
-  "matchRate": 85,
-  "reasons": "reason"
-}
 `;
 
   try {
     const result = await model.generateContent(fullPrompt);
     const response = await result.response;
-    return response.text();
+    const responseText = response.text();
+    
+    console.log('Raw response:', responseText);
+
+    // Step 1: Basic JSON extraction
+    let cleanJson = responseText
+      .replace(/^[\s\S]*?{/, '{')
+      .replace(/}[\s\S]*$/, '}');
+    console.log('After basic extraction:', cleanJson);
+
+    // Step 2: Remove markdown and normalize whitespace
+    cleanJson = cleanJson
+      .replace(/```[a-z]*\s*/g, '')
+      .replace(/^\s+|\s+$/g, '')
+      .replace(/\r?\n|\r/g, ' ')
+      .replace(/\s+/g, ' ');
+    console.log('After whitespace normalization:', cleanJson);
+
+    // Step 3: Fix JSON formatting
+    cleanJson = cleanJson
+      .replace(/'/g, '"')
+      .replace(/,\s*([\]}])/g, '$1')
+      .replace(/([{,])\s*"([^"]+)"\s*:\s*"([^"]+)"\s*([,}])/g, '$1"$2":"$3"$4')
+      .replace(/([{,])\s*"([^"]+)"\s*:\s*(\d+)\s*([,}])/g, '$1"$2":$3$4');
+    console.log('After JSON formatting:', cleanJson);
+
+    try {
+      // First parsing attempt
+      const parsed = JSON.parse(cleanJson);
+      
+      // Validate structure and types
+      if (!parsed || typeof parsed !== 'object') {
+        throw new Error('Invalid JSON structure');
+      }
+      if (!('matchRate' in parsed) || !('reasons' in parsed)) {
+        throw new Error('Missing required fields in JSON response');
+      }
+      if (typeof parsed.matchRate !== 'number' || parsed.matchRate < 1 || parsed.matchRate > 100) {
+        // Try to convert matchRate to number if it's a string
+        if (typeof parsed.matchRate === 'string') {
+          const numericRate = parseInt(parsed.matchRate, 10);
+          if (!isNaN(numericRate) && numericRate >= 1 && numericRate <= 100) {
+            parsed.matchRate = numericRate;
+          } else {
+            throw new Error('Invalid matchRate value');
+          }
+        } else {
+          throw new Error('Invalid matchRate value');
+        }
+      }
+      if (typeof parsed.reasons !== 'string' || !parsed.reasons.trim()) {
+        throw new Error('Invalid reasons value');
+      }
+
+      // Return the validated and normalized JSON
+      return JSON.stringify({
+        matchRate: parsed.matchRate,
+        reasons: parsed.reasons.trim()
+      });
+
+    } catch (parseError) {
+      console.error('Parse error details:', parseError);
+      
+      // Last resort: try to extract values directly using regex
+      try {
+        const matchRateMatch = cleanJson.match(/"matchRate"\s*:\s*(\d+)/);
+        const reasonsMatch = cleanJson.match(/"reasons"\s*:\s*"([^"]+)"/);
+        
+        if (matchRateMatch && reasonsMatch) {
+          const matchRate = parseInt(matchRateMatch[1], 10);
+          const reasons = reasonsMatch[1].trim();
+          
+          if (matchRate >= 1 && matchRate <= 100 && reasons) {
+            return JSON.stringify({
+              matchRate,
+              reasons
+            });
+          }
+        }
+        throw new Error('Could not extract valid values from response');
+      } catch (regexError) {
+        console.error('Regex extraction failed:', regexError);
+        console.error('Final cleaned JSON that failed to parse:', cleanJson);
+        throw new Error('Could not parse response into valid JSON format');
+      }
+    }
   } catch (error) {
-    console.error('Failed to get Gemini response:', error);
-    throw error;
+    console.error('Gemini API error:', error);
+    throw new Error('Failed to analyze company match: ' + (error instanceof Error ? error.message : 'Unknown error'));
   }
 } 
 

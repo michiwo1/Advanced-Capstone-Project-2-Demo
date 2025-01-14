@@ -23,13 +23,22 @@ export default function CompanyPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsAnalyzing(true);
+    setShowResult(false);
+    
     try {
       const result = await analyzeCompany(companyInfo);
-      setAnalysisResult(JSON.parse(result));
-      setShowResult(true);
+      try {
+        const parsedResult = JSON.parse(result);
+        setAnalysisResult(parsedResult);
+        setShowResult(true);
+      } catch (parseError) {
+        console.error('Failed to parse analysis result:', parseError);
+        alert('The analysis result was not in the expected format. Please try again.');
+      }
     } catch (error) {
       console.error('Analysis failed:', error);
-      alert('An error occurred during analysis. Please try again.');
+      const errorMessage = error instanceof Error ? error.message : 'An unexpected error occurred';
+      alert(`Analysis failed: ${errorMessage}`);
     } finally {
       setIsAnalyzing(false);
     }
