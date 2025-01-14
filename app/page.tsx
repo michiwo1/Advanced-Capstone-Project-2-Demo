@@ -26,7 +26,8 @@ export default function HomePage() {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5, delay: 0.2 }}
             >
-              Resume Parser for Developers
+              <span className="block text-3xl sm:text-5xl">Career Compass</span>
+              <span className="block text-base sm:text-lg text-gray-500 mt-1">AI Career Assistant</span>
             </motion.h1>
             <motion.p 
               className="text-center text-lg text-gray-600"
