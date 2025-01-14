@@ -205,7 +205,7 @@ ${text}`;
 } 
 
 export async function analyzeTextWithGemini7(text: string, company: string) {
-  const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
+  const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash-exp' });
   
   const fullPrompt = `
 Please act as a recruitment matching system.
@@ -243,7 +243,7 @@ ${text}
 
 
 export async function analyzeTextWithGemini8(text: string, formData: FormData) {
-  const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
+  const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash-exp' });
   const fullPrompt = `
 You are an excellent resume improvement advisor. Please improve the resume according to the instructions below.
 
@@ -270,7 +270,7 @@ ${text}
 } 
 
 export async function analyzeTextWithGemini9(text: string, formData: FormData) {
-  const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
+  const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash-exp' });
   const fullPrompt = `
 You are an excellent resume improvement advisor. Please improve the resume according to the instructions below.
 
