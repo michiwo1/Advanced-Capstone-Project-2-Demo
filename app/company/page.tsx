@@ -29,7 +29,7 @@ export default function CompanyPage() {
       setShowResult(true);
     } catch (error) {
       console.error('Analysis failed:', error);
-      alert('An error occurred during analysis.');
+      alert('An error occurred during analysis. Please try again.');
     } finally {
       setIsAnalyzing(false);
     }

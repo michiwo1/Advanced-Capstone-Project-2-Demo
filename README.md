@@ -34,3 +34,28 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## Sample Prompt For Resume
+1. Content Enhancement
+- Strengthen impact by using powerful action verbs
+- Quantify achievements with specific metrics and results
+- Highlight relevant skills and accomplishments
+- Remove redundant or irrelevant information
+
+2. Structure and Format
+- Ensure consistent formatting throughout
+- Optimize section organization for readability
+- Create clear visual hierarchy
+- Maintain professional spacing and alignment
+
+3. Language and Style
+- Use clear, concise, and professional language
+- Eliminate passive voice and wordiness
+- Maintain consistent tense usage
+- Enhance keyword optimization for ATS systems
+
+4. Industry Best Practices
+- Align with current industry standards
+- Incorporate relevant industry keywords
+- Follow modern resume conventions
+- Ensure compliance with professional expectations
