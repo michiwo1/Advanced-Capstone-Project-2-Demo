@@ -25,6 +25,7 @@ export async function analyzeCompany(companyInfo: string) {
     try {
       // Parse to validate the structure
       const parsed: AnalysisResult = JSON.parse(result);
+      console.log('Parsed result:', parsed);
       if (!parsed || typeof parsed.matchRate !== 'number' || typeof parsed.reasons !== 'string') {
         throw new Error('Invalid analysis result format');
       }

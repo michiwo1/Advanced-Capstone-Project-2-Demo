@@ -223,6 +223,7 @@ Please act as a recruitment matching system.
 6. The response must be a single line of valid JSON.
 7. The matchRate must be a number between 1 and 100.
 8. The reasons must be a string explaining the match rate.
+9. Do not include any line breaks in the reasons string.
 
 [Company Information]
 ${company}
@@ -254,10 +255,17 @@ ${text}
 
     // Step 3: Fix JSON formatting
     cleanJson = cleanJson
-      .replace(/'/g, '"')
-      .replace(/,\s*([\]}])/g, '$1')
-      .replace(/([{,])\s*"([^"]+)"\s*:\s*"([^"]+)"\s*([,}])/g, '$1"$2":"$3"$4')
-      .replace(/([{,])\s*"([^"]+)"\s*:\s*(\d+)\s*([,}])/g, '$1"$2":$3$4');
+      .replace(/^([^{]*)'([^']*)'([^{]*){/, '$1"$2"$3{') // Replace single quotes before the opening brace
+      .replace(/}([^}]*)'([^']*)'([^}]*$)/, '}$1"$2"$3') // Replace single quotes after the closing brace
+      .replace(/([{,])\s*"([^"]+)"\s*:\s*(\d+)\s*([,}])/g, '$1"$2":$3$4') // Handle numbers first
+      .replace(/([{,])\s*"([^"]+)"\s*:\s*"([^"]*)"\s*([,}])/g, (match, p1, p2, p3, p4) => {
+        // Properly escape any special characters in the string value
+        const escapedValue = p3
+          .replace(/\\/g, '\\\\')
+          .replace(/"/g, '\\"')
+          .replace(/\n/g, ' ');
+        return `${p1}"${p2}":"${escapedValue}"${p4}`;
+      });
     console.log('After JSON formatting:', cleanJson);
 
     try {
@@ -297,23 +305,36 @@ ${text}
     } catch (parseError) {
       console.error('Parse error details:', parseError);
       
-      // Last resort: try to extract values directly using regex
+      // Last resort: try to extract values directly
       try {
+        // Extract matchRate
         const matchRateMatch = cleanJson.match(/"matchRate"\s*:\s*(\d+)/);
-        const reasonsMatch = cleanJson.match(/"reasons"\s*:\s*"([^"]+)"/);
-        
-        if (matchRateMatch && reasonsMatch) {
-          const matchRate = parseInt(matchRateMatch[1], 10);
-          const reasons = reasonsMatch[1].trim();
-          
-          if (matchRate >= 1 && matchRate <= 100 && reasons) {
-            return JSON.stringify({
-              matchRate,
-              reasons
-            });
-          }
+        if (!matchRateMatch) {
+          throw new Error('Could not extract matchRate');
         }
-        throw new Error('Could not extract valid values from response');
+        const matchRate = parseInt(matchRateMatch[1], 10);
+        if (matchRate < 1 || matchRate > 100) {
+          throw new Error('Invalid matchRate value');
+        }
+
+        // Extract reasons using a more robust pattern
+        const reasonsMatch = cleanJson.match(/"reasons"\s*:\s*"((?:[^"\\]|\\"|\\\\)*)"/);
+        if (!reasonsMatch) {
+          throw new Error('Could not extract reasons');
+        }
+        const reasons = reasonsMatch[1]
+          .replace(/\\"/g, '"')
+          .replace(/\\\\/g, '\\')
+          .trim();
+
+        if (!reasons) {
+          throw new Error('Empty reasons value');
+        }
+
+        return JSON.stringify({
+          matchRate,
+          reasons
+        });
       } catch (regexError) {
         console.error('Regex extraction failed:', regexError);
         console.error('Final cleaned JSON that failed to parse:', cleanJson);
