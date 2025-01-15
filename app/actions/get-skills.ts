@@ -18,11 +18,9 @@ export async function getSkills(): Promise<SkillsData> {
 
     // JSONテキストをオブジェクトに変換
     const cleanedSkills = skillsData.skill_name
-      .replace(/^[\s\S]*?{/, '{')     // Remove everything before the first {
-      .replace(/}[\s\S]*$/, '}')      // Remove everything after the last }
+      .replace(/^'|'$/g, '')          // Remove single quotes only at the start and end
       .replace(/```[a-z]*\s*/g, '')   // Remove any markdown code blocks
       .replace(/^\s+|\s+$/g, '')      // Trim whitespace
-      .replace(/'/g, '"')             // Convert single quotes to double quotes
       .replace(/\n\s*/g, '')          // Remove newlines and following spaces
       .replace(/,(\s*[}\]])/g, '$1'); // Remove trailing commas
 
