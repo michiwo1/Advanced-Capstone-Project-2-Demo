@@ -1,6 +1,6 @@
 'use client'
 
-import html2pdf from 'html2pdf.js'
+import html2pdf from 'html2pdf.js/dist/html2pdf.min'
 
 interface PDFExportButtonProps {
   targetId: string  // ID of the element to export
