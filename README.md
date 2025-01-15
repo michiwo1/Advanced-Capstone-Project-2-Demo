@@ -59,3 +59,21 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 - Incorporate relevant industry keywords
 - Follow modern resume conventions
 - Ensure compliance with professional expectations
+
+## Basic Authentication
+
+The application is protected with basic authentication. To access the application, you need to set up the following environment variables:
+
+### Environment Variables
+
+- `BASIC_AUTH_USER`: Username for basic authentication
+- `BASIC_AUTH_PASSWORD`: Password for basic authentication
+
+### Local Development
+
+1. Copy the environment variables from `.env` to `.env.local`
+2. Update the values in `.env.local` with your desired credentials
+3. The basic auth will be active in all environments where these variables are set
+4. API routes, static files, and images are excluded from authentication
+
+Note: Make sure not to commit your actual credentials to version control. Keep your `.env.local` file in `.gitignore`.
