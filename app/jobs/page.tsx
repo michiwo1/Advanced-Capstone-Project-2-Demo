@@ -129,7 +129,7 @@ export default async function JobsPage() {
           </CardHeader>
           <CardContent>
             <p className="text-sm text-gray-600 mb-4">
-              Find jobs efficiently with ZipRecruiter's AI matching technology
+              Find jobs efficiently with ZipRecruiter&apos;s AI matching technology
               based on your skills and experience.
             </p>
             <div className="flex flex-wrap gap-2">
