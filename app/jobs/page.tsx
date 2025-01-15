@@ -1,8 +1,8 @@
 import * as React from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { getLatestJobSearchCriteria } from "../actions/get-latest-criteria"
-import { getLatestAiMessage } from "../actions/get-latest-ai-message"
+import { getLatestJobSearchCriteria } from "@/app/actions/get-latest-criteria"
+import { getLatestAiMessage } from "@/app/actions/get-latest-ai-message"
 import ReactMarkdown from 'react-markdown'
 
 export const revalidate = 0; // Always fetch the latest data

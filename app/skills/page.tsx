@@ -1,7 +1,7 @@
 import * as React from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { getLatestAiMessage } from "../actions/get-latest-ai-message";
-import { getSkills } from "../actions/get-skills";
+import { getLatestAiMessage } from "@/app/actions/get-latest-ai-message";
+import { getSkills } from "@/app/actions/get-skills";
 import ReactMarkdown from 'react-markdown';
 
 export const revalidate = 0;
