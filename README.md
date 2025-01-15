@@ -1,79 +1,166 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Career Compass - AI Career Assistant
 
-## Getting Started
+Career Compass is a comprehensive AI-powered career support platform that helps users optimize their career development through personalized resume analysis, job matching, and skill development recommendations.
 
-First, run the development server:
+## Project Overview
 
+This project aims to create an AI-driven career development platform that addresses several key challenges:
+- Reducing time investment in resume creation
+- Providing objective skill evaluation and market value assessment
+- Simplifying compatibility analysis between personal skills and job requirements
+- Supporting informed career direction decisions
+
+## Target Audience
+
+- Working professionals considering career changes
+- New graduates seeking employment
+- People exploring career transitions
+- Professionals looking to enhance their skills
+
+## Features
+
+### Core Features
+- **Resume Upload & Analysis**
+  - PDF upload with validation
+  - Text extraction and processing
+  - AI-powered content analysis
+  - Personalized feedback generation
+
+- **Job Matching**
+  - Integration with major job platforms (Indeed, LinkedIn, Glassdoor)
+  - AI career analysis
+  - Customized job recommendations
+  - Direct application links
+
+- **Skills Analysis**
+  - Current skill set evaluation
+  - Gap analysis
+  - Learning resource recommendations (Udemy, YouTube)
+  - Progress tracking
+
+### Advanced Features
+- **Market Analysis**
+  - Skill evaluation visualization (radar charts)
+  - Salary range insights
+  - Industry trend analysis
+  - Position market analysis
+
+- **Company Analysis**
+  - Company compatibility assessment
+  - Match rate quantification
+  - Detailed matching analysis
+  - History management
+
+- **Resume Management**
+  - Version control
+  - Improvement tracking
+  - PDF export
+  - Comparison tools
+
+## Technology Stack
+
+### Frontend
+- Next.js 14
+- TypeScript
+- React
+- TailwindCSS
+- Shadcn UI
+- Chart.js
+- React-Markdown
+
+### Backend
+- Next.js API Routes
+- Prisma (ORM)
+- PostgreSQL
+
+### External Services
+- Google Gemini AI API
+
+### Development & Deployment
+- Vercel
+- GitHub Actions
+- Jest
+- Cypress
+
+## Prerequisites
+
+- Node.js (version TBD)
+- PostgreSQL database
+- Google Cloud Platform account for Gemini API access
+
+## Installation
+
+1. Clone the repository:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone [repository-url]
+cd career-compass
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Install dependencies:
+```bash
+npm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Set up environment variables:
+Create a `.env` file with the following variables:
+```
+DATABASE_URL="postgresql://[user]:[password]@localhost:5432/career_compass"
+GOOGLE_GEMINI_API_KEY="your-api-key"
+BASIC_AUTH_USER="your-username"
+BASIC_AUTH_PASSWORD="your-password"
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+4. Initialize the database:
+```bash
+npx prisma generate
+npx prisma db push
+```
 
-## Learn More
+5. Run the development server:
+```bash
+npm run dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Site Structure
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+Home (/)
+├── Resume Upload Page
+├── Jobs (/jobs)
+│   └── Job Search Results
+├── Skills (/skills)
+│   ├── Skill Analysis
+│   └── Learning Resources
+├── Market Analysis (/market)
+│   ├── Salary Insights
+│   └── Industry Trends
+├── Company Analysis (/company)
+│   ├── Compatibility Check
+│   └── Analysis History (/diagnosis)
+└── Resume (/resume)
+    ├── Improvement Page
+    └── Resume History (/resume-history)
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Testing
 
-## Deploy on Vercel
+The project implements comprehensive testing:
+- Unit tests with Jest for backend functionality
+- E2E testing with Cypress for frontend features
+- Automated CI/CD pipeline using GitHub Actions
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Contributing
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-## Sample Prompt For Resume
-1. Content Enhancement
-- Strengthen impact by using powerful action verbs
-- Quantify achievements with specific metrics and results
-- Highlight relevant skills and accomplishments
-- Remove redundant or irrelevant information
+## License
 
-2. Structure and Format
-- Ensure consistent formatting throughout
-- Optimize section organization for readability
-- Create clear visual hierarchy
-- Maintain professional spacing and alignment
+This project is licensed under the MIT License - see the LICENSE file for details.
 
-3. Language and Style
-- Use clear, concise, and professional language
-- Eliminate passive voice and wordiness
-- Maintain consistent tense usage
-- Enhance keyword optimization for ATS systems
+## Author
 
-4. Industry Best Practices
-- Align with current industry standards
-- Incorporate relevant industry keywords
-- Follow modern resume conventions
-- Ensure compliance with professional expectations
-
-## Basic Authentication
-
-The application is protected with basic authentication. To access the application, you need to set up the following environment variables:
-
-### Environment Variables
-
-- `BASIC_AUTH_USER`: Username for basic authentication
-- `BASIC_AUTH_PASSWORD`: Password for basic authentication
-
-### Local Development
-
-1. Copy the environment variables from `.env` to `.env.local`
-2. Update the values in `.env.local` with your desired credentials
-3. The basic auth will be active in all environments where these variables are set
-4. API routes, static files, and images are excluded from authentication
-
-Note: Make sure not to commit your actual credentials to version control. Keep your `.env.local` file in `.gitignore`.
+Full-stack engineer with over 2 years of web development experience, specializing in TypeScript, React, and Next.js development. Experienced in DX new development and online medical service development.

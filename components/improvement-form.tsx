@@ -31,7 +31,8 @@ export function ImprovementForm({ updatedResume }: { updatedResume: string }) {
     
     try {
       // Dynamic import of html2pdf.js
-      const html2pdf = await import('html2pdf.js/dist/html2pdf.min');
+      const html2pdfModule = await import('html2pdf.js/dist/html2pdf.min');
+      const html2pdf = (html2pdfModule as any).default;
       
       // Create a temporary div and render markdown content
       const tempDiv = document.createElement('div');
@@ -60,7 +61,7 @@ export function ImprovementForm({ updatedResume }: { updatedResume: string }) {
         jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
       };
 
-      html2pdf.default().set(opt).from(tempDiv).save().then(() => {
+      html2pdf().set(opt).from(tempDiv).save().then(() => {
         // Cleanup
         root.unmount();
       });
