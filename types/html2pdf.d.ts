@@ -1,4 +1,4 @@
-declare module 'html2pdf.js/dist/html2pdf.min' {
+declare module 'html2pdf.js' {
   interface Html2PdfOptions {
     margin?: number;
     filename?: string;
@@ -8,6 +8,7 @@ declare module 'html2pdf.js/dist/html2pdf.min' {
     };
     html2canvas?: {
       scale?: number;
+      backgroundColor?: string;
     };
     jsPDF?: {
       unit?: string;
@@ -16,15 +17,11 @@ declare module 'html2pdf.js/dist/html2pdf.min' {
     };
   }
 
-  interface Html2Pdf {
-    set: (options: Html2PdfOptions) => Html2Pdf;
-    from: (element: HTMLElement) => Html2Pdf;
+  interface Html2PdfInstance {
+    set: (options: Html2PdfOptions) => Html2PdfInstance;
+    from: (element: HTMLElement) => Html2PdfInstance;
     save: () => Promise<void>;
   }
 
-  const html2pdf: {
-    default: () => Html2Pdf;
-  };
-
-  export = html2pdf;
+  export default function html2pdf(): Html2PdfInstance;
 } 
