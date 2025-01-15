@@ -42,10 +42,6 @@ export async function getLatestChartData(): Promise<ChartData> {
 
     try {
       const parsedData = JSON.parse(latestChartData.chart_data) as ChartData;
-      if (!isValidChartData(parsedData)) {
-        console.error('Invalid chart data format, using default data');
-        return defaultChartData;
-      }
       return parsedData;
     } catch (parseError) {
       console.error('Error parsing chart data JSON:', parseError);
@@ -60,22 +56,3 @@ export async function getLatestChartData(): Promise<ChartData> {
     return defaultChartData;
   }
 }
-
-function isValidChartData(data: unknown): data is ChartData {
-  return (
-    data !== null &&
-    typeof data === 'object' &&
-    'labels' in data &&
-    Array.isArray((data as ChartData).labels) &&
-    'datasets' in data &&
-    Array.isArray((data as ChartData).datasets) &&
-    (data as ChartData).datasets.every((dataset): dataset is ChartData['datasets'][0] =>
-      typeof dataset === 'object' &&
-      dataset !== null &&
-      'label' in dataset &&
-      typeof dataset.label === 'string' &&
-      'data' in dataset &&
-      Array.isArray(dataset.data)
-    )
-  );
-} 
