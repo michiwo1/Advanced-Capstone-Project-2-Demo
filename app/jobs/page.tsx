@@ -69,7 +69,7 @@ export default async function JobsPage() {
           </CardHeader>
           <CardContent>
             <p className="text-sm text-gray-600 mb-4">
-              Find career opportunities through LinkedIn's
+              Find career opportunities through LinkedIn&apos;s
               professional network.
             </p>
             <div className="flex flex-wrap gap-2">

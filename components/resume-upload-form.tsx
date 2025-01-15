@@ -48,11 +48,10 @@ export function ResumeUploadForm() {
           router.push('/jobs')
         }, 1000)
       }
-    } catch (error: unknown) {
-      console.error('Upload error:', error);
+    } catch (error) {
       setMessage({
         type: 'error',
-        text: 'An error occurred during upload.'
+        text: 'Failed to upload resume'
       })
     } finally {
       setLoading(false)
