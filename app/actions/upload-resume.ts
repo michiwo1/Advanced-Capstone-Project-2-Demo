@@ -1,8 +1,8 @@
 'use server'
 
 import { analyzeTextWithGemini, analyzeTextWithGemini2, analyzeTextWithGemini3, analyzeTextWithGemini4, analyzeTextWithGemini5, analyzeTextWithGemini6 } from '@/lib/gemini'
-import pdfParse from 'pdf-parse/lib/pdf-parse.js'
 import { prisma } from '@/lib/prisma'
+import { extractTextFromPDF } from '@/lib/pdf-utils'
 
 export async function uploadResume(formData: FormData) {
   const file = formData.get('resume')
@@ -12,18 +12,10 @@ export async function uploadResume(formData: FormData) {
   }
 
   try {
-    // Read PDF file as ArrayBuffer
-    const arrayBuffer = await file.arrayBuffer()
-    const buffer = Buffer.from(arrayBuffer)
-    
-    // Convert PDF to text
+    // Extract text from PDF using our utility function
     let text: string
     try {
-      const data = await pdfParse(buffer, {
-        max: 0,
-        version: 'v2.0.550'
-      })
-      text = data.text
+      text = await extractTextFromPDF(file)
       
       if (!text || text.trim().length === 0) {
         return { success: false, message: 'Could not extract text from PDF. The PDF might be empty or contain no text.' }
