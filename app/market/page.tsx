@@ -5,10 +5,11 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import ReactMarkdown from 'react-markdown'
 import { MarketChart } from '@/components/market-chart'
 import { SalaryChart } from '@/components/salary-chart'
+import { Tag } from '@prisma/client'
 
 export default async function MarketPage() {
   const [aiMessage, chartData] = await Promise.all([
-    getLatestAiMessage("market"),
+    getLatestAiMessage(Tag.market),
     getLatestChartData()
   ]);
 
