@@ -3,6 +3,8 @@
 import { ResumeUploadForm } from "@/components/resume-upload-form";
 import { BackgroundParticles } from "@/components/background-particles";
 import { motion } from "framer-motion";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { AlertTriangle } from "lucide-react";
 
 export default function HomePage() {
   return (
@@ -24,7 +26,8 @@ export default function HomePage() {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5, delay: 0.2 }}
             >
-              レジュメのアップロード
+              <span className="block text-3xl sm:text-5xl">Career Compass</span>
+              <span className="block text-base sm:text-lg text-gray-500 mt-1">AI Career Assistant</span>
             </motion.h1>
             <motion.p 
               className="text-center text-lg text-gray-600"
@@ -32,16 +35,33 @@ export default function HomePage() {
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.4 }}
             >
-              PDFをアップロードしてください。
+              Optimize your tech career with AI-powered resume analysis
               <br />
-              <span className="text-sm opacity-75">ファイルサイズは5MB以下にしてください。</span>
+              <span className="text-base text-blue-600 font-mono">{"{"} supports: PDF format | max_size: 5MB {"}"}</span>
             </motion.p>
           </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <Alert variant="destructive" className="mb-6">
+              <AlertTriangle className="h-5 w-5" />
+              <AlertDescription>
+                This is a demo service. Please only upload test data. We are not responsible for any personal information leaks.
+              </AlertDescription>
+            </Alert>
+          </motion.div>
+          
           <motion.div 
-            className="bg-white/80 backdrop-blur-sm py-10 px-6 shadow-xl rounded-2xl sm:px-12 transition-all hover:shadow-2xl hover:bg-white/90"
+            className="bg-white/80 backdrop-blur-sm py-10 px-6 shadow-xl rounded-2xl sm:px-12 transition-all hover:shadow-2xl hover:bg-white/90 border border-gray-200"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.6 }}
+            style={{
+              background: "linear-gradient(145deg, rgba(255,255,255,0.9) 0%, rgba(240,245,255,0.9) 100%)",
+            }}
           >
             <ResumeUploadForm />
           </motion.div>

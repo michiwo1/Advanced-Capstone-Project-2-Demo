@@ -19,7 +19,7 @@ export function Navbar() {
               pathname === "/" ? "text-primary" : "text-muted-foreground"
             )}
           >
-            アップロード
+            Upload
           </Link>
           <Link
             href="/jobs"
@@ -28,7 +28,7 @@ export function Navbar() {
               pathname === "/jobs" ? "text-primary" : "text-muted-foreground"
             )}
           >
-            求人検索
+            Job Search
           </Link>
           <Link
             href="/skills"
@@ -37,7 +37,7 @@ export function Navbar() {
               pathname === "/skills" ? "text-primary" : "text-muted-foreground"
             )}
           >
-            スキル分析
+            Skills Analysis
           </Link>
           <Link
             href="/market"
@@ -46,7 +46,7 @@ export function Navbar() {
               pathname === "/market" ? "text-primary" : "text-muted-foreground"
             )}
           >
-            労働市場分析
+            Market Analysis
           </Link>
           <Link
             href="/company"
@@ -55,7 +55,7 @@ export function Navbar() {
               pathname === "/company" ? "text-primary" : "text-muted-foreground"
             )}
           >
-            企業分析
+            Company Analysis
           </Link>
           <Link
             href="/resume"
@@ -64,7 +64,7 @@ export function Navbar() {
               pathname === "/resume" ? "text-primary" : "text-muted-foreground"
             )}
           >
-            レジュメ改善
+            Resume Improvement
           </Link>
         </div>
       </div>

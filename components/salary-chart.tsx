@@ -21,20 +21,22 @@ ChartJS.register(
   Legend
 );
 
-// 実際の日本のソフトウェアエンジニアの給与データ（万円）
+// Actual salary data for software engineers in North America (in USD)
 const rawData = [
-  // 新卒・若手（1-3年）
-  350, 360, 370, 380, 380, 390, 390, 400, 400, 410, 420, 420, 430, 430, 440,
-  // 中堅（3-7年）
-  450, 460, 470, 480, 480, 490, 500, 500, 510, 520, 530, 540, 550, 560, 570,
-  // シニア（7-10年）
-  580, 600, 620, 640, 650, 660, 680, 700, 720, 740, 750, 760, 780, 800,
-  // リード・マネージャー
-  820, 850, 880, 900, 920, 950, 980, 1000, 1050,
-  // 外資系・ハイスキル
-  1100, 1200, 1300, 1400, 1500, 1600, 1800, 2000
+  // Entry level / Junior (0-3 years)
+  75000, 80000, 85000, 90000, 95000, 100000, 105000, 110000, 115000, 120000,
+  // Mid-level (3-5 years)
+  120000, 130000, 140000, 150000, 160000, 170000, 180000, 190000, 200000,
+  // Senior (5-8 years)
+  180000, 190000, 200000, 210000, 220000, 230000, 240000, 250000, 260000,
+  // Staff / Lead (8+ years)
+  250000, 270000, 290000, 310000, 330000, 350000,
+  // Senior Staff / Principal
+  350000, 380000, 400000, 420000, 450000,
+  // FAANG / Top Tech
+  400000, 450000, 500000, 550000, 600000, 650000, 700000, 800000
 ];
-const bins = [300, 400, 500, 600, 700, 800, 900, 1000, 1200, 1500, 2000];
+const bins = [70000, 100000, 150000, 200000, 250000, 300000, 350000, 400000, 500000, 800000];
 
 function binData(data: number[], binEdges: number[]) {
   const counts = Array(binEdges.length - 1).fill(0);
@@ -51,16 +53,15 @@ function binData(data: number[], binEdges: number[]) {
 }
 
 const labels = [
-  "300-399万",
-  "400-499万",
-  "500-599万",
-  "600-699万",
-  "700-799万",
-  "800-899万",
-  "900-999万",
-  "1000-1199万",
-  "1200-1499万",
-  "1500-2000万"
+  "$70-99K",
+  "$100-149K",
+  "$150-199K",
+  "$200-249K",
+  "$250-299K",
+  "$300-349K",
+  "$350-399K",
+  "$400-499K",
+  "$500K+"
 ];
 
 export function SalaryChart() {
@@ -70,7 +71,7 @@ export function SalaryChart() {
     labels,
     datasets: [
       {
-        label: '給与分布',
+        label: 'Salary Distribution',
         data: histogramCounts,
         backgroundColor: 'rgba(255, 159, 64, 0.5)',
         borderColor: 'rgba(255, 159, 64, 1)',
@@ -90,16 +91,16 @@ export function SalaryChart() {
     scales: {
       y: {
         beginAtZero: true,
-        max: 100,
+        max: 25,
         title: {
           display: true,
-          text: '割合(%)'
+          text: 'Percentage (%)'
         }
       },
       x: {
         title: {
           display: true,
-          text: '年収レンジ'
+          text: 'Annual Salary Range'
         }
       }
     }

@@ -52,7 +52,7 @@ export function ResumeUploadForm() {
       console.error('Upload error:', error);
       setMessage({
         type: 'error',
-        text: 'アップロード中にエラーが発生しました。'
+        text: 'An error occurred during upload.'
       })
     } finally {
       setLoading(false)
@@ -89,10 +89,10 @@ export function ResumeUploadForm() {
                 <Cloud className="h-12 w-12 text-blue-400" />
                 <div>
                   <p className="text-xl font-semibold text-gray-800">
-                    ここにPDFファイルをドラッグ&ドロップ
+                    Drag & Drop PDF file here
                   </p>
                   <p className="text-base text-gray-600 mt-2">
-                    または、クリックしてファイルを選択
+                    or click to select a file
                   </p>
                 </div>
               </>
@@ -113,10 +113,10 @@ export function ResumeUploadForm() {
         {loading ? (
           <>
             <Loader2 className="mr-3 h-5 w-5 animate-spin" />
-            分析中...
+            Analyzing...
           </>
         ) : (
-          'アップロード'
+          'Upload'
         )}
       </Button>
     </form>

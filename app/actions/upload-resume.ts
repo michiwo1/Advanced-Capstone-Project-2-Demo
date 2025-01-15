@@ -8,15 +8,15 @@ export async function uploadResume(formData: FormData) {
   const file = formData.get('resume')
   
   if (!file || !(file instanceof File)) {
-    return { success: false, message: 'ファイルが選択されていません。' }
+    return { success: false, message: 'No file selected.' }
   }
 
   try {
-    // PDFファイルをArrayBufferとして読み込む
+    // Read PDF file as ArrayBuffer
     const arrayBuffer = await file.arrayBuffer()
     const buffer = Buffer.from(arrayBuffer)
     
-    // PDFをテキストに変換
+    // Convert PDF to text
     let text: string
     try {
       const data = await pdfParse(buffer, {
@@ -26,11 +26,11 @@ export async function uploadResume(formData: FormData) {
       text = data.text
       
       if (!text || text.trim().length === 0) {
-        return { success: false, message: 'PDFからテキストを抽出できませんでした。PDFが空か、テキストが含まれていない可能性があります。' }
+        return { success: false, message: 'Could not extract text from PDF. The PDF might be empty or contain no text.' }
       }
     } catch (pdfError) {
-      console.error('PDF解析エラー:', pdfError)
-      return { success: false, message: 'PDFの解析に失敗しました。PDFファイルが破損しているか、サポートされていない形式の可能性があります。' }
+      console.error('PDF parsing error:', pdfError)
+      return { success: false, message: 'Failed to parse PDF. The file might be corrupted or in an unsupported format.' }
     }
     
     // Analyze with Gemini
@@ -38,11 +38,11 @@ export async function uploadResume(formData: FormData) {
     try {
       analysis = await analyzeTextWithGemini(text)
       if (!analysis) {
-        return { success: false, message: 'テキスト分析に失敗しました。Gemini APIからの応答がありませんでした。' }
+        return { success: false, message: 'Text analysis failed. No response from Gemini API.' }
       }
     } catch (geminiError) {
-      console.error('Gemini分析エラー:', geminiError)
-      return { success: false, message: 'テキスト分析中にエラーが発生しました。しばらく時間をおいて再度お試しください。' }
+      console.error('Gemini analysis error:', geminiError)
+      return { success: false, message: 'An error occurred during text analysis. Please try again later.' }
     }
     
     // Parse JSON and save to database
@@ -64,7 +64,7 @@ export async function uploadResume(formData: FormData) {
       const missingFields = requiredFields.filter(field => !parsedAnalysis[field])
       
       if (missingFields.length > 0) {
-        return { success: false, message: `分析結果に必要なフィールドが不足しています: ${missingFields.join(', ')}` }
+        return { success: false, message: `Analysis results missing required fields: ${missingFields.join(', ')}` }
       }
       
       await prisma.jobSearchCriteria.create({
@@ -80,7 +80,7 @@ export async function uploadResume(formData: FormData) {
         }
       })
 
-      // レジュメをデータベースに保存
+      // Save resume to database
       const savedResume = await prisma.resume.create({
         data: {
           originalResume: text
@@ -88,10 +88,10 @@ export async function uploadResume(formData: FormData) {
       })
 
       if (!savedResume) {
-        throw new Error('レジュメの保存に失敗しました。')
+        throw new Error('Failed to save resume.')
       }
       
-      // Gemini2での分析結果をAiMessageとして保存
+      // Save Gemini2 analysis as AiMessage
       const gemini2Analysis = await analyzeTextWithGemini2(text)
       await prisma.aiMessage.create({
         data: {
@@ -100,7 +100,7 @@ export async function uploadResume(formData: FormData) {
         }
       })
 
-      // Gemini3での分析結果をAiMessageとして保存
+      // Save Gemini3 analysis as AiMessage
       const gemini3Analysis = await analyzeTextWithGemini3(text)
       await prisma.aiMessage.create({
         data: {
@@ -109,7 +109,7 @@ export async function uploadResume(formData: FormData) {
         }
       })
 
-      // Gemini4での分析結果をAiMessageとして保存
+      // Save Gemini4 analysis as AiMessage
       const gemini4Analysis = await analyzeTextWithGemini4(gemini3Analysis)
       await prisma.skillsDatabase.create({
           data: {
@@ -117,7 +117,7 @@ export async function uploadResume(formData: FormData) {
           }
         })
 
-      // Gemini5での分析結果をAiMessageとして保存
+      // Save Gemini5 analysis as AiMessage
       const gemini5Analysis = await analyzeTextWithGemini5(text)
       await prisma.aiMessage.create({
         data: {
@@ -126,9 +126,9 @@ export async function uploadResume(formData: FormData) {
         }
       })
 
-      // Gemini6での分析結果をAiMessageとして保存
+      // Save Gemini6 analysis as AiMessage
       const gemini6Analysis = await analyzeTextWithGemini6(text)
-      // レスポンスから```を除去
+      // Remove ``` from response
       const cleanedGemini6Analysis = gemini6Analysis
         .replace(/^[\s\S]*?{/, '{')     // Remove everything before the first {
         .replace(/}[\s\S]*$/, '}')      // Remove everything after the last }
@@ -145,17 +145,17 @@ export async function uploadResume(formData: FormData) {
       })
 
     } catch (dbError) {
-      console.error('データベース保存エラー:', dbError)
+      console.error('Database save error:', dbError)
       if (dbError instanceof SyntaxError) {
-        return { success: false, message: '分析結果のJSONパースに失敗しました。' }
+        return { success: false, message: 'Failed to parse analysis results JSON.' }
       }
-      return { success: false, message: 'データベースへの保存中にエラーが発生しました。' }
+      return { success: false, message: 'An error occurred while saving to database.' }
     }
     
     return { success: true, message: analysis }
   } catch (error) {
-    console.error('予期せぬエラー:', error)
-    return { success: false, message: '予期せぬエラーが発生しました。システム管理者にお問い合わせください。' }
+    console.error('Unexpected error:', error)
+    return { success: false, message: 'An unexpected error occurred. Please contact system administrator.' }
   }
 }
 

@@ -23,13 +23,22 @@ export default function CompanyPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsAnalyzing(true);
+    setShowResult(false);
+    
     try {
       const result = await analyzeCompany(companyInfo);
-      setAnalysisResult(JSON.parse(result));
-      setShowResult(true);
+      try {
+        const parsedResult = JSON.parse(result);
+        setAnalysisResult(parsedResult);
+        setShowResult(true);
+      } catch (parseError) {
+        console.error('Failed to parse analysis result:', parseError);
+        alert('The analysis result was not in the expected format. Please try again.');
+      }
     } catch (error) {
       console.error('Analysis failed:', error);
-      alert('分析中にエラーが発生しました。');
+      const errorMessage = error instanceof Error ? error.message : 'An unexpected error occurred';
+      alert(`Analysis failed: ${errorMessage}`);
     } finally {
       setIsAnalyzing(false);
     }
@@ -39,14 +48,14 @@ export default function CompanyPage() {
     <div className="container mx-auto max-w-4xl space-y-6 p-8 pt-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-3xl font-bold tracking-tight">企業分析</h2>
-          <p className="text-muted-foreground mt-2">企業情報を入力して、あなたとの相性を分析します</p>
+          <h2 className="text-3xl font-bold tracking-tight">Company Analysis</h2>
+          <p className="text-muted-foreground mt-2">Enter company information to analyze compatibility</p>
         </div>
         <Link
           href="/diagnosis"
           className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
         >
-          診断結果一覧
+          View Analysis History
         </Link>
       </div>
 
@@ -54,12 +63,12 @@ export default function CompanyPage() {
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label htmlFor="companyInfo" className="block text-sm font-medium text-gray-700 mb-2">
-              企業情報
+              Company Information
             </label>
             <textarea
               id="companyInfo"
               className="w-full h-48 p-4 border rounded-lg resize-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              placeholder="企業の特徴、事業内容、企業文化などの情報を入力してください"
+              placeholder="Enter information about the company's characteristics, business activities, and corporate culture"
               value={companyInfo}
               onChange={(e) => setCompanyInfo(e.target.value)}
             />
@@ -79,9 +88,9 @@ export default function CompanyPage() {
                   <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                   <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                 </svg>
-                診断中...
+                Analyzing...
               </span>
-            ) : '診断する'}
+            ) : 'Analyze'}
           </button>
         </form>
       </div>
@@ -89,10 +98,10 @@ export default function CompanyPage() {
       {showResult && analysisResult && (
         <div className="bg-white rounded-lg shadow-sm border overflow-hidden">
           <div className="p-6 border-b">
-            <h3 className="text-xl font-bold mb-4">診断結果</h3>
+            <h3 className="text-xl font-bold mb-4">Analysis Results</h3>
             <div className="mb-6">
               <div className="flex justify-between mb-2">
-                <h4 className="font-medium text-gray-700">マッチ率</h4>
+                <h4 className="font-medium text-gray-700">Match Rate</h4>
                 <span className="font-semibold text-blue-600">{analysisResult.matchRate}%</span>
               </div>
               <div className="w-full bg-gray-100 rounded-full h-5">
@@ -110,7 +119,7 @@ export default function CompanyPage() {
                 className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
                 onClick={() => setShowSaveDialog(true)}
               >
-                結果を保存
+                Save Results
               </button>
             </div>
           </div>
@@ -120,10 +129,10 @@ export default function CompanyPage() {
       {showSaveDialog && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
-            <h3 className="text-xl font-bold mb-4">分析結果の保存</h3>
+            <h3 className="text-xl font-bold mb-4">Save Analysis Results</h3>
             <div className="mb-4">
               <label htmlFor="companyTitle" className="block text-sm font-medium text-gray-700 mb-2">
-                企業名
+                Company Name
               </label>
               <input
                 type="text"
@@ -131,12 +140,12 @@ export default function CompanyPage() {
                 value={companyTitle}
                 onChange={(e) => setCompanyTitle(e.target.value)}
                 className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                placeholder="企業名を入力してください"
+                placeholder="Enter company name"
               />
             </div>
             <div className="mb-4">
               <label htmlFor="companyLink" className="block text-sm font-medium text-gray-700 mb-2">
-                企業リンク
+                Company Website
               </label>
               <input
                 type="url"
@@ -144,10 +153,10 @@ export default function CompanyPage() {
                 value={companyLink}
                 onChange={(e) => setCompanyLink(e.target.value)}
                 className="w-full p-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                placeholder="企業のウェブサイトURLを入力してください"
+                placeholder="Enter company website URL"
               />
             </div>
-            <p className="text-gray-600 mb-6">この企業の分析結果を保存しますか？</p>
+            <p className="text-gray-600 mb-6">Would you like to save this company analysis?</p>
             <div className="flex justify-end space-x-2">
               <button
                 className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors"
@@ -157,7 +166,7 @@ export default function CompanyPage() {
                   setCompanyLink('');
                 }}
               >
-                キャンセル
+                Cancel
               </button>
               <button
                 disabled={!companyTitle.trim()}
@@ -176,20 +185,20 @@ export default function CompanyPage() {
                       companyLink
                     );
                     if (result.success) {
-                      alert('保存が完了しました');
+                      alert('Successfully saved');
                     } else {
                       throw new Error(result.error);
                     }
                   } catch (error) {
-                    console.error('保存に失敗しました:', error);
-                    alert('保存に失敗しました');
+                    console.error('Failed to save:', error);
+                    alert('Failed to save');
                   }
                   setShowSaveDialog(false);
                   setCompanyTitle('');
                   setCompanyLink('');
                 }}
               >
-                保存する
+                Save
               </button>
             </div>
           </div>

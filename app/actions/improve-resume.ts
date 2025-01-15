@@ -6,16 +6,16 @@ import { getResume } from './get-resume'
 export async function improveResume(formData: FormData) {
   const resume = formData.get('resume')
   if (!resume || typeof resume !== 'string') {
-    throw new Error('履歴書が必要です')
+    throw new Error('Resume is required')
   }
   const instruction = formData.get('instruction')
   if (!instruction || typeof instruction !== 'string') {
-    throw new Error('指示を入力してください')
+    throw new Error('Please enter instructions')
   }
 
   const currentResume = await getResume()
   if (!currentResume) {
-    throw new Error('レジュメが見つかりません')
+    throw new Error('Resume not found')
   }
 
   const result = await analyzeTextWithGemini9(resume, formData)

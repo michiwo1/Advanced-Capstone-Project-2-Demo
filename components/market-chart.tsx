@@ -38,12 +38,12 @@ interface MarketChartProps {
 
 export function MarketChart({ chartData }: MarketChartProps) {
   const dummyData = {
-  "実務経験・職務レベル": 40,
-  "専門スキル・技術力": 45,
-  "実績・成果": 40,
-  "ソフトスキル・コミュニケーション": 30,
-  "業界・領域知識": 30,
-  "キャリア成長度・適応力": 40
+  "Work Experience & Job Level": 40,
+  "Technical Skills & Expertise": 45,
+  "Achievements & Results": 40,
+  "Soft Skills & Communication": 30,
+  "Industry & Domain Knowledge": 30,
+  "Career Growth & Adaptability": 40
 }
 
   let labels: string[];
@@ -65,7 +65,7 @@ export function MarketChart({ chartData }: MarketChartProps) {
     labels: labels,
     datasets: [
       {
-        label: 'スキル評価',
+        label: 'Skill Assessment',
         data: data,
         backgroundColor: 'rgba(54, 162, 235, 0.2)',
         borderColor: 'rgba(54, 162, 235, 1)',
