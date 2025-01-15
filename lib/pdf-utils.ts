@@ -1,4 +1,14 @@
-import pdfParse from 'pdf-parse'
+import pdfParse from 'pdf-parse/lib/pdf-parse.js'
+
+interface PDFPageData {
+  getTextContent: () => string;
+}
+
+interface PDFOptions {
+  max?: number;
+  version?: string;
+  render_page?: (pageData: PDFPageData) => string;
+}
 
 export async function extractTextFromPDF(file: File): Promise<string> {
   try {
@@ -8,10 +18,8 @@ export async function extractTextFromPDF(file: File): Promise<string> {
     const data = await pdfParse(buffer, {
       max: 0,
       version: 'v2.0.550',
-      pagerender(pageData: { getTextContent: () => string }): string {
-        return pageData.getTextContent();
-      }
-    })
+      render_page: (pageData: PDFPageData) => pageData.getTextContent()
+    } as PDFOptions)
     
     if (!data.text || data.text.trim().length === 0) {
       throw new Error('No text content found in PDF')

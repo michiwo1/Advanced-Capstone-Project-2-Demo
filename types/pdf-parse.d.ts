@@ -1,4 +1,4 @@
-declare module 'pdf-parse' {
+declare module 'pdf-parse/lib/pdf-parse.js' {
   interface PDFData {
     text: string;
     numpages: number;
@@ -15,9 +15,15 @@ declare module 'pdf-parse' {
   interface PDFOptions {
     max?: number;
     version?: string;
-    pagerender?: (pageData: PDFPageData) => string;
   }
 
-  function pdfParse(dataBuffer: Buffer, options?: PDFOptions): Promise<PDFData>;
+  function pdfParse(dataBuffer: Buffer, options?: PDFOptions & {
+    render_page?: (pageData: PDFPageData) => string;
+  }): Promise<PDFData>;
   export default pdfParse;
+}
+
+declare module 'pdf-parse' {
+  export * from 'pdf-parse/lib/pdf-parse.js';
+  export { default } from 'pdf-parse/lib/pdf-parse.js';
 } 
