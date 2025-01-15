@@ -8,7 +8,7 @@ export async function extractTextFromPDF(file: File): Promise<string> {
     const data = await pdfParse(buffer, {
       max: 0,
       version: 'v2.0.550',
-      pagerender(pageData: any): string {
+      pagerender(pageData: { getTextContent: () => string }): string {
         return pageData.getTextContent();
       }
     })

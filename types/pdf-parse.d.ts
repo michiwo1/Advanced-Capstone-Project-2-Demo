@@ -8,10 +8,14 @@ declare module 'pdf-parse' {
     version: string;
   }
 
+  interface PDFPageData {
+    getTextContent: () => string;
+  }
+
   interface PDFOptions {
     max?: number;
     version?: string;
-    pagerender?: (pageData: any) => string;
+    pagerender?: (pageData: PDFPageData) => string;
   }
 
   function pdfParse(dataBuffer: Buffer, options?: PDFOptions): Promise<PDFData>;
