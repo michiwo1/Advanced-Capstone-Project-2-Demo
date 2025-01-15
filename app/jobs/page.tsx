@@ -159,7 +159,7 @@ export default async function JobsPage() {
           </CardHeader>
           <CardContent>
             <p className="text-sm text-gray-600 mb-4">
-              Monster is one of the world's largest job sites,
+              Monster is one of the world&apos;s largest job sites,
               offering career advice and resume building tools.
             </p>
             <div className="flex flex-wrap gap-2">

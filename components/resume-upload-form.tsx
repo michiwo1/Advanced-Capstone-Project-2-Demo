@@ -12,7 +12,6 @@ export function ResumeUploadForm() {
   const router = useRouter()
   const [file, setFile] = useState<File | null>(null)
   const [loading, setLoading] = useState(false)
-  const [message, setMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null)
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     setFile(acceptedFiles[0])
@@ -38,21 +37,13 @@ export function ResumeUploadForm() {
       
       const result = await uploadResume(formData)
       
-      setMessage({
-        type: result.success ? 'success' : 'error',
-        text: result.message
-      })
-
       if (result.success) {
         setTimeout(() => {
           router.push('/jobs')
         }, 1000)
       }
-    } catch (error) {
-      setMessage({
-        type: 'error',
-        text: 'Failed to upload resume'
-      })
+    } catch {
+      console.error('Failed to upload resume')
     } finally {
       setLoading(false)
     }
