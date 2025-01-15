@@ -32,7 +32,12 @@ export function ImprovementForm({ updatedResume }: { updatedResume: string }) {
     try {
       // Dynamic import of html2pdf.js
       const html2pdfModule = await import('html2pdf.js/dist/html2pdf.min');
-      const html2pdf = (html2pdfModule as any).default;
+      type Html2PdfChain = {
+        from: (element: HTMLElement) => Html2PdfChain;
+        set: (options: unknown) => Html2PdfChain;
+        save: () => Promise<void>;
+      };
+      const html2pdf = (html2pdfModule.default as unknown) as () => Html2PdfChain;
       
       // Create a temporary div and render markdown content
       const tempDiv = document.createElement('div');
