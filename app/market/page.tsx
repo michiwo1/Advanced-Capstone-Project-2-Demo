@@ -60,7 +60,10 @@ export default async function MarketPage() {
                     <AlertDescription>Failed to load chart data. Please try again later.</AlertDescription>
                   </Alert>
                 ) : (
-                  <MarketChart chartData={chartData || undefined} />
+                  <MarketChart chartData={chartData?.datasets?.[0]?.data.reduce((acc, val, idx) => ({
+                    ...acc,
+                    [chartData.labels[idx]]: val
+                  }), {}) || {}} />
                 )}
               </div>
             </CardContent>
